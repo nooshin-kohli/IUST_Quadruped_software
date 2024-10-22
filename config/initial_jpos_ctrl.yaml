@@ -1,0 +1,27 @@
+
+# This file contains lists of joint positions for robot legs
+
+# target_jpos is the desired position of the robot arm
+target_jpos: [
+    -0.7, -1.0, 2.715,
+    0.7, -1.0, 2.715,
+    -0.7, -1.0, 2.715,
+    0.7, -1.0, 2.715]
+
+# mid_jpos is the current position of the robot arm    
+mid_jpos: [
+    -0.7, -1.0, 2.715,
+    0.7, -1.0, 2.715,
+    -0.7, -1.0, 2.715,
+    0.7, -1.0, 2.715]
+
+#target_jpos: [
+#    -0.6, -1.0, 2.7,
+#    0.6, -1.0, 2.7,
+#    -0.6, -1.0, 2.7,
+#    0.6, -1.0, 2.7]
+#mid_jpos: [
+#    -1.8, 0., 2.7,
+#    1.8, 0., 2.7,
+#    -1.7, 0.5, 0.5,
+#    1.7, 0.5, 0.5]

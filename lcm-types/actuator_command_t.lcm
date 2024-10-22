@@ -1,0 +1,8 @@
+struct actuator_command_t {
+    int64_t id;
+    double kp;
+    double kd;
+    double position;
+    double velocity;
+    double tau;
+}

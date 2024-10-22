@@ -1,0 +1,12 @@
+# Generated on Sat June 29 12:44:33 2024
+# Modified on mc-mit-ctrl-user-parameters.yaml
+# Author: A.G.
+
+__collection-name__: user-parameters
+
+# This collection contains user parameters for the IUST robot.
+tau_ff    : 0
+kp        : 0
+kd        : 0
+zero      : 0
+calibrate : 0

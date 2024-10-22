@@ -1,0 +1,42 @@
+# Generated on Fri Feb  8 20:15:53 2019
+__collection-name__: robot-parameters
+
+# This collection contains parameters for Cheetah-3 robot
+
+controller_dt     : 0.001   # Time step for the controller
+control_mode      : 0       # Control mode for the robot
+cheater_mode      : 0       # Cheater mode for the robot
+
+#myValue           : 12
+#stand_kd_cartesian: [60, 60, 60]
+#stand_kp_cartesian: [2000, 2000, 2000]
+
+stand_kd_cartesian: [60, 60, 60]            # Derivative gain for the robot's cartesian coordinates in stand mode
+stand_kp_cartesian: [1000, 1000, 1000]      # Proportional gain for the robot's cartesian coordinates in stand mode
+recovery_kp: [350, 350, 450]                # Proportional gain for the robot's cartesian coordinates in recovery mode
+recovery_kd: [5, 13, 15]                    # Derivative gain for the robot's cartesian coordinates in recovery mode
+
+#stand_kd_cartesian: [0, 0, 0]
+#stand_kp_cartesian: [0, 0, 0]
+#testValue         : 456
+
+foot_height_sensor_noise      :  0.001    # Noise for the foot height sensor
+foot_process_noise_position   :  0.002    # Noise for the foot process position
+foot_sensor_noise_position    :  0.001    # Noise for the foot sensor position
+foot_sensor_noise_velocity    :  0.1      # Noise for the foot sensor velocity
+imu_process_noise_position    :  0.02     # Noise for the IMU process position
+imu_process_noise_velocity    :  0.02     # Noise for the IMU process velocity
+
+#foot_height_sensor_noise      : 0
+#foot_process_noise_position   : 0
+#foot_sensor_noise_position    : 0
+#foot_sensor_noise_velocity    : 0
+#imu_process_noise_position    : 0
+#imu_process_noise_velocity    : 0
+
+kpCOM: [50, 50, 50]          # Proportional gain for the robot's center of mass
+kdCOM: [10, 10, 10]          # Derivative gain for the robot's center of mass
+kpBase: [300, 200, 100]      # Proportional gain for the robot's base
+kdBase: [20, 10, 10]         # Derivative gain for the robot's base
+
+use_rc: 1                    # Flag to indicate if the robot should use remote control

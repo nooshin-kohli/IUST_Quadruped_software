@@ -1,0 +1,45 @@
+# Generated on Fri Feb  8 19:30:57 2019
+__collection-name__: simulator-parameters
+
+# This file contains parameters for the simulator.
+
+# Dynamics
+dynamics_dt                      : 0.001      # Time step for the dynamics simulation
+
+# Floor
+floor_kd                         : 5000       # Damping coefficient for the floor
+floor_kp                         : 500000     # Stiffness coefficient for the floor
+
+# Game Controller
+game_controller_deadband         : 0.01       # Deadband for the game controller
+
+# High Level
+high_level_dt                    : 0.002      # Time step for the high level simulation
+
+# Low Level
+low_level_dt                     : 0.0002     # Time step for the low level simulation
+
+# Simulation
+simulation_paused                : 0          # Flag to indicate if the simulation is paused
+simulation_speed                 : 1.0        # Speed of the simulation
+sim_lcm_ttl                      : 0          # Time to live for the LCM messages
+sim_state_lcm                    : 1          # Flag to indicate if the state is published via LCM
+
+# Spring Damper
+use_spring_damper                : 0           # Flag to indicate if the spring damper is used
+
+# VectorNav IMU
+vectornav_imu_accelerometer_noise: 0.005       # Accelerometer noise for the VectorNav IMU
+vectornav_imu_gyro_noise         : 0.005       # Gyroscope noise for the VectorNav IMU
+vectornav_imu_quat_noise         : 0.003       # Quaternion noise for the VectorNav IMU
+
+# Go Home
+go_home                          : 0           # Flag to indicate if the go home train is used
+
+# Home Position
+home_pos                         : [0,0,.6]    # Home position
+home_rpy                         : [0,0,0]     # Home roll, pitch, yaw
+home_kp_lin                      : 2500        # Linear position gain for the home position
+home_kd_lin                      : 300         # Linear velocity gain for the home position
+home_kp_ang                      : 250         # Angular position gain for the home position
+home_kd_ang                      : 60          # Angular velocity gain for the home position

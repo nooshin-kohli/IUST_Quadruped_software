@@ -1,0 +1,50 @@
+TODO:
+	- Change real robot parameters @common/include/Dynamics/IUST.h -> 28-58 [JABAR]
+
+	- Modify kp kd for IUST robot @robot/src/RobotRunner.cpp [DONE]
+
+	- Change RobotParameters @config/iust-robot-parameters.yaml
+
+	- Modify addIUST @sim/src/DrawList.cpp -> 263,264
+
+	- Change UserParameters @config/iust-user-parameters.yaml
+
+	- Modify robot height @user/MIT_Controller/FSM_States/FSM_State_BalanceStand.cpp -> 52,53 [DONE]
+	
+	- Modify safety condition of robot posture, foot position and foot feedforward force
+			@user/MIT_Controller/FSM_States/FSM_State_SafetyChecker.cpp -> 132,133 [AMIN]
+
+	- Modify iterations_between_mpc @user/MIT_Controller/FSM_States/FSM_State_Locomotion.cpp -> 25,27 [AMIN]
+
+	- Modify user/MIT_Controller/Controllers/ConvexMPC/ConvexMPCLcomotion.cpp -> 82,135,261,691
+
+	- Modify knee barrier degree @user/MIT_Controller/Controllers/WBC_Ctrl/WBC_Ctrl.cpp -> 118,119,121,122 [DONE!]
+
+	- Modify the ground contact points of IUST robot @common/src/Dynamics/Quadruped.cpp -> 80-100 [DONE]
+
+	- Modify go home angle for IUST robot @sim/src/SimControlPanel.cpp -> 857 [DONE]
+
+	- Modify initial posture of IUST robot (lies on the ground ) @sim.src/Simulation.cpp -> 109-124 [N.I.]
+
+	- Modify recovery stand up for IUST robot @user/MIT_Controller/FSM_States/FSM_RecoveryStand.cpp -> 33-45
+										and   @user/MIT_Controller/FSM_States/FSM_RecoveryStand.h -> 74-78 [AMIN]
+
+	- Modify Id_iust @user/MIT_Controller/Controllers/ConvexMPC/RobotState.cpp -> 40 [V.I.]
+	
+	- Modify SpineBoard private values @common/include/SimUtilities/SpineBoard.h -> 70-77 [N.I.]
+
+	- Modify Q_IUST and weights @user/MIT_Controller/Controllers/ConvexMPC/ConvexMPCLcomotion.cpp -> 79,132,608,795 [DONE]
+
+	- Modify @user/MIT_Controller/FSM_States/FSM_State_SquatDown
+
+	- Modify balance limitation @user/MIT_Controller/FSM_States/FSM_State_BalanceStand.h -> 50-55
+
+	- Add a new radio controller if it was necessary (using commit a59b791d3b4ec3bfee860264e18e3738b8866a0c) [BABAK]
+
+	- Check abad limitation @common/src/SimUtilities/SpineBoard.cpp -> 93-97 [N.I.]
+
+	- Modify hip and knee limitation @robot/src/rt/rt_spi.cpp -> 17,18,39,40,48,49,50 [N.I.]
+
+	- Modify parameters for JOINT PD CONTROL @config/jpos_user_parameters.yaml
+
+	- Modify @scripts/run_iust.sh [BABAK]

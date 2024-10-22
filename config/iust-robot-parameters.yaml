@@ -1,0 +1,32 @@
+# Generated on Fri Mar 4 10:18:45 2021
+# Modified on mini-cheetah-defaults.yaml
+__collection-name__: robot-parameters
+
+# This collection contains parameters for IUST robot
+
+controller_dt     : 0.002   # Time step for the controller
+control_mode      : 6       # Control mode for the robot
+cheater_mode      : 0       # Cheater mode for the robot (In upboard, must be 0)
+
+#myValue           : 1010
+#testValue         : 111
+
+stand_kd_cartesian: [30, 30, 30]            # Derivative gain for the robot's cartesian coordinates in stand mode
+stand_kp_cartesian: [1000, 1000, 1000]      # Proportional gain for the robot's cartesian coordinates in stand mode
+recovery_kp: [380, 380, 380]                # Proportional gain for the robot's cartesian coordinates in recovery mode
+recovery_kd: [15, 25, 25]                   # Derivative gain for the robot's cartesian coordinates in recovery mode
+
+
+foot_height_sensor_noise      :  0.001    # Noise for the foot height sensor
+foot_process_noise_position   :  0.002    # Noise for the foot process position
+foot_sensor_noise_position    :  0.001    # Noise for the foot sensor position
+foot_sensor_noise_velocity    :  0.1      # Noise for the foot sensor velocity
+imu_process_noise_position    :  0.02     # Noise for the IMU process position
+imu_process_noise_velocity    :  0.02     # Noise for the IMU process velocity
+
+kpCOM: [50, 50, 50]          # Proportional gain for the robot's center of mass
+kdCOM: [10, 10, 10]          # Derivative gain for the robot's center of mass
+kpBase: [300, 200, 100]      # Proportional gain for the robot's base
+kdBase: [20, 10, 10]         # Derivative gain for the robot's base
+
+use_rc: 0                    # Flag to indicate if the robot should use remote control (In upboard, must be 1)

@@ -1,0 +1,35 @@
+# Generated on 04/23/2021 by WANG YINUO
+__collection-name__: user-parameters
+
+# This collection contains the parameters for the JOINT PD CONTROL (JPos_Controller) of the robot
+
+max_tau : 45.               # Maximum torque
+max_iter : 10000            # Maximum iterations
+
+#　Motor move parameters
+move_range : 0.15           # Range of motion
+move_offset : 0.0           # Offset of motion
+
+# Motor selection
+leg_enable : [1,0,0,0]      # Enable legs [FR, FL, RR, RL]
+joint_enable : [0,0,1]      # Enable joints
+
+# Control parameters
+kpj : [400,400,400]         # Proportional gain for joints
+#kpj : [350,350,350]
+kdj : [15,15,15]            # Derivative gain for joints
+#kdj : [15,25,25]
+tau_ff : 0.0                # Feed-forward torque
+
+zero : 0
+calibrate : 0
+
+# Cartesian
+step_height : 0.05          # Step height
+cycle : 300                 # Cycle time
+kpc : [2000,2000,2000]      # Proportional gain for cartesian
+#kpc : [700,700,250]
+kdc : [70,70,70]            # Derivative gain for cartesian
+#kdc : [7,7,7]
+
+# Tip: Jpos controller can not run normally when iust-robot-parameter cheater_mode = 1, so keep it = 0 
