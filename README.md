@@ -72,3 +72,13 @@ s: simulation, r: robot
 
 To use Ipopt, use CMake Ipopt option. Ex) cmake -DIPOPT_OPTION=ON ..
 # IUST_Quadruped_software
+
+To step up can communications:
+```
+sudo ip link set can{number} type can bitrate 1000000
+sudo ip link set up can{number}
+```
+To see all the connections to the board:
+```
+ip a
+```
