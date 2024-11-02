@@ -129,22 +129,22 @@ void IUST_Controller::runController() {
   else{
     if (safety==true){
 
-    for (int i(0);i<4;i++){
-    _legController->commands[i].qDes[0] = 0.0;
-    _legController->commands[i].qDes[1] = 0.0;
-    _legController->commands[i].qDes[2] = 0.0;
+  //   for (int i(0);i<4;i++){
+  //   _legController->commands[i].qDes[0] = 0.0;
+  //   _legController->commands[i].qDes[1] = 0.0;
+  //   _legController->commands[i].qDes[2] = 0.0;
 
-    _legController->commands[i].qdDes[0] = 0.0;
-    _legController->commands[i].qdDes[1] = 0.0;
-    _legController->commands[i].qdDes[2] = 0.0;
+  //   _legController->commands[i].qdDes[0] = 0.0;
+  //   _legController->commands[i].qdDes[1] = 0.0;
+  //   _legController->commands[i].qdDes[2] = 0.0;
 
-    _legController->commands[i].kpJoint = kpMat;
-    _legController->commands[i].kdJoint = kpMat;
+  //   _legController->commands[i].kpJoint = kpMat;
+  //   _legController->commands[i].kdJoint = kpMat;
 
-    _legController->commands[i].kpCartesian = kpC;
-    _legController->commands[i].kdCartesian = kdC;
+  //   _legController->commands[i].kpCartesian = kpC;
+  //   _legController->commands[i].kdCartesian = kdC;
 
-  }
+  // }
   // printf("I'm in the loop!!!!\n");
   for (int i(0); i<4; i++){
     q_now[3*i] = _legController->datas[i].q[0]; 
@@ -157,7 +157,7 @@ void IUST_Controller::runController() {
   // Open_Calf_Joint(debug_iter);
 
 
-  // Standup(debug_iter);
+  Standup(debug_iter);
 
 
   
@@ -298,7 +298,7 @@ void IUST_Controller::Standup(const size_t & curr_iter){
   }
     printf("[IUST Controller] Done homing the HIP joints!!!\n");
   }else if (curr_iter>6000 && curr_iter<8000){
-    kpMat << 60, 0, 0, 0, 60, 0, 0, 0, 20;
+    kpMat << 60, 0, 0, 0, 60, 0, 0, 0, 40;
     kdMat << 1, 0, 0, 0, 1, 0, 0, 0, 0.5;
   for (int i(0); i<4;i++){
     _legController->commands[i].kpJoint = kpMat;
