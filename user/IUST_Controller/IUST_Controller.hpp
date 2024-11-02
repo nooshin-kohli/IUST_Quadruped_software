@@ -13,7 +13,10 @@ class IUST_Controller:public RobotController{
 
     virtual void initializeController();
     virtual void runController();
-    virtual void updateVisualization(){}
+    virtual void updateVisualization(){};
+    // virtual void safety_check(float q_current[12]);
+    virtual void calculateQHome(const float q_initial[12]);
+    virtual void checkMaxPostureExceeded(float position[12], float Q_home[12]);
     float leg_Interpolation(const size_t & curr_iter, size_t max_iter,
                            const float & ini, const float & fin);
     virtual void Open_Calf_Joint(const size_t & curr_iter);   
@@ -26,11 +29,11 @@ class IUST_Controller:public RobotController{
     int debug_iter;
     bool first_time;
     bool safety=true;
-    float q_now[12], q_des[12],q_ini_resp[12];
+    float q_now[12], q_des[12],q_ini_resp[12],q_ini_knee[12],q_ini_hip[12],q_home[12];
 
-// ABAD Q = [0.008812, -0.130350, -0.698596, 0.014611]
-// HIP  Q = [-0.315900, -0.281109, -0.420272, -0.779774]
-// KNEE Q = [0.014611, -0.150645, -0.916037, -0.736286]
+// ABAD Q = [0.000114, -0.501450, -0.742084, -0.997215]
+// HIP  Q = [-0.307202, -0.295605, -0.408675, -0.800069]
+// KNEE Q = [0.017510, -0.159342, -0.947929, -0.707294]
 
 
     float q_ini[12] = {0.0088f, -0.3332f, 0.0146f,

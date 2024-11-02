@@ -325,7 +325,7 @@
 //     //   printf("Initial Position for leg %d is : %f, %f, %f\n", i, q[3*i], q[3*i + 1], q[3*i + 2]);
 //     //   printf("Home Position for leg %d is : %f, %f, %f\n", i, q_home[3*i], q_home[3*i + 1], q_home[3*i + 2]);
 //     // }
-//     FirstTimeSafetyCheck = true;
+//     // FirstTimeSafetyCheck = true;
 //   }
 
   
