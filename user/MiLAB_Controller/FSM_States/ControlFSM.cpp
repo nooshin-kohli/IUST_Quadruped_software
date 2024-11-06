@@ -297,11 +297,29 @@ void ControlFSM<T>::printInfo(int opt) {
       // Increment printing iteration
       printIter++;
 
+      printNum = 2000;
+
       // Print at commanded frequency
       if (printIter == printNum) {
         std::cout << "[CONTROL FSM] Printing FSM Info...\n";
         std::cout
             << "---------------------------------------------------------\n";
+
+             // Get state estimation data
+            auto orientation_test = data._stateEstimator->getResult().orientation;
+            auto orientation_rpy_test = data._stateEstimator->getResult().rpy*180/M_PI;
+            auto position_test = data._stateEstimator->getResult().position;
+            auto linearVelocity_test = data._stateEstimator->getResult().vBody;
+            auto rotationalVelocity_test = data._stateEstimator->getResult().omegaBody;
+
+            // Write data 
+            std::cout << "Quaternion: " << orientation_test[0] << "," << orientation_test[1] << "," << orientation_test[2] << "," << orientation_test[3] << std::endl
+                      << "RPY: " << orientation_rpy_test[0] << "," << orientation_rpy_test[1] << "," << orientation_rpy_test[2] << std::endl
+                      << "Position: " << position_test[0] << "," << position_test[1] << "," << position_test[2] << std::endl
+                      << "Velocity: " << linearVelocity_test[0] << "," << linearVelocity_test[1] << "," << linearVelocity_test[2] << std::endl
+                      << "Omega: " << rotationalVelocity_test[0] << "," << rotationalVelocity_test[1] << "," << rotationalVelocity_test[2] << std::endl;
+
+
         std::cout << "Iteration: " << iter << "\n";
         if (operatingMode == FSM_OperatingMode::NORMAL) {
           std::cout << "Operating Mode: NORMAL in " << currentState->stateString

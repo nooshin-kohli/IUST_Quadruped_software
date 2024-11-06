@@ -129,22 +129,22 @@ void IUST_Controller::runController() {
   else{
     if (safety==true){
 
-  //   for (int i(0);i<4;i++){
-  //   _legController->commands[i].qDes[0] = 0.0;
-  //   _legController->commands[i].qDes[1] = 0.0;
-  //   _legController->commands[i].qDes[2] = 0.0;
+    for (int i(0);i<4;i++){
+    _legController->commands[i].qDes[0] = 0.0;
+    _legController->commands[i].qDes[1] = 0.0;
+    _legController->commands[i].qDes[2] = 0.0;
 
-  //   _legController->commands[i].qdDes[0] = 0.0;
-  //   _legController->commands[i].qdDes[1] = 0.0;
-  //   _legController->commands[i].qdDes[2] = 0.0;
+    _legController->commands[i].qdDes[0] = 0.0;
+    _legController->commands[i].qdDes[1] = 0.0;
+    _legController->commands[i].qdDes[2] = 0.0;
 
-  //   _legController->commands[i].kpJoint = kpMat;
-  //   _legController->commands[i].kdJoint = kpMat;
+    _legController->commands[i].kpJoint = kpMat;
+    _legController->commands[i].kdJoint = kpMat;
 
-  //   _legController->commands[i].kpCartesian = kpC;
-  //   _legController->commands[i].kdCartesian = kdC;
+    _legController->commands[i].kpCartesian = kpC;
+    _legController->commands[i].kdCartesian = kdC;
 
-  // }
+  }
   // printf("I'm in the loop!!!!\n");
   for (int i(0); i<4; i++){
     q_now[3*i] = _legController->datas[i].q[0]; 
@@ -152,12 +152,12 @@ void IUST_Controller::runController() {
     q_now[3*i+2] = _legController->datas[i].q[2];
   }
 
-  checkMaxPostureExceeded(q_now,q_home);
+  // checkMaxPostureExceeded(q_now,q_home);
 
   // Open_Calf_Joint(debug_iter);
 
 
-  Standup(debug_iter);
+  // Standup(debug_iter);
 
 
   
