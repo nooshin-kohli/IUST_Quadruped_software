@@ -102,26 +102,26 @@ void IUST_Controller::runController() {
   printf("KNEE Q = [%f, %f, %f, %f]\n", _legController->datas[0].q[2], _legController->datas[1].q[2], _legController->datas[2].q[2], _legController->datas[3].q[2]);
   
   
-  for (int i(0); i<12; i++){
-    if (q_now[2]>-1.2 && q_now[2]<-0.015){
-      q_ini[2] = -1.0146f;
-      // printf("I have changed the start of the motor 3!!!\n");
-      // printf("the response was: %f and the new homing is %f.\n", q_now[2], q_ini[2]);
-    }
-    if (q_now[9]>-1.2 && q_now[9]<-0.015){
-      q_ini[9] = -1.0175f;
-      // printf("[IUST Controller] I have changed the homing of the motor 9.\n");
-    }
-    if (abs(q_now[i]-q_ini[i])>0.1){
-      printf("Motor %d is not safe to start\n", i);
-      safety = false;
-    }
-  }
-  calculateQHome(q_ini);
-  for (int i = 0; i < 12; i++) {
-    printf("q_home[%d] = %f\n", i, q_home[i]);
-  }
-  first_time = false;
+  // for (int i(0); i<12; i++){
+  //   if (q_now[2]>-1.2 && q_now[2]<-0.015){
+  //     q_ini[2] = -1.0146f;
+  //     // printf("I have changed the start of the motor 3!!!\n");
+  //     // printf("the response was: %f and the new homing is %f.\n", q_now[2], q_ini[2]);
+  //   }
+  //   if (q_now[9]>-1.2 && q_now[9]<-0.015){
+  //     q_ini[9] = -1.0175f;
+  //     // printf("[IUST Controller] I have changed the homing of the motor 9.\n");
+  //   }
+  //   if (abs(q_now[i]-q_ini[i])>0.1){
+  //     printf("Motor %d is not safe to start\n", i);
+  //     safety = false;
+  //   }
+  // }
+  // calculateQHome(q_ini);
+  // for (int i = 0; i < 12; i++) {
+  //   printf("q_home[%d] = %f\n", i, q_home[i]);
+  // }
+  first_time = true;
 
 
 
@@ -152,12 +152,12 @@ void IUST_Controller::runController() {
     q_now[3*i+2] = _legController->datas[i].q[2];
   }
 
-  checkMaxPostureExceeded(q_now,q_home);
+  //checkMaxPostureExceeded(q_now,q_home);
 
   // Open_Calf_Joint(debug_iter);
 
 
-  Standup(debug_iter);
+  //Standup(debug_iter);
 
 
   

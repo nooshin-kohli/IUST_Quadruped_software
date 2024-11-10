@@ -6,6 +6,17 @@
 CANCommand* can_cmd = new CANCommand;
 CANData* can_data = new CANData;
 
+
+// only used for actual robot
+const float abad_side_sign[4] = {-1.f, -1.f, 1.f, 1.f};
+const float hip_side_sign[4] = {-1.f, 1.f, -1.f, 1.f};
+const float knee_side_sign[4] = {-.6429f, .6429f, -.6429f, .6429f};
+
+// only used for actual robot
+const float abad_offset[4] = {-0.0259f, -0.1187f, -0.6348f, -0.0230f};
+const float hip_offset[4]  = {2.426757, -2.942588,  2.252804,  -3.429656};
+const float knee_offset[4] = {-3.884833, 3.571946, -4.957542, 3.168956};
+
 void CAN::init_can() {
   
   FR.enable(m1);
@@ -81,39 +92,37 @@ void CAN::can_send_receive(CANCommand* can_command, CANData* can_response) {
 
   
 
-  FR.command(m1, can_command->q_des_abad[0],can_command->qd_des_abad[0],can_command->kp_abad[0],can_command->kd_abad[0],can_command->tau_abad_ff[0]);
-  FL.command(m4, can_command->q_des_abad[1],can_command->qd_des_abad[1],can_command->kp_abad[1],can_command->kd_abad[1],can_command->tau_abad_ff[1]);
-  RR.command(m7, can_command->q_des_abad[2],can_command->qd_des_abad[2],can_command->kp_abad[2],can_command->kd_abad[2],can_command->tau_abad_ff[2]);
-  RL.command(m10, can_command->q_des_abad[3],can_command->qd_des_abad[3],can_command->kp_abad[3],can_command->kd_abad[3],can_command->tau_abad_ff[3]);
+  FR.command(m1, (can_command->q_des_abad[0] * abad_side_sign[0]) + abad_offset[0],can_command->qd_des_abad[0],can_command->kp_abad[0],can_command->kd_abad[0],can_command->tau_abad_ff[0]);
+  FL.command(m4, (can_command->q_des_abad[1] * abad_side_sign[1]) + abad_offset[1],can_command->qd_des_abad[1],can_command->kp_abad[1],can_command->kd_abad[1],can_command->tau_abad_ff[1]);
+  RR.command(m7, (can_command->q_des_abad[2] * abad_side_sign[2]) + abad_offset[2],can_command->qd_des_abad[2],can_command->kp_abad[2],can_command->kd_abad[2],can_command->tau_abad_ff[2]);
+  RL.command(m10, (can_command->q_des_abad[3]* abad_side_sign[3]) + abad_offset[3],can_command->qd_des_abad[3],can_command->kp_abad[3],can_command->kd_abad[3],can_command->tau_abad_ff[3]);
 
-  FR.command(m2, can_command->q_des_hip[0],can_command->qd_des_hip[0],can_command->kp_hip[0],can_command->kd_hip[0],can_command->tau_hip_ff[0]);
-  FL.command(m5, can_command->q_des_hip[1],can_command->qd_des_hip[1],can_command->kp_hip[1],can_command->kd_hip[1],can_command->tau_hip_ff[1]);
-  RR.command(m8, can_command->q_des_hip[2],can_command->qd_des_hip[2],can_command->kp_hip[2],can_command->kd_hip[2],can_command->tau_hip_ff[2]);
-  RL.command(m11, can_command->q_des_hip[3],can_command->qd_des_hip[3],can_command->kp_hip[3],can_command->kd_hip[3],can_command->tau_hip_ff[3]);
+  FR.command(m2, (can_command->q_des_hip[0] * hip_side_sign[0]) + hip_offset[0],can_command->qd_des_hip[0],can_command->kp_hip[0],can_command->kd_hip[0],can_command->tau_hip_ff[0]);
+  FL.command(m5, (can_command->q_des_hip[1] * hip_side_sign[1]) + hip_offset[1],can_command->qd_des_hip[1],can_command->kp_hip[1],can_command->kd_hip[1],can_command->tau_hip_ff[1]);
+  RR.command(m8, (can_command->q_des_hip[2] * hip_side_sign[2]) + hip_offset[2],can_command->qd_des_hip[2],can_command->kp_hip[2],can_command->kd_hip[2],can_command->tau_hip_ff[2]);
+  RL.command(m11, (can_command->q_des_hip[3]* hip_side_sign[3]) + hip_offset[3],can_command->qd_des_hip[3],can_command->kp_hip[3],can_command->kd_hip[3],can_command->tau_hip_ff[3]);
 
-  FR.command(m3, can_command->q_des_knee[0],can_command->qd_des_knee[0],can_command->kp_knee[0],can_command->kd_knee[0],can_command->tau_knee_ff[0]);
-  FL.command(m6, can_command->q_des_knee[1],can_command->qd_des_knee[1],can_command->kp_knee[1],can_command->kd_knee[1],can_command->tau_knee_ff[1]);
-  RR.command(m9, can_command->q_des_knee[2],can_command->qd_des_knee[2],can_command->kp_knee[2],can_command->kd_knee[2],can_command->tau_knee_ff[2]);
-  RL.command(m12, can_command->q_des_knee[3],can_command->qd_des_knee[3],can_command->kp_knee[3],can_command->kd_knee[3],can_command->tau_knee_ff[3]);
-
-
-can_response->q_abad[0] = FR.cycle_responses[0][1];
-can_response->q_hip[0] = FR.cycle_responses[1][1];
-can_response->q_knee[0] = FR.cycle_responses[2][1];
+  FR.command(m3, (can_command->q_des_knee[0] * knee_side_sign[0]) + knee_offset[0],can_command->qd_des_knee[0],can_command->kp_knee[0],can_command->kd_knee[0],can_command->tau_knee_ff[0]);
+  FL.command(m6, (can_command->q_des_knee[1] * knee_side_sign[1]) + knee_offset[1],can_command->qd_des_knee[1],can_command->kp_knee[1],can_command->kd_knee[1],can_command->tau_knee_ff[1]);
+  RR.command(m9, (can_command->q_des_knee[2] * knee_side_sign[2]) + knee_offset[2],can_command->qd_des_knee[2],can_command->kp_knee[2],can_command->kd_knee[2],can_command->tau_knee_ff[2]);
+  RL.command(m12, (can_command->q_des_knee[3]* knee_side_sign[3]) + knee_offset[3],can_command->qd_des_knee[3],can_command->kp_knee[3],can_command->kd_knee[3],can_command->tau_knee_ff[3]);
 
 
+  can_response->q_abad[0] = (FR.cycle_responses[0][1] - abad_offset[0]) * abad_side_sign[0];
+  can_response->q_hip[0] = (FR.cycle_responses[1][1] - hip_offset[0]) * hip_side_sign[0];
+  can_response->q_knee[0] = (FR.cycle_responses[2][1] - knee_offset[0]) * knee_side_sign[0];
 
-  can_response->q_abad[1]= FL.cycle_responses[0][1];
-  can_response->q_hip[1]= FL.cycle_responses[1][1];
-  can_response->q_knee[1]= FL.cycle_responses[2][1];
+  can_response->q_abad[1]= (FL.cycle_responses[0][1] - abad_offset[1]) * abad_side_sign[1];
+  can_response->q_hip[1]= (FL.cycle_responses[1][1] - hip_offset[1]) * hip_side_sign[1];
+  can_response->q_knee[1]= (FL.cycle_responses[2][1] - knee_offset[1]) * knee_side_sign[1];
 
-  can_response->q_abad[2]= RR.cycle_responses[0][1];
-  can_response->q_hip[2]= RR.cycle_responses[1][1];
-  can_response->q_knee[2]= RR.cycle_responses[2][1];
+  can_response->q_abad[2]= (RR.cycle_responses[0][1] - abad_offset[2]) * abad_side_sign[2];
+  can_response->q_hip[2]= (RR.cycle_responses[1][1] - hip_offset[2]) * hip_side_sign[2];
+  can_response->q_knee[2]= (RR.cycle_responses[2][1] - knee_offset[2]) * knee_side_sign[2];
 
-  can_response->q_abad[3] = RL.cycle_responses[0][1];
-  can_response->q_hip[3] = RL.cycle_responses[1][1];
-  can_response->q_knee[3] = RL.cycle_responses[2][1];
+  can_response->q_abad[3] = (RL.cycle_responses[0][1] - abad_offset[3]) * abad_side_sign[3];
+  can_response->q_hip[3] = (RL.cycle_responses[1][1] - hip_offset[3]) * hip_side_sign[3];
+  can_response->q_knee[3] = (RL.cycle_responses[2][1] - knee_offset[3]) * knee_side_sign[3];
 
 
   can_response->qd_abad[0] = FR.cycle_responses[0][2];
