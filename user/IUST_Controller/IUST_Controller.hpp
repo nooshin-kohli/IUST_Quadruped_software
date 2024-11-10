@@ -31,21 +31,18 @@ class IUST_Controller:public RobotController{
     bool safety=true;
     float q_now[12], q_des[12],q_ini_resp[12],q_ini_knee[12],q_ini_hip[12],q_home[12];
 
-// ABAD Q = [0.000114, -0.501450, -0.742084, -0.997215]
-// HIP  Q = [-0.307202, -0.295605, -0.408675, -0.800069]
-// KNEE Q = [0.017510, -0.159342, -0.947929, -0.707294]
+
+    // this is for motor data:
+    // float q_ini[12] = {0.0088f, -0.3332f, 0.0146f,
+    //                    -0.1305f, -0.2927f, -0.1738f,
+    //                    -0.7014f, -0.3941f, -0.9566f,
+    //                    0.0030f, -0.7971f, -0.7420f};
 
 
-    float q_ini[12] = {0.0088f, -0.3332f, 0.0146f,
-                       -0.1305f, -0.2927f, -0.1738f,
-                       -0.7014f, -0.3941f, -0.9566f,
-                       0.0030f, -0.7971f, -0.7420f};
-
-    //   This line is for just testing the loop without commanding the motors:
-    // float q_ini[12] = {0.0000f, 0.0000f, 0.0000f,
-    //                    0.0000f, 0.0000f, 0.0000f,
-    //                    0.0000f, 0.0000f, 0.0000f,
-    //                    0.0000f, 0.0000f, 0.0000f};
+  float q_ini[12] = {-0.0289f, 2.7368f, -2.5386f,
+                       0.0087f, 2.6527f, -2.4025f,
+                       -0.0550f, 2.6672f, -2.6057f,
+                       0.0318f, 2.6904f, -2.5386f};
 
   protected:
     DVec<float> _jpos_ini;
