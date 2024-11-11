@@ -9,8 +9,8 @@ CANData* can_data = new CANData;
 
 // only used for actual robot
 const float abad_side_sign[4] = {-1.f, -1.f, 1.f, 1.f};
-const float hip_side_sign[4] = {-1.f, 1.f, -1.f, 1.f};
-const float knee_side_sign[4] = {-.6429f, .6429f, -.6429f, .6429f};
+const float hip_side_sign[4] = {1.f, -1.f, 1.f, -1.f};
+const float knee_side_sign[4] = {.6429f, -.6429f, .6429f, -.6429f};
 
 // only used for actual robot
 const float abad_offset[4] = {-0.0259f, -0.1187f, -0.6348f, -0.0230f};
