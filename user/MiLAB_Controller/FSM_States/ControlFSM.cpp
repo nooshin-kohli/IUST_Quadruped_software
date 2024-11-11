@@ -96,28 +96,60 @@ void ControlFSM<T>::runFSM() {
   // Check the robot state for safe operation
   operatingMode = safetyPreCheck();
 
-  if(data.controlParameters->use_rc){
-    int rc_mode = data._desiredStateCommand->rcCommand->mode;
-    if(rc_mode == RC_mode::OFF){
-          printf("K_PASSIVE\n");
-          data.controlParameters->control_mode = K_PASSIVE;
-    }else if(rc_mode == RC_mode::RECOVERY_STAND){
+  // if(data.controlParameters->use_rc){
+  //   int rc_mode = data._desiredStateCommand->rcCommand->mode;
+  //   if(rc_mode == RC_mode::OFF){
+  //         printf("K_PASSIVE\n");
+  //         data.controlParameters->control_mode = K_PASSIVE;
+  //   }else if(rc_mode == RC_mode::RECOVERY_STAND){
+  //     data.controlParameters->control_mode = K_RECOVERY_STAND;
+
+  //   } else if(rc_mode == RC_mode::LOCOMOTION){
+  //     data.controlParameters->control_mode = K_LOCOMOTION;
+
+  //   } else if(rc_mode == RC_mode::QP_STAND){
+  //     data.controlParameters->control_mode = K_BALANCE_STAND;
+
+  //   } else if(rc_mode == RC_mode::SQUAT_DOWN){
+  //       data.controlParameters->control_mode = K_SQUAT_DOWN;
+
+  //   } else if (rc_mode == RC_mode::STAND_UP){
+  //       data.controlParameters->control_mode = K_STAND_UP;
+  //   }
+
+  // }
+  if (data.controlParameters->use_rc == 0)
+  {
+    if (data._desiredStateCommand->gamepadCommand->a || recoverymode)
+    {
+
+      recoverymode = true;
       data.controlParameters->control_mode = K_RECOVERY_STAND;
-
-    } else if(rc_mode == RC_mode::LOCOMOTION){
-      data.controlParameters->control_mode = K_LOCOMOTION;
-
-    } else if(rc_mode == RC_mode::QP_STAND){
-      data.controlParameters->control_mode = K_BALANCE_STAND;
-
-    } else if(rc_mode == RC_mode::SQUAT_DOWN){
-        data.controlParameters->control_mode = K_SQUAT_DOWN;
-
-    } else if (rc_mode == RC_mode::STAND_UP){
-        data.controlParameters->control_mode = K_STAND_UP;
+      if (data._desiredStateCommand->gamepadCommand->x)
+      {
+        recoverymode = false;
+      }
+      
+      
+      printf("[Recovery Balance]recoveeeeeeeeeeeeeeeeeeeeeeeeery\n");
     }
-
+    else if (data._desiredStateCommand->gamepadCommand->x || squatmode)
+    {
+      recoverymode = false;
+      squatmode = true;
+      data.controlParameters->control_mode = K_PASSIVE;
+      printf("[Recovery Balance]squaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaat \n");
+    }
+    else
+    {
+      data.controlParameters->control_mode = K_PASSIVE;
+      recoverymode = false;
+    }
+    
+    
   }
+  
+
 
   // Run the robot control code if operating mode is not unsafe
   if (operatingMode != FSM_OperatingMode::ESTOP) {

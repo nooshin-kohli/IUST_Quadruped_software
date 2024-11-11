@@ -5,7 +5,7 @@ __collection-name__: robot-parameters
 # This collection contains parameters for IUST robot
 
 controller_dt     : 0.002   # Time step for the controller
-control_mode      : 6       # Control mode for the robot
+control_mode      : 0       # Control mode for the robot
 cheater_mode      : 0       # Cheater mode for the robot (In upboard, must be 0)
 
 #myValue           : 1010

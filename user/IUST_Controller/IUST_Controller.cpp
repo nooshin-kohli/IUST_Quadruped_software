@@ -152,24 +152,6 @@ void IUST_Controller::runController() {
     q_now[3*i+2] = _legController->datas[i].q[2];
   }
 
-<<<<<<< HEAD
-  //checkMaxPostureExceeded(q_now,q_home);
-=======
-  // checkMaxPostureExceeded(q_now,q_home);
->>>>>>> d1560e752eefb2a26a5238a75379fe6c37472902
-
-  // Open_Calf_Joint(debug_iter);
-
-
-<<<<<<< HEAD
-  //Standup(debug_iter);
-=======
-  // Standup(debug_iter);
->>>>>>> d1560e752eefb2a26a5238a75379fe6c37472902
-
-
-  
-
   if (debug_iter % 1000 == 0) {
     printf("[INFO]  IUST controller is running!\n");
     printf("Iteration stamp:\t%d\n",(int)debug_iter);
