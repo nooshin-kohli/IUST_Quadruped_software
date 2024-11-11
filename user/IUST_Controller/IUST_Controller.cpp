@@ -103,16 +103,7 @@ void IUST_Controller::runController() {
   
   
   // for (int i(0); i<12; i++){
-  //   if (q_now[2]>-1.2 && q_now[2]<-0.015){
-  //     q_ini[2] = -1.0146f;
-  //     // printf("I have changed the start of the motor 3!!!\n");
-  //     // printf("the response was: %f and the new homing is %f.\n", q_now[2], q_ini[2]);
-  //   }
-  //   if (q_now[9]>-1.2 && q_now[9]<-0.015){
-  //     q_ini[9] = -1.0175f;
-  //     // printf("[IUST Controller] I have changed the homing of the motor 9.\n");
-  //   }
-  //   if (abs(q_now[i]-q_ini[i])>0.1){
+  //   if (abs(q_now[i]-q_ini[i])>0.2){
   //     printf("Motor %d is not safe to start\n", i);
   //     safety = false;
   //   }
@@ -339,7 +330,7 @@ void IUST_Controller::Open_Calf_Joint(const size_t & curr_iter){
   Mat3<float> kdC;
   Mat3<float> kpC;
 
-  
+  float q_final[12] = {0,0, -1.4, 0,0,-1.4, 0,0,-1.4, 0,0,-1.4};
   kpC << 0, 0, 0, 0, 0, 0, 0, 0, 0;
   kdC << 0, 0, 0, 0, 0, 0, 0, 0, 0;
   for (int i(0); i<4; i++){
@@ -348,17 +339,17 @@ void IUST_Controller::Open_Calf_Joint(const size_t & curr_iter){
     _legController->commands[i].kdJoint = kpMat;
   }
 
-   q_des[2] = leg_Interpolation(curr_iter, 1000, q_ini_resp[2], q_ini_resp[2] - 0.3);
-   q_des[5] = leg_Interpolation(curr_iter, 1000, q_ini_resp[5], q_ini_resp[5] + 0.3);
-   q_des[8] = leg_Interpolation(curr_iter, 1000, q_ini_resp[8], q_ini_resp[8] - 0.3);
-   q_des[11] = leg_Interpolation(curr_iter, 1000, q_ini_resp[11], q_ini_resp[11] + 0.3);
+   q_des[2] = leg_Interpolation(curr_iter, 5000, q_ini_resp[2], q_final[2]);
+   q_des[5] = leg_Interpolation(curr_iter, 5000, q_ini_resp[5], q_final[5]);
+   q_des[8] = leg_Interpolation(curr_iter, 5000, q_ini_resp[8], q_final[8]);
+   q_des[11] = leg_Interpolation(curr_iter, 5000, q_ini_resp[11], q_final[11]);
 
   //  float q_tempp = leg_Interpolation(curr_iter, 1000, q_now[2], q_ini_resp[2] - 0.3);
 
   // printf("res: %f\n",q_tempp);
-  // printf("now: %f\n",q_des[2]);
+  printf("Interpolate result in micheetah coordinate %f\n",q_des[11]);
 
-  if (curr_iter>1000){
+  if (curr_iter>5000){
     kpMat << 0, 0, 0, 0, 0, 0, 0, 0, 0;
     kdMat << 0, 0, 0, 0, 0, 0, 0, 0, 0;
     printf("DONE INTERPOLATE!!!\n");
@@ -382,10 +373,12 @@ void IUST_Controller::Open_Calf_Joint(const size_t & curr_iter){
    else{
     kpMat << 20, 0, 0, 0, 20, 0, 0, 0, 10;
     kdMat << 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5;
+    // kpMat << 0, 0, 0, 0, 0, 0, 0, 0, 0;
+    // kdMat << 0, 0, 0, 0, 0, 0, 0, 0, 0;
 
     for (int i(0);i<4;i++){
-    _legController->commands[i].qDes[0] = q_now[3*i];
-    _legController->commands[i].qDes[1] = q_now[3*i+1];
+    _legController->commands[i].qDes[0] = q_ini_resp[3*i];
+    _legController->commands[i].qDes[1] = q_ini_resp[3*i+1];
     _legController->commands[i].qDes[2] = q_des[3*i+2];
 
     // if (i==1){
