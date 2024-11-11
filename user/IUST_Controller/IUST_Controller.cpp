@@ -112,7 +112,7 @@ void IUST_Controller::runController() {
   // for (int i = 0; i < 12; i++) {
   //   printf("q_home[%d] = %f\n", i, q_home[i]);
   // }
-  first_time = true;
+  first_time = false;
 
 
 
@@ -148,7 +148,7 @@ void IUST_Controller::runController() {
   // checkMaxPostureExceeded(q_now,q_home);
 
 
-  // Open_Calf_Joint(debug_iter);
+  Open_Calf_Joint(debug_iter);
 
 
   //Standup(debug_iter);
@@ -346,7 +346,7 @@ void IUST_Controller::Open_Calf_Joint(const size_t & curr_iter){
   Mat3<float> kdC;
   Mat3<float> kpC;
 
-  float q_final[12] = {0,0, -1.4, 0,0,-1.4, 0,0,-1.4, 0,0,-1.4};
+  float q_final[12] = {0,0, 1.4, 0,0,1.4, 0,0,1.4, 0,0,1.4};
   kpC << 0, 0, 0, 0, 0, 0, 0, 0, 0;
   kdC << 0, 0, 0, 0, 0, 0, 0, 0, 0;
   for (int i(0); i<4; i++){
