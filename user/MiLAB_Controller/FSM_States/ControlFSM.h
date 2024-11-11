@@ -114,7 +114,7 @@ class ControlFSM {
 
   int iter = 0;
   bool recoverymode = false;
-  bool squatmode = true;  
+  bool squatmode = false;  
 
   //lcm::LCM state_estimator_lcm;
   //state_estimator_lcmt _state_estimator;

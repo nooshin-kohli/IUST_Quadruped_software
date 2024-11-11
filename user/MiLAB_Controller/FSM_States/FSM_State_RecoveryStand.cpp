@@ -87,8 +87,8 @@ void FSM_State_RecoveryStand<T>::onEnter() {
     this->_data->_stateEstimator->getResult().position[2];
 
   _flag = FoldLegs;
-  if( !_UpsideDown() ) { // Proper orientation
-    if (  (0.2 < body_height) && (body_height < 0.45) ){
+  if( true ) { // Proper orientation
+    if (  false ){
       printf("[Recovery Balance] body height is %f; Stand Up \n", body_height);
       _flag = StandUp;
     }else{
@@ -125,7 +125,7 @@ void FSM_State_RecoveryStand<T>::run() {
                 _MilabFoldLegs(_state_iter - _motion_start_iter);
                 break;
             case RollOver:
-                _MilabRollOver(_state_iter - _motion_start_iter);
+                // _MilabRollOver(_state_iter - _motion_start_iter);
                 break;
         }
     }else{
@@ -233,25 +233,50 @@ void FSM_State_RecoveryStand<T>::_StandUp(const int & curr_iter){
 }
 template <typename T>
 void FSM_State_RecoveryStand<T>::_MilabStandUp(const int & curr_iter){
-    T body_height = this->_data->_stateEstimator->getResult().position[2];
-    bool something_wrong(false);
+    // T body_height = this->_data->_stateEstimator->getResult().position[2];
+    bool something_wrong(true);
 
-    if( _UpsideDown() || (body_height < 0.20 ) ) {
-        something_wrong = true;
-    }
+    // if( _UpsideDown() || (body_height < 0.20 ) ) {
+    //     something_wrong = true;
+    // }
 
     if( (curr_iter > floor(milab_standup_ramp_iter*0.6) ) && something_wrong){
         // If body height is too low because of some reason
         // even after the stand up motion is almost over
         // (Can happen when E-Stop is engaged in the middle of Other state)
+        Mat3<float> kpMat_r;
+        Mat3<float> kdMat_r;
+        Mat3<float> kdC_r;
+        Mat3<float> kpC_r;
+
+        kpMat_r << 0, 0, 0, 0, 0, 0, 0, 0, 0;
+        kdMat_r << 0, 0, 0, 0, 0, 0, 0, 0, 0;
+        kpC_r << 0, 0, 0, 0, 0, 0, 0, 0, 0;
+        kdC_r << 0, 0, 0, 0, 0, 0, 0, 0, 0;
+
+        for (int i(0);i<4;i++){
+          this->_data->_legController->commands[i].qDes[0] = 0.0;
+          this->_data->_legController->commands[i].qDes[1] = 0.0;
+          this->_data->_legController->commands[i].qDes[2] = 0.0;
+
+            this->_data->_legController->commands[i].qdDes[0] = 0.0;
+            this->_data->_legController->commands[i].qdDes[1] = 0.0;
+            this->_data->_legController->commands[i].qdDes[2] = 0.0;
+
+            this->_data->_legController->commands[i].kpJoint = kpMat_r;
+            this->_data->_legController->commands[i].kdJoint = kdMat_r;
+
+            this->_data->_legController->commands[i].kpCartesian = kpC_r;
+            this->_data->_legController->commands[i].kdCartesian = kdC_r;
+    }
         for(size_t i(0); i < 4; ++i) {
             initial_jpos[i] = this->_data->_legController->datas[i].q;
         }
         _flag = FoldLegs;
         _motion_start_iter = _state_iter+1;
 
-        printf("[Recovery Balance - Warning] body height is still too low (%f) or UpsideDown (%d); Folding legs \n",
-               body_height, _UpsideDown() );
+        // printf("[Recovery Balance - Warning] body height is still too low (%f) or UpsideDown (%d); Folding legs \n",
+        //        body_height, _UpsideDown() );
 
     }else{
         for(size_t leg(0); leg<4; ++leg){
@@ -264,7 +289,7 @@ void FSM_State_RecoveryStand<T>::_MilabStandUp(const int & curr_iter){
     //this->_data->_legController->commands[i].forceFeedForward = f_ff;
     //Vec4<T> se_contactState(0.,0.,0.,0.);
     Vec4<T> se_contactState(0.5,0.5,0.5,0.5);
-    this->_data->_stateEstimator->setContactPhase(se_contactState);
+    // this->_data->_stateEstimator->setContactPhase(se_contactState);
 
 }
 template <typename T>
@@ -293,7 +318,7 @@ void FSM_State_RecoveryStand<T>::_MilabFoldLegs(const int & curr_iter){
                          initial_jpos[i], fold_jpos[i]);
     }
     if(curr_iter >= milab_fold_ramp_iter + milab_fold_settle_iter){
-        if(_UpsideDown()){
+        if(false){
             _flag = RollOver;
             for(size_t i(0); i<4; ++i) initial_jpos[i] = fold_jpos[i];
         }else{

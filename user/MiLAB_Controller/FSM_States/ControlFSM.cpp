@@ -118,7 +118,7 @@ void ControlFSM<T>::runFSM() {
   //   }
 
   // }
-  if (data.controlParameters->use_rc == 0)
+  if (true)
   {
     if (data._desiredStateCommand->gamepadCommand->a || recoverymode)
     {
@@ -144,10 +144,13 @@ void ControlFSM<T>::runFSM() {
     {
       data.controlParameters->control_mode = K_PASSIVE;
       recoverymode = false;
+      printf("PAAAAAsiiiiiiiiiiiiiv\n");
     }
     
     
   }
+  // printf("OUUUUUUUUUUUUT\n");
+  std::cout<<data._desiredStateCommand->gamepadCommand->a<<std::endl;
   
 
 

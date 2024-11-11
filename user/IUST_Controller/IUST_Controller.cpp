@@ -112,7 +112,7 @@ void IUST_Controller::runController() {
   // for (int i = 0; i < 12; i++) {
   //   printf("q_home[%d] = %f\n", i, q_home[i]);
   // }
-  first_time = false;
+  first_time = true;
 
 
 
@@ -148,7 +148,7 @@ void IUST_Controller::runController() {
   // checkMaxPostureExceeded(q_now,q_home);
 
 
-  Open_Calf_Joint(debug_iter);
+  // Open_Calf_Joint(debug_iter);
 
 
   //Standup(debug_iter);

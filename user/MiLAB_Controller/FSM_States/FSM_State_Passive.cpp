@@ -39,6 +39,7 @@ void FSM_State_Passive<T>::onEnter() {
 template <typename T>
 void FSM_State_Passive<T>::run() {
   // Do nothing, all commands should begin as zeros
+  printf("[FSM sate:] in Passive state\n");
   testTransition();
 }
 
