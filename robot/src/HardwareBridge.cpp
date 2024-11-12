@@ -122,9 +122,13 @@ void HardwareBridge::handleGamepadLCM(const lcm::ReceiveBuffer* rbuf,
  * Receive RC with SBUS
  */
 void HardwareBridge::run_sbus() {
+    printf("--------------------------------------*****\n");
     if (_port > 0) {
+        printf("AFTERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR\n");
         int x = receive_sbus(_port);
-
+        printf("77777777777777777777777777777777777777777\n");
+        std::cout<<x<<std::endl;
+        printf("88888888888888888888888888888888888888888\n");
         if (x) {
             sbus_packet_complete();
         } else  printf("[HARDWARE BRIDGE] Receive sbus failed.\n");
@@ -763,12 +767,12 @@ void IUSTrobotHardwareBridge::run() {
 
     // rc controller
     // std::cout<<"before init bus"<< std::endl;
-    // _port = init_sbus(false);  // Not Simulation
-    // std::cout<<"after init bus" << std::endl;
-    // PeriodicMemberFunction<HardwareBridge> sbusTask(
-    //         &taskManager, .005, "rc_controller", &HardwareBridge::run_sbus, this);
+    _port = init_sbus(false);  // Not Simulation
+    std::cout<<"after init bus" << std::endl;
+    PeriodicMemberFunction<HardwareBridge> sbusTask(
+            &taskManager, .005, "rc_controller", &HardwareBridge::run_sbus, this);
     // std::cout<<"after perdiodic function"<<std::endl;
-    // sbusTask.start();
+    sbusTask.start();
     // std::cout<<"after start"<< std::endl;
 
     // temporary hack: microstrain logger

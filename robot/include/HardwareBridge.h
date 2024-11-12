@@ -33,7 +33,6 @@
 #include "rt/rt_can.h"
 
 
-
 /*!
  * Interface between robot and hardware
  */
