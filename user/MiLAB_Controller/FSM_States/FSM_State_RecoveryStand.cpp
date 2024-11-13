@@ -68,6 +68,8 @@ FSM_State_RecoveryStand<T>::FSM_State_RecoveryStand(ControlFSMData<T>* _controlF
 
 template <typename T>
 void FSM_State_RecoveryStand<T>::onEnter() {
+
+  printf("[FSM RECOVERY ON ENTER]\n");
   // Default is to not transition
   this->nextStateName = this->stateName;
 
@@ -122,6 +124,7 @@ void FSM_State_RecoveryStand<T>::run() {
                 _MilabStandUp(_state_iter - _motion_start_iter);
                 break;
             case FoldLegs:
+                  printf("[MILAB FOLD LEG CASE]\n");
                 _MilabFoldLegs(_state_iter - _motion_start_iter);
                 break;
             case RollOver:
@@ -234,7 +237,7 @@ void FSM_State_RecoveryStand<T>::_StandUp(const int & curr_iter){
 template <typename T>
 void FSM_State_RecoveryStand<T>::_MilabStandUp(const int & curr_iter){
     // T body_height = this->_data->_stateEstimator->getResult().position[2];
-    bool something_wrong(true);
+    bool something_wrong(false);
 
     // if( _UpsideDown() || (body_height < 0.20 ) ) {
     //     something_wrong = true;
@@ -270,6 +273,7 @@ void FSM_State_RecoveryStand<T>::_MilabStandUp(const int & curr_iter){
             this->_data->_legController->commands[i].kdCartesian = kdC_r;
     }
         for(size_t i(0); i < 4; ++i) {
+            printf("[MILAB STANDUP]: ini_jpos\n");
             initial_jpos[i] = this->_data->_legController->datas[i].q;
         }
         _flag = FoldLegs;
@@ -312,6 +316,7 @@ void FSM_State_RecoveryStand<T>::_FoldLegs(const int & curr_iter){
 }
 template <typename T>
 void FSM_State_RecoveryStand<T>::_MilabFoldLegs(const int & curr_iter){
+    printf("[MILAB FOLD]: I am in fold\n");
 
     for(size_t i(0); i<4; ++i){
         _SetJPosInterPts(curr_iter, milab_fold_ramp_iter, i,

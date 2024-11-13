@@ -13,8 +13,8 @@ const float hip_side_sign[4] = {1.f, -1.f, 1.f, -1.f};
 const float knee_side_sign[4] = {.6429f, -.6429f, .6429f, -.6429f};
 
 // only used for actual robot
-const float abad_offset[4] = {-0.0259f, -0.1187f, -0.6348f, -0.0230f};
-const float hip_offset[4]  = {0.3074f, -1.8785f,  0.0957f,  -1.3103f};
+const float abad_offset[4] = {-0.0259f, -0.1187f, -0.6348f, -0.1419f};
+const float hip_offset[4]  = {0.3074f, -1.8785f,  0.0957f,  -1.3480f};
 const float knee_offset[4] = {-4.3284f, 3.571946, -4.957542, 3.168956};
 
 void CAN::init_can() {
@@ -108,12 +108,7 @@ void CAN::can_send_receive(CANCommand* can_command, CANData* can_response) {
   RL.command(m12, (can_command->q_des_knee[3]/ knee_side_sign[3]) + knee_offset[3],can_command->qd_des_knee[3],can_command->kp_knee[3],can_command->kd_knee[3],can_command->tau_knee_ff[3]);
 
   // printf("Motor response :%f\n", RL.cycle_responses[2][1]);
-  // std::cout<<"new data:"<<std::endl;
-  // std::cout<<FR.cycle_responses[1][1]<<std::endl;
-  // std::cout<<FL.cycle_responses[1][1]<<std::endl;
-  // std::cout<<RR.cycle_responses[1][1]<<std::endl;
-  // std::cout<<RL.cycle_responses[1][1]<<std::endl;
-  // std::cout<<"end of new data"<<std::endl;
+  
 
   can_response->q_abad[0] = (FR.cycle_responses[0][1] - abad_offset[0]) * abad_side_sign[0];
   can_response->q_hip[0] = (FR.cycle_responses[1][1] - hip_offset[0]) * hip_side_sign[0];
@@ -126,6 +121,13 @@ void CAN::can_send_receive(CANCommand* can_command, CANData* can_response) {
   can_response->q_abad[2]= (RR.cycle_responses[0][1] - abad_offset[2]) * abad_side_sign[2];
   can_response->q_hip[2]= (RR.cycle_responses[1][1] - hip_offset[2]) * hip_side_sign[2];
   can_response->q_knee[2]= (RR.cycle_responses[2][1] - knee_offset[2]) * knee_side_sign[2];
+
+  // std::cout<<"new data:"<<std::endl;
+  // // std::cout<<FR.cycle_responses[1][1]<<std::endl;
+  // std::cout<<RL.cycle_responses[0][1]<<std::endl;
+  // std::cout<<RL.cycle_responses[1][1]<<std::endl;
+  // // std::cout<<RL.cycle_responses[1][1]<<std::endl;
+  // std::cout<<"end of new data"<<std::endl;
 
   can_response->q_abad[3] = (RL.cycle_responses[0][1] - abad_offset[3]) * abad_side_sign[3];
   can_response->q_hip[3] = (RL.cycle_responses[1][1] - hip_offset[3]) * hip_side_sign[3];

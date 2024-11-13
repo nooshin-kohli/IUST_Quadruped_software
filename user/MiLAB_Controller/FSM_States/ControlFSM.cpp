@@ -7,7 +7,7 @@
 
 #include "ControlFSM.h"
 #include <rt/rt_rc_interface.h>
-
+#include <chrono>
 /**
  * Constructor for the Control FSM. Passes in all of the necessary
  * data and stores it in a struct. Initializes the FSM with a starting
@@ -58,7 +58,16 @@ ControlFSM<T>::ControlFSM(Quadruped<T>* _quadruped,
   // Initialize the FSM with the Passive FSM State
   initialize();
 }
+auto current_time(){
+  return std::chrono::high_resolution_clock::now();
+}
 
+auto time_diff(const std::chrono::time_point<std::chrono::high_resolution_clock>& start) {
+  return std::chrono::duration_cast<std::chrono::milliseconds>(current_time() - start).count();
+  //std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(current_time() - start).count() << std::endl;
+  //std::cout << std::chrono::high_resolution_clock::now() << std::endl;
+}
+auto start_time = current_time();
 /**
  * Initialize the Control FSM with the default settings. SHould be set to
  * Passive state and Normal operation mode.
@@ -120,20 +129,22 @@ void ControlFSM<T>::runFSM() {
   // }
   if (true)
   {
-    if (data._desiredStateCommand->gamepadCommand->a || recoverymode)
+    if (time_diff(start_time)>=10000)
+    // if (data._desiredStateCommand->gamepadCommand->a || recoverymode)
     {
-
+      
+      std::cout<<time_diff(start_time)<<std::endl;
       recoverymode = true;
       data.controlParameters->control_mode = K_RECOVERY_STAND;
-      if (data._desiredStateCommand->gamepadCommand->x)
+      if (false)
       {
         recoverymode = false;
       }
       
       
-      printf("[Recovery Balance]recoveeeeeeeeeeeeeeeeeeeeeeeeery\n");
+      // printf("[Recovery Balance]recoveeeeeeeeeeeeeeeeeeeeeeeeery\n");
     }
-    else if (data._desiredStateCommand->gamepadCommand->x || squatmode)
+    else if (false)
     {
       recoverymode = false;
       squatmode = true;

@@ -37,7 +37,8 @@ void FSM_State<T>::jointPDControl(int leg, Vec3<T> qDes, Vec3<T> qdDes) {
 //    load parameters from yaml
   // Vec3<double> kp_joint = this->_data->controlParameters->recovery_kp;
   // Vec3<double> kd_joint = this->_data->controlParameters->recovery_kd;
-  kpMat << 20, 0, 0, 0, 20, 0, 0, 0, 20;
+  printf("[JOINT PD]\n");
+  kpMat << 40, 0, 0, 0, 40, 0, 0, 0, 40;
   kdMat << 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5;
   // kpMat << kp_joint[0], 0, 0, 0, kp_joint[1], 0, 0, 0, kp_joint[2];
   // kdMat << kd_joint[0], 0, 0, 0, kd_joint[1], 0, 0, 0, kd_joint[2];
@@ -47,6 +48,7 @@ void FSM_State<T>::jointPDControl(int leg, Vec3<T> qDes, Vec3<T> qdDes) {
 
   _data->_legController->commands[leg].qDes = qDes;
   _data->_legController->commands[leg].qdDes = qdDes;
+  printf("[JOINT PD: Qdes]: %f", qDes[1]);
 }
 
 /**
