@@ -55,9 +55,39 @@ ControlFSM<T>::ControlFSM(Quadruped<T>* _quadruped,
   statesList.squatDown = new FSM_State_SquatDown<T>(&data);
   safetyChecker = new SafetyChecker<T>(&data);
 
+  lcm = new lcm::LCM("udpm://239.255.76.67:7667?ttl=1");
+  if (!lcm->good()) {
+    std::cerr << "LCM initialization failed" << std::endl;
+    exit(1);  // Exit if initialization fails
+  }
+  lcm->subscribe("interface", &ControlFSM::handleGamepadData, this);
+
+
+
   // Initialize the FSM with the Passive FSM State
   initialize();
 }
+template <typename T>
+void ControlFSM<T>::handleGamepadData(const lcm::ReceiveBuffer* rbuf,
+                                      const std::string& chan,
+                                      const gamepad_lcmt* msg) {
+  (void)rbuf;
+  (void)chan;
+  gamepadCommand = *msg; // Update the gamepad command with the received data
+}
+
+
+/**
+ * Runs the LCM handling to continuously process joystick input.
+ */
+template <typename T>
+void ControlFSM<T>::handleLCM() {
+  lcm->handleTimeout(0.1);
+  // while (0 == lcm->handleTimeout(10)) {
+  //   // Continuously handle incoming LCM messages
+  // }
+}
+
 auto current_time(){
   return std::chrono::high_resolution_clock::now();
 }
@@ -104,6 +134,7 @@ void ControlFSM<T>::runFSM() {
 
   // Check the robot state for safe operation
   operatingMode = safetyPreCheck();
+  handleLCM();
 
   // if(data.controlParameters->use_rc){
   //   int rc_mode = data._desiredStateCommand->rcCommand->mode;
@@ -129,33 +160,50 @@ void ControlFSM<T>::runFSM() {
   // }
   if (true)
   {
-    if (time_diff(start_time)>=10000)
-    // if (data._desiredStateCommand->gamepadCommand->a || recoverymode)
-    {
+    // if (time_diff(start_time)>=10000)
+    // // if (data._desiredStateCommand->gamepadCommand->a || recoverymode)
+    // {
       
-      std::cout<<time_diff(start_time)<<std::endl;
+    //   std::cout<<time_diff(start_time)<<std::endl;
+    //   recoverymode = true;
+    //   data.controlParameters->control_mode = K_RECOVERY_STAND;
+    //   if (false)
+    //   {
+    //     recoverymode = false;
+    //   }
+      
+      
+    //   // printf("[Recovery Balance]recoveeeeeeeeeeeeeeeeeeeeeeeeery\n");
+    // }
+    // else if (false)
+    // {
+    //   recoverymode = false;
+    //   squatmode = true;
+    //   data.controlParameters->control_mode = K_PASSIVE;
+    //   printf("[Recovery Balance]squaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaat \n");
+    // }
+    // else
+    // {
+    //   data.controlParameters->control_mode = K_PASSIVE;
+    //   recoverymode = false;
+    //   printf("PAAAAAsiiiiiiiiiiiiiv\n");
+    // }
+      if ((gamepadCommand.a || recoverymode) && !(gamepadCommand.b) ) {
       recoverymode = true;
       data.controlParameters->control_mode = K_RECOVERY_STAND;
-      if (false)
-      {
-        recoverymode = false;
-      }
-      
-      
-      // printf("[Recovery Balance]recoveeeeeeeeeeeeeeeeeeeeeeeeery\n");
-    }
-    else if (false)
-    {
-      recoverymode = false;
+      std::cout << "Gamepad button A pressed: Switching to Recovery Stand mode." << std::endl;
+    
+    } else if ((gamepadCommand.b || squatmode) && !(gamepadCommand.y)) {
       squatmode = true;
-      data.controlParameters->control_mode = K_PASSIVE;
-      printf("[Recovery Balance]squaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaat \n");
-    }
-    else
-    {
+      recoverymode = false;
+      data.controlParameters->control_mode = K_SQUAT_DOWN;
+      std::cout << "Gamepad button B pressed: Switching to Squat Down mode." << std::endl;
+    } 
+    else {
       data.controlParameters->control_mode = K_PASSIVE;
       recoverymode = false;
-      printf("PAAAAAsiiiiiiiiiiiiiv\n");
+      squatmode = false;
+      std::cout << "No significant gamepad input: Remaining in Passive mode." << std::endl;
     }
     
     

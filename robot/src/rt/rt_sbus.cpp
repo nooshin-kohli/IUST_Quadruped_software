@@ -138,7 +138,7 @@ int read_sbus_channel(int channel) {
  */
 int receive_sbus(int port) {
   uint16_t read_buff[25] = {0};
-  printf("9999999999999999999999999999999999999999999999999999");
+  // printf("9999999999999999999999999999999999999999999999999999");
   int x = read_sbus_data(port, (uint8_t *)read_buff);
   
   if (x) {
