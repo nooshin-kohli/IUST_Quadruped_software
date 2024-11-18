@@ -69,9 +69,9 @@ class FSM_State_RecoveryStand : public FSM_State<T> {
   const int standup_ramp_iter = 250;
   const int standup_settle_iter = 250;
 
-  const int milab_fold_ramp_iter = 1000;
+  const int milab_fold_ramp_iter = 800;
   const int milab_fold_settle_iter = 800;
-  const int milab_standup_ramp_iter = 8000;
+  const int milab_standup_ramp_iter = 2000;
   const int milab_rollover_ramp_iter = 180;
   const int milab_rollover_settle_iter = 300;
 
