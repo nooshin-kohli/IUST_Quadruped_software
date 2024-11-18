@@ -683,8 +683,8 @@ void IUSTrobotHardwareBridge::run() {
                 #endif
                 #ifdef IUST_CTRL
                 std::cout<<"hereeeeee"<<std::endl;
-                _userControlParameters->initializeFromYamlFile(THIS_COM "config/iust-user-parameters-full.yaml");
-                std::string yamlName = "iust-user-parameters-full.yaml";
+                _userControlParameters->initializeFromYamlFile(THIS_COM "config/iust-user-parameters.yaml");
+                std::string yamlName = "iust-user-parameters.yaml";
                 printf("[Hardware Bridge] Loaded user parameters from yaml file: %s\n", yamlName.c_str());
                 #endif
 
@@ -703,7 +703,7 @@ void IUSTrobotHardwareBridge::run() {
             printf("[Hardware Bridge] Did not load user parameters because there aren't any\n");
         }
     } else {
-        _robotParams.initializeFromYamlFile(THIS_COM "config/iust-robot-parameters-full.yaml");
+        _robotParams.initializeFromYamlFile(THIS_COM "config/iust-robot-parameters.yaml");
         printf("[Hardware Bridge] Loading parameters over LCM...\n");
         while (!_robotParams.isFullyInitialized()) {
             printf("[Hardware Bridge] Waiting for robot parameters...\n");
