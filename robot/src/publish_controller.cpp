@@ -41,14 +41,14 @@ int main() {
     gamepad_lcmt msg;
 
     // Structure to hold joystick event data
-    struct js_event {
+    struct js_event_local {
         uint32_t time;     // Event timestamp in milliseconds
         int16_t value;     // Value of the axis/button
         uint8_t type;      // Event type (button or axis)
         uint8_t number;    // Axis/button number
     };
 
-    js_event e;
+    js_event_local e;
 
     // Read joystick events
     while (read(fd, &e, sizeof(e)) > 0) {
