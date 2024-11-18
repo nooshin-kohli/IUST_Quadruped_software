@@ -6,7 +6,7 @@
 *
 * This file builds a model of The IUST robot.
 * The inertia parameters of all bodies are determined from CAD by mohammadjabarzadeh.
-*
+* Modified with new body: AminGhanbarzadeh
 */
 
 #ifndef IUST_CHEETAH_SOFTWARE_IUST_H
@@ -25,16 +25,16 @@ Quadruped<T> buildIUST()
     iust._robotType = RobotType::IUST;
 
     //Mass(kg)
-    iust._bodyMass = 16;
-    iust._abadMass = 0.861;
-    iust._hipMass = 1.598;
-    iust._kneeMass = 0.304;
-    iust._rotorMass = 0.084;
+    iust._bodyMass = 3.94; //Done
+    iust._abadMass = 0.650; //Done
+    iust._hipMass = 1.154; //Done
+    iust._kneeMass = 0.209; //Done
+    iust._rotorMass = 0.084; //NI
 
     //Dimentions(m)
-    iust._bodyLength = 0.375; //0.269 *
-    iust._bodyWidth = 0.10054; //0.19054 *
-    iust._bodyHeight = 0.089;
+    iust._bodyLength = 0.46; //0.269 * //Done
+    iust._bodyWidth = 0.11; //0.19054 * //Done
+    iust._bodyHeight = 0.095; //Done
 
     //Gear ratios
     iust._abadGearRatio = 6;
@@ -42,12 +42,12 @@ Quadruped<T> buildIUST()
     iust._kneeGearRatio = 6;
 
     //Link lengths(m)
-    iust._abadLinkLength = 0.0576;
-    iust._hipLinkLength = 0.213;
-    iust._kneeLinkY_offset = 0.07125;
-    iust._kneeLinkLength = 0.260; // *
-    iust._maxLegLength = 0.453;
-    iust._hipRotorLocationYOffset = 0.0527;
+    iust._abadLinkLength = 0.0576; //Done
+    iust._hipLinkLength = 0.22886; //Done 
+    iust._kneeLinkY_offset = 0.07125; //NI?
+    iust._kneeLinkLength = 0.240; //Done
+    iust._maxLegLength = 0.468; //Done
+    iust._hipRotorLocationYOffset = 0.0527; //NI?
 
     //Motor properties
     iust._motorTauMax = 8.f;
