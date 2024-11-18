@@ -2,6 +2,8 @@
 #define CONTROLFSM_H
 
 #include <iostream>
+#include <lcm/lcm-cpp.hpp> // Include LCM header
+#include "../../lcm-types/cpp/gamepad_lcmt.hpp" // Include gamepad message type
 
 // Contains all of the control related data
 #include "ControlFSMData.h"
@@ -22,15 +24,18 @@
 #include "../FSM_States/FSM_State_BackFlip.h"
 #include "../FSM_States/FSM_State_FrontJump.h"
 #include "../FSM_States/FSM_State_SquatDown.h"
+
 //#include "GameController.h"
 #include <RobotController.h>
 #include "SimUtilities/GamepadCommand.h"
 
+
 /**
  * Enumerate all of the operating modes
  */
-enum class FSM_OperatingMode { 
-  NORMAL, TRANSITIONING, ESTOP, EDAMP };
+enum class FSM_OperatingMode {
+  NORMAL, TRANSITIONING, ESTOP, EDAMP
+};
 
 /**
  *
@@ -50,15 +55,6 @@ struct FSM_StatesList {
   FSM_State_FrontJump<T>* frontJump;
   FSM_State_SquatDown<T>* squatDown;
 };
-
-
-/**
- *
- */
-template <typename T>
-struct FSM_ControllerList {
-};
-
 
 /**
  * Control FSM handles the FSM states from a higher level
@@ -83,7 +79,6 @@ class ControlFSM {
   // This will be removed and put into the SafetyChecker class
   FSM_OperatingMode safetyPreCheck();
 
-  //
   FSM_OperatingMode safetyPostCheck();
 
   // Gets the next FSM_State from the list of created states when requested
@@ -91,6 +86,14 @@ class ControlFSM {
 
   // Prints the current FSM status
   void printInfo(int opt);
+
+  // Sets up LCM for gamepad communication
+  void setupLCM();
+
+  // Handles incoming LCM gamepad data
+  void handleGamepadData(const lcm::ReceiveBuffer* rbuf,
+                         const std::string& chan,
+                         const gamepad_lcmt* msg);
 
   // Contains all of the control related data
   ControlFSMData<T> data;
@@ -118,10 +121,21 @@ class ControlFSM {
 
   int iter = 0;
   bool recoverymode = false;
-  bool squatmode = false; 
+
+  
   //RobotController* _drivecommand;
   //lcm::LCM state_estimator_lcm;
   //state_estimator_lcmt _state_estimator;
+
+  bool squatmode = false;
+
+  // LCM instance and gamepad command data
+  lcm::LCM* lcm;
+  gamepad_lcmt gamepadCommand;
+
+  // Function to handle LCM messages
+  void handleLCM();
+
 };
 
 #endif  // CONTROLFSM_H

@@ -34,51 +34,17 @@ Part of this build process will automatically download the gtest software testin
 [==========] 18 tests from 3 test cases ran. (0 ms total)
 [  PASSED  ] 18 tests.
 ```
-## Run simulator
-To run the simulator:
-1. Open the control board
+## Run Controller
+It's worth to note that this project can be implemented on Laptop and UP Board in the robot.
+1. Turn on the power supply.
+2. Open the saftey switch and you can see 3 bottons on the robots light up.
+3. Push the motor botton twice rapidly. After this you can see the actuators starting.
+4. Run the controller on the laptop or the UPBoard.
+To run the Controller:
+1. Open the terminal (Do not use ssh for running the controller!!!!!)
 ```
-./sim/sim
+cd /IUST_Quadruped_Software/build/user/{Controller_fonlder}
+sudo ./{controller_name} i r f
 ```
-2. In the another command window, run the robot control code
-```
-./user/${controller_folder}/${controller_name} ${robot_name} ${target_system}
-```
-Example)
-```
-./user/JPos_Controller/jpos_ctrl 3 s
-```
-3: Cheetah 3, m: Mini Cheetah
-s: simulation, r: robot
+i: Iust robot, r: run on robot, f: load parameters from file.
 
-## Run Mini cheetah
-1. Create build folder `mkdir mc-build`
-2. Build as mini cheetah executable `cd mc-build; cmake -DMINI_CHEETAH_BUILD=TRUE ..; make -j`
-3. Connect to mini cheetah over ethernet, verify you can ssh in
-4. Copy program to mini cheetah with `../scripts/send_to_mini_cheetah.sh`
-5. ssh into the mini cheetah `ssh user@10.0.0.34`
-6. Enter the robot program folder `cd robot-software-....`
-7. Run robot code `./run_mc.sh` 
-
-
-
-## Dependencies:
-- Qt 5.10 - https://www.qt.io/download-qt-installer
-- LCM - https://lcm-proj.github.io/ (Please make it sure that you have a java to let lcm compile java-extension together)
-- Eigen - http://eigen.tuxfamily.org
-- `mesa-common-dev`
-- `freeglut3-dev`
-- `libblas-dev liblapack-dev`
-
-To use Ipopt, use CMake Ipopt option. Ex) cmake -DIPOPT_OPTION=ON ..
-# IUST_Quadruped_software
-
-To step up can communications:
-```
-sudo ip link set can{number} type can bitrate 1000000
-sudo ip link set up can{number}
-```
-To see all the connections to the board:
-```
-ip a
-```

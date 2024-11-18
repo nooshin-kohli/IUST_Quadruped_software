@@ -36,7 +36,7 @@ uint16_t channel_data[18];
 /**@brief Name of SBUS serial port in simulator*/
 #define K_SBUS_PORT_SIM "/dev/ttyUSB0"
 /**@brief Name of SBUS serial port on the mini cheetah*/
-#define K_SBUS_PORT_MC "/dev/ttyS4"
+#define K_SBUS_PORT_MC "/dev/input/js0"
 
 /*!
  * Unpack sbus message into channels
@@ -138,7 +138,9 @@ int read_sbus_channel(int channel) {
  */
 int receive_sbus(int port) {
   uint16_t read_buff[25] = {0};
+  // printf("9999999999999999999999999999999999999999999999999999");
   int x = read_sbus_data(port, (uint8_t *)read_buff);
+  
   if (x) {
     unpack_sbus_data((uint8_t *)read_buff, channels);
   } else {
@@ -157,6 +159,7 @@ int init_sbus(int is_simulator) {
     port1 = K_SBUS_PORT_SIM;
   } else {
     port1 = K_SBUS_PORT_MC;
+    printf("___________________________________________________-");
   }
 
   if (pthread_mutex_init(&sbus_data_m, NULL) != 0) {

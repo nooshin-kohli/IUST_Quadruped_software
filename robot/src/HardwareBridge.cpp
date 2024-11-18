@@ -115,6 +115,7 @@ void HardwareBridge::handleGamepadLCM(const lcm::ReceiveBuffer* rbuf,
                                       const gamepad_lcmt* msg) {
   (void)rbuf;
   (void)chan;
+  printf(")))))))))))))))))))))))))))))))))))))))))))))))\n");
   _gamepadCommand.set(msg);
 }
 
@@ -122,9 +123,13 @@ void HardwareBridge::handleGamepadLCM(const lcm::ReceiveBuffer* rbuf,
  * Receive RC with SBUS
  */
 void HardwareBridge::run_sbus() {
+    // printf("--------------------------------------*****\n");
     if (_port > 0) {
+        // printf("AFTERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR\n");
         int x = receive_sbus(_port);
-
+        // printf("77777777777777777777777777777777777777777\n");
+        std::cout<<x<<std::endl;
+        // printf("88888888888888888888888888888888888888888\n");
         if (x) {
             sbus_packet_complete();
         } else  printf("[HARDWARE BRIDGE] Receive sbus failed.\n");
@@ -731,6 +736,8 @@ void IUSTrobotHardwareBridge::run() {
     _robotRunner->visualizationData = &_visualizationData;
     _robotRunner->cheetahMainVisualization = &_mainCheetahVisualization;
     //printf("2222\n");
+    // printf("Left Stick Analog X: %f, Y: %f\n", _gamepadCommand.leftStickAnalog[0], _gamepadCommand.leftStickAnalog[1]);
+
 
     _firstRun = false;
 
@@ -765,12 +772,12 @@ void IUSTrobotHardwareBridge::run() {
 
     // rc controller
     // std::cout<<"before init bus"<< std::endl;
-    // _port = init_sbus(false);  // Not Simulation
-    // std::cout<<"after init bus" << std::endl;
-    // PeriodicMemberFunction<HardwareBridge> sbusTask(
-    //         &taskManager, .005, "rc_controller", &HardwareBridge::run_sbus, this);
+    _port = init_sbus(false);  // Not Simulation
+    std::cout<<"after init bus" << std::endl;
+    PeriodicMemberFunction<HardwareBridge> sbusTask(
+            &taskManager, .005, "rc_controller", &HardwareBridge::run_sbus, this);
     // std::cout<<"after perdiodic function"<<std::endl;
-    // sbusTask.start();
+    sbusTask.start();
     // std::cout<<"after start"<< std::endl;
 
     // temporary hack: microstrain logger
@@ -780,7 +787,7 @@ void IUSTrobotHardwareBridge::run() {
 
     // TODO: replace with wait and join
     for (;;) {
-        usleep(1000000);
+        usleep(10000000);
         // printf("joy %f\n", _robotRunner->driverCommand->leftStickAnalog[0]);
     }
 }

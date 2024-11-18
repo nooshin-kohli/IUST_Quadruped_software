@@ -32,9 +32,11 @@
 #include "ecat_command_t.hpp"
 #include "ecat_data_t.hpp"
 #include "rt/rt_can.h"
+
 #include "Utilities/SharedMemory.h"
 #include "SimUtilities/SimulatorMessage.h"
 #include "SimUtilities/GamepadCommand.h"
+
 /*!
  * Interface between robot and hardware
  */
