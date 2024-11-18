@@ -4,6 +4,10 @@
         "cctype": "cpp",
         "clocale": "cpp",
         "cmath": "cpp",
+<<<<<<< HEAD
+        "csignal": "cpp",
+=======
+>>>>>>> a280e2825815a83607349ac9135ffdf8491f5f82
         "cstdarg": "cpp",
         "cstddef": "cpp",
         "cstdio": "cpp",
@@ -12,6 +16,23 @@
         "ctime": "cpp",
         "cwchar": "cpp",
         "cwctype": "cpp",
+<<<<<<< HEAD
+        "any": "cpp",
+        "array": "cpp",
+        "atomic": "cpp",
+        "strstream": "cpp",
+        "*.tcc": "cpp",
+        "bitset": "cpp",
+        "chrono": "cpp",
+        "complex": "cpp",
+        "condition_variable": "cpp",
+        "cstdint": "cpp",
+        "deque": "cpp",
+        "forward_list": "cpp",
+        "list": "cpp",
+        "unordered_map": "cpp",
+        "unordered_set": "cpp",
+=======
         "array": "cpp",
         "atomic": "cpp",
         "bit": "cpp",
@@ -23,27 +44,57 @@
         "deque": "cpp",
         "string": "cpp",
         "unordered_map": "cpp",
+>>>>>>> a280e2825815a83607349ac9135ffdf8491f5f82
         "vector": "cpp",
         "exception": "cpp",
         "algorithm": "cpp",
         "functional": "cpp",
         "iterator": "cpp",
+<<<<<<< HEAD
+        "map": "cpp",
+=======
+>>>>>>> a280e2825815a83607349ac9135ffdf8491f5f82
         "memory": "cpp",
         "memory_resource": "cpp",
         "numeric": "cpp",
         "optional": "cpp",
         "random": "cpp",
         "ratio": "cpp",
+<<<<<<< HEAD
+        "set": "cpp",
+        "string": "cpp",
+=======
+>>>>>>> a280e2825815a83607349ac9135ffdf8491f5f82
         "string_view": "cpp",
         "system_error": "cpp",
         "tuple": "cpp",
         "type_traits": "cpp",
         "utility": "cpp",
+<<<<<<< HEAD
+        "fstream": "cpp",
         "initializer_list": "cpp",
+        "iomanip": "cpp",
+=======
+        "initializer_list": "cpp",
+>>>>>>> a280e2825815a83607349ac9135ffdf8491f5f82
         "iosfwd": "cpp",
         "iostream": "cpp",
         "istream": "cpp",
         "limits": "cpp",
+<<<<<<< HEAD
+        "mutex": "cpp",
+        "new": "cpp",
+        "sstream": "cpp",
+        "stdexcept": "cpp",
+        "streambuf": "cpp",
+        "thread": "cpp",
+        "cfenv": "cpp",
+        "cinttypes": "cpp",
+        "typeindex": "cpp",
+        "typeinfo": "cpp",
+        "variant": "cpp",
+        "bit": "cpp"
+=======
         "new": "cpp",
         "numbers": "cpp",
         "sstream": "cpp",
@@ -53,5 +104,6 @@
         "typeinfo": "cpp",
         "fstream": "cpp",
         "thread": "cpp"
+>>>>>>> a280e2825815a83607349ac9135ffdf8491f5f82
     }
 }

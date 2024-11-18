@@ -20,7 +20,8 @@
 #include <lcm/lcm-cpp.hpp>
 #include <lord_imu/LordImu.h>
 
-#include "RobotRunner.h"
+#include <RobotRunner.h>
+#include <RobotController.h>
 #include "Utilities/PeriodicTask.h"
 #include "control_parameter_request_lcmt.hpp"
 #include "control_parameter_respones_lcmt.hpp"
@@ -32,6 +33,9 @@
 #include "ecat_data_t.hpp"
 #include "rt/rt_can.h"
 
+#include "Utilities/SharedMemory.h"
+#include "SimUtilities/SimulatorMessage.h"
+#include "SimUtilities/GamepadCommand.h"
 
 /*!
  * Interface between robot and hardware
@@ -180,6 +184,7 @@ private:
   bool _microstrainInit = false;
   bool _load_parameters_from_file;
   u64 spi_times=0;
+  SharedMemoryObject<SimulatorSyncronizedMessage> _sharedMemory;
 };
 
 /*!

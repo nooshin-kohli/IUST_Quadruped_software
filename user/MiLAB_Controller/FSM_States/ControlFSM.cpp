@@ -124,6 +124,7 @@ void ControlFSM<T>::initialize() {
  */
 template <typename T>
 void ControlFSM<T>::runFSM() {
+  
   // Publish state estimator data to other computer
   //for(size_t i(0); i<3; ++i){
     //_state_estimator.p[i] = data._stateEstimator->getResult().position[i];
@@ -134,7 +135,9 @@ void ControlFSM<T>::runFSM() {
 
   // Check the robot state for safe operation
   operatingMode = safetyPreCheck();
+
   handleLCM();
+
 
   // if(data.controlParameters->use_rc){
   //   int rc_mode = data._desiredStateCommand->rcCommand->mode;
@@ -158,6 +161,9 @@ void ControlFSM<T>::runFSM() {
   //   }
 
   // }
+  //bool recoverydata = &recoverycommand->a;
+  //lcm_gamepad.subscribe("gamepad_command", &gamepad_lcm)
+  
   if (true)
   {
     // if (time_diff(start_time)>=10000)
@@ -202,16 +208,20 @@ void ControlFSM<T>::runFSM() {
     else {
       data.controlParameters->control_mode = K_PASSIVE;
       recoverymode = false;
+
+      //printf("PAAAAAsiiiiiiiiiiiiiv\n");
+
       squatmode = false;
       std::cout << "No significant gamepad input: Remaining in Passive mode." << std::endl;
+
     }
     
     
   }
   // printf("OUUUUUUUUUUUUT\n");
-  std::cout<<data._desiredStateCommand->gamepadCommand->a<<std::endl;
   
-
+  //std::cout<< recoverydata <<std::endl;
+  //std::cout<< _driverCommand->a <<std::endl;
 
   // Run the robot control code if operating mode is not unsafe
   if (operatingMode != FSM_OperatingMode::ESTOP) {

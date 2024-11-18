@@ -41,7 +41,7 @@ void CheaterOrientationEstimator<T>::run() {
  * rpy, acceleration (world, body) from vector nav IMU
  */
 template <typename T>
-void VectorNavOrientationEstimator<T>::run() {
+void VectorNavOrientationEstimator<T>::run() { //TODO //check sequence of datas IUST
   this->_stateEstimatorData.result->orientation[0] =
       this->_stateEstimatorData.vectorNavData->quat[3];
   this->_stateEstimatorData.result->orientation[1] =

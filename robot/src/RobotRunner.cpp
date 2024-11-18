@@ -237,6 +237,7 @@ void RobotRunner::finalizeStep() {
   _lcm.publish("leg_control_command", &leg_control_command_lcm);
   _lcm.publish("leg_control_data", &leg_control_data_lcm);
   // _lcm.publish("state_estimator", &state_estimator_lcm);
+  //_lcm.subscribe("gamepad_command", &gamepad_lcm)
 
   #ifdef DEBUG_SHOW
   debugPrint(_legController,_stateEstimate);

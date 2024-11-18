@@ -101,6 +101,7 @@ public:
   const GamepadCommand* gamepadCommand;
 
   bool trigger_pressed = false;
+  bool recovery_trigger = false;
 
 private:
   StateEstimate<T>* stateEstimate;

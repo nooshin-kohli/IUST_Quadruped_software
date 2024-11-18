@@ -55,7 +55,7 @@ struct RobotToSimulatorMessage {
   RobotType robotType;
   SpiCommand spiCommand;
   TiBoardCommand tiBoardCommand[4];
-
+  GamepadCommand gamepadCommand;
   VisualizationData visualizationData;
   CheetahVisualization mainCheetahVisualization;
   ControlParameterResponse controlParameterResponse;

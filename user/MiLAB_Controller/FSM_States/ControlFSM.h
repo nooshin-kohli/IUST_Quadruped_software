@@ -25,6 +25,11 @@
 #include "../FSM_States/FSM_State_FrontJump.h"
 #include "../FSM_States/FSM_State_SquatDown.h"
 
+//#include "GameController.h"
+#include <RobotController.h>
+#include "SimUtilities/GamepadCommand.h"
+
+
 /**
  * Enumerate all of the operating modes
  */
@@ -116,6 +121,12 @@ class ControlFSM {
 
   int iter = 0;
   bool recoverymode = false;
+
+  
+  //RobotController* _drivecommand;
+  //lcm::LCM state_estimator_lcm;
+  //state_estimator_lcmt _state_estimator;
+
   bool squatmode = false;
 
   // LCM instance and gamepad command data
@@ -124,6 +135,7 @@ class ControlFSM {
 
   // Function to handle LCM messages
   void handleLCM();
+
 };
 
 #endif  // CONTROLFSM_H

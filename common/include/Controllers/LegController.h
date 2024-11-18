@@ -14,6 +14,7 @@
 #include "cppTypes.h"
 #include "leg_control_command_lcmt.hpp"
 #include "leg_control_data_lcmt.hpp"
+#include "gamepad_lcmt.hpp"
 #include "Dynamics/Quadruped.h"
 #include "SimUtilities/SpineBoard.h"
 #include "SimUtilities/ti_boardcontrol.h"
