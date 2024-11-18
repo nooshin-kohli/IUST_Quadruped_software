@@ -59,6 +59,7 @@ void DesiredStateCommand<T>::convertToStateCommands() {
     joystickLeft = gamepadCommand->leftStickAnalog;
     joystickRight = gamepadCommand->rightStickAnalog;
     trigger_pressed = gamepadCommand->a;
+    recovery_trigger = gamepadCommand->b;
   }
   // Warning!!!!
   // Recommend not to use stateDes

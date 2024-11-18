@@ -6,7 +6,7 @@ __collection-name__: user-parameter-file
 #file_name : "jpos-user-parameters.yaml"
 
 # Cheetah_Controller
-file_name : "new-user-parameters.yaml"
+file_name : "iust-user-parameters-full.yaml"
 #file_name : "mc-mit-ctrl-user-parameters.yaml"
 
 # Low Level Controller

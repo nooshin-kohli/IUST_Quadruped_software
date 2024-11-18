@@ -31,6 +31,7 @@ public:
   virtual void updateVisualization() = 0;
   virtual ControlParameters* getUserControlParameters() = 0;
   virtual void Estop() {}
+  DesiredStateCommand<float>* gamestatecommand;
 
 protected:
   Quadruped<float>* _quadruped = nullptr;

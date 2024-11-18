@@ -6,6 +6,7 @@
 #include "Controllers/ContactEstimator.h"
 #include "FSM_States/ControlFSM.h"
 #include "MiLAB_UserParameters.h"
+#include <RobotRunner.h>
 //#include <gui_main_control_settings_t.hpp>
 
 class MiLAB_Controller: public RobotController{

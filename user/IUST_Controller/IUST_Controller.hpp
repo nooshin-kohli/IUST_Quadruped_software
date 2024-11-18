@@ -3,7 +3,8 @@
 
 #include <RobotController.h>
 #include "IustUserParameters.h"
-
+#include <RobotController.h>
+#include <RobotRunner.h>
 class IUST_Controller:public RobotController{
   public:
     IUST_Controller():RobotController(),_jpos_ini(cheetah::num_act_joint){

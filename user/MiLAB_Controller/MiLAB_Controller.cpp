@@ -27,7 +27,7 @@ void MiLAB_Controller::initializeController() {
 void MiLAB_Controller::runController() {
   // Find the current gait schedule
   _gaitScheduler->step();
-
+  
   // Find the desired state trajectory
   _desiredStateCommand->convertToStateCommands();
 

@@ -324,7 +324,7 @@ void MiniCheetahHardwareBridge::run() {
   _robotRunner->controlParameters = &_robotParams;
   _robotRunner->visualizationData = &_visualizationData;
   _robotRunner->cheetahMainVisualization = &_mainCheetahVisualization;
-
+  
   _firstRun = false;
 
   // init control thread
@@ -634,6 +634,8 @@ void IUSTrobotHardwareBridge::initHardware() {
  * Main method for IUST robot hardware
  */
 void IUSTrobotHardwareBridge::run() {
+
+  
     initCommon();
     initHardware();
 
