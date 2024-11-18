@@ -13,8 +13,8 @@ const float hip_side_sign[4] = {1.f, -1.f, 1.f, -1.f};
 const float knee_side_sign[4] = {.6429f, -.6429f, .6429f, -.6429f};
 
 // only used for actual robot
-const float abad_offset[4] = {-0.0259f, -0.1187f, -0.6348f, -0.1419f};
-const float hip_offset[4]  = {0.3074f, -1.8785f,  0.0957f,  -1.3480f};
+const float abad_offset[4] = {-0.0259f, -0.1187f, -0.6348f, 0.0262f};
+const float hip_offset[4]  = {0.3074f, -1.8785f,  0.1247f,  -1.3480f};
 const float knee_offset[4] = {-4.3284f, 3.571946, -4.957542, 3.168956};
 
 void CAN::init_can() {
@@ -126,6 +126,7 @@ void CAN::can_send_receive(CANCommand* can_command, CANData* can_response) {
   // // std::cout<<FR.cycle_responses[1][1]<<std::endl;
   // std::cout<<RL.cycle_responses[0][1]<<std::endl;
   // std::cout<<RL.cycle_responses[1][1]<<std::endl;
+  // std::cout<<RR.cycle_responses[1][1]<<std::endl;
   // // std::cout<<RL.cycle_responses[1][1]<<std::endl;
   // std::cout<<"end of new data"<<std::endl;
 
