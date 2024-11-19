@@ -143,6 +143,7 @@ void HardwareBridge::run_sbus() {
 void HardwareBridge::handleControlParameter(
     const lcm::ReceiveBuffer* rbuf, const std::string& chan,
     const control_parameter_request_lcmt* msg) {
+      printf("HardwareBridge] handleControlParameter"); 
   (void)rbuf;
   (void)chan;
   if (msg->requestNumber <= _parameter_response_lcmt.requestNumber) {
@@ -633,7 +634,8 @@ void IUSTrobotHardwareBridge::initHardware() {
   }
 #endif
     CANable.init_can();
-    _microstrainInit = _microstrainImu.tryInit(0,460800 );//921600
+    initWitMotion();
+    // _microstrainInit = _microstrainImu.tryInit(0,460800 );//921600
 }
 /*!
  * Main method for IUST robot hardware
@@ -685,8 +687,8 @@ void IUSTrobotHardwareBridge::run() {
                 #endif
                 #ifdef IUST_CTRL
                 std::cout<<"hereeeeee"<<std::endl;
-                _userControlParameters->initializeFromYamlFile(THIS_COM "config/iust-user-parameters.yaml");
-                std::string yamlName = "iust-user-parameters.yaml";
+                _userControlParameters->initializeFromYamlFile(THIS_COM "config/iust-user-parameters-full.yaml");
+                std::string yamlName = "iust-user-parameters-full.yaml";
                 printf("[Hardware Bridge] Loaded user parameters from yaml file: %s\n", yamlName.c_str());
                 #endif
 
@@ -712,7 +714,7 @@ void IUSTrobotHardwareBridge::run() {
             usleep(1000000);
         }
 
-        _userControlParameters->initializeFromYamlFile(THIS_COM "config/iust-user-parameters.yaml");
+        _userControlParameters->initializeFromYamlFile(THIS_COM "config/iust-user-parameters-full.yaml");
         if(_userControlParameters) {
             while (!_userControlParameters->isFullyInitialized()) {
                 printf("[IUST Hardware Bridge] Waiting for user parameters...\n");
@@ -753,9 +755,11 @@ void IUSTrobotHardwareBridge::run() {
     printf("can task started\n");
 
     // microstrain
-    if(_microstrainInit)
+    if(true){
         _microstrainThread = new std::thread(&IUSTrobotHardwareBridge::runMicrostrain, this);
-        //printf("_microstrainInit is true!!!!!!");
+        printf("_microstrainInit is true!!!!!!");
+    }
+        
     
 
     // robot controller start
@@ -797,16 +801,28 @@ void IUSTrobotHardwareBridge::runMicrostrain() {
     u64 imu_times=0;
 
     while (true) {
-        _microstrainImu.run();
+        // _microstrainImu.run();
+
+        // #ifdef USE_MICROSTRAIN
+        // _vectorNavData.accelerometer = _microstrainImu.acc;
+        // _vectorNavData.quat[0] = _microstrainImu.quat[1];
+        // _vectorNavData.quat[1] = _microstrainImu.quat[2];
+        // _vectorNavData.quat[2] = _microstrainImu.quat[3];
+        // _vectorNavData.quat[3] = _microstrainImu.quat[0];
+        // _vectorNavData.gyro = _microstrainImu.gyro;
+        // #endif
+
+        runWitMotion();
 
         #ifdef USE_MICROSTRAIN
-        _vectorNavData.accelerometer = _microstrainImu.acc;
-        _vectorNavData.quat[0] = _microstrainImu.quat[1];
-        _vectorNavData.quat[1] = _microstrainImu.quat[2];
-        _vectorNavData.quat[2] = _microstrainImu.quat[3];
-        _vectorNavData.quat[3] = _microstrainImu.quat[0];
-        _vectorNavData.gyro = _microstrainImu.gyro;
+        _vectorNavData.accelerometer = _WitMotionImu.acc;
+        _vectorNavData.quat[0] = _WitMotionImu.quat[0];
+        _vectorNavData.quat[1] = _WitMotionImu.quat[1];
+        _vectorNavData.quat[2] = _WitMotionImu.quat[2];
+        _vectorNavData.quat[3] = _WitMotionImu.quat[3];
+        _vectorNavData.gyro = _WitMotionImu.gyro;
         #endif
+
         imu_times++;
         #ifdef IMU_DEBUG_SHOW
         if(imu_times%1000==0)
@@ -873,5 +889,227 @@ void IUSTrobotHardwareBridge::runCAN() {
     // _spiLcm.publish("spi_data", data);
     // _spiLcm.publish("spi_command", cmd);
 }
+
+/*
+Define functions using in witmotion initialization
+*/
+int uart_open(int fdd,const char *pathname)
+{
+    fdd = open(pathname, O_RDWR|O_NOCTTY); 
+    if (-1 == fdd)
+    { 
+        perror("Can't Open Serial Port"); 
+		return(-1); 
+	} 
+    else
+		printf("open %s success!\n",pathname);
+    if(isatty(STDIN_FILENO)==0) 
+		printf("standard input is not a terminal device\n"); 
+    else 
+		printf("isatty success!\n"); 
+    return fdd; 
+}
+
+int uart_set(int fdd,int nSpeed, int nBits, char nEvent, int nStop)
+{
+     struct termios newtio,oldtio; 
+     if  ( tcgetattr( fdd,&oldtio)  !=  0) {  
+      perror("SetupSerial 1");
+	  printf("tcgetattr( fdd,&oldtio) -> %d\n",tcgetattr( fdd,&oldtio)); 
+      return -1; 
+     } 
+     bzero( &newtio, sizeof( newtio ) ); 
+     newtio.c_cflag  |=  CLOCAL | CREAD;  
+     newtio.c_cflag &= ~CSIZE; 
+     switch( nBits ) 
+     { 
+     case 7: 
+      newtio.c_cflag |= CS7; 
+      break; 
+     case 8: 
+      newtio.c_cflag |= CS8; 
+      break; 
+     } 
+     switch( nEvent ) 
+     { 
+     case 'o':
+     case 'O': 
+      newtio.c_cflag |= PARENB; 
+      newtio.c_cflag |= PARODD; 
+      newtio.c_iflag |= (INPCK | ISTRIP); 
+      break; 
+     case 'e':
+     case 'E': 
+      newtio.c_iflag |= (INPCK | ISTRIP); 
+      newtio.c_cflag |= PARENB; 
+      newtio.c_cflag &= ~PARODD; 
+      break;
+     case 'n':
+     case 'N': 
+      newtio.c_cflag &= ~PARENB; 
+      break;
+     default:
+      break;
+     } 
+     /*设置波特率*/ 
+
+switch( nSpeed ) 
+     { 
+     case 2400: 
+      cfsetispeed(&newtio, B2400); 
+      cfsetospeed(&newtio, B2400); 
+      break; 
+     case 4800: 
+      cfsetispeed(&newtio, B4800); 
+      cfsetospeed(&newtio, B4800); 
+      break; 
+     case 9600: 
+      cfsetispeed(&newtio, B9600); 
+      cfsetospeed(&newtio, B9600); 
+      break; 
+     case 115200: 
+      cfsetispeed(&newtio, B115200); 
+      cfsetospeed(&newtio, B115200); 
+      break; 
+     case 460800: 
+      cfsetispeed(&newtio, B460800); 
+      cfsetospeed(&newtio, B460800); 
+      break; 
+     default: 
+      cfsetispeed(&newtio, B9600); 
+      cfsetospeed(&newtio, B9600); 
+     break; 
+     } 
+     if( nStop == 1 ) 
+      newtio.c_cflag &=  ~CSTOPB; 
+     else if ( nStop == 2 ) 
+      newtio.c_cflag |=  CSTOPB; 
+     newtio.c_cc[VTIME]  = 0; 
+     newtio.c_cc[VMIN] = 0; 
+     tcflush(fdd,TCIFLUSH); 
+
+if((tcsetattr(fdd,TCSANOW,&newtio))!=0) 
+     { 
+      perror("com set error"); 
+      return -1; 
+     } 
+     printf("set done!\n"); 
+     return 0; 
+}
+
+int uart_close(int fdd)
+{
+    assert(fdd);
+    close(fdd);
+
+    return 0;
+}
+int send_data(int  fdd, char *send_buffer,int length)
+{
+	length=write(fdd,send_buffer,length*sizeof(unsigned char));
+	return length;
+}
+int recv_data(int fdd, char* recv_buffer,int length)
+{
+	length=read(fdd,recv_buffer,length);
+	return length;
+}
+
+void IUSTrobotHardwareBridge::initWitMotion(){
+  char r_buf[1024];
+  bzero(r_buf,1024);
+
+  fd = uart_open(fd,"/dev/ttyS4");/*串口号/dev/ttySn,USB口号/dev/ttyUSBn */
+  if(fd  == -1)
+  {
+      fprintf(stderr,"uart_open error\n");
+      // exit(EXIT_FAILURE);
+  }
+  
+  if(uart_set(fd,BAUD,8,'N',1) == -1)
+  {
+      fprintf(stderr,"uart set failed!\n");
+      // exit(EXIT_FAILURE);
+  }
+}
+
+Vec4<double> euler_to_quaternion(const std::vector<double>& r) {
+    if (r.size() != 3) {
+        throw std::invalid_argument("Input vector must have exactly three elements.");
+    }
+
+    double yaw = r[0];
+    double pitch = r[1];
+    double roll = r[2];
+
+    double cy = cos(yaw * 0.5);
+    double sy = sin(yaw * 0.5);
+    double cp = cos(pitch * 0.5);
+    double sp = sin(pitch * 0.5);
+    double cr = cos(roll * 0.5);
+    double sr = sin(roll * 0.5);
+
+    double qx = sr * cp * cy - cr * sp * sy;
+    double qy = cr * sp * cy + sr * cp * sy;
+    double qz = cr * cp * sy - sr * sp * cy;
+    double qw = cr * cp * cy + sr * sp * sy;
+
+    return {qx, qy, qz, qw};
+}
+
+void IUSTrobotHardwareBridge::ParseData(char chr)
+{
+		static char chrBuf[100];
+		static unsigned char chrCnt=0;
+		signed short sData[4];
+		unsigned char i;
+		char cTemp=0;
+		chrBuf[chrCnt++]=chr;
+		if (chrCnt<11) return;
+		for (i=0;i<10;i++) cTemp+=chrBuf[i];
+		if ((chrBuf[0]!=0x55)||((chrBuf[1]&0x50)!=0x50)||(cTemp!=chrBuf[10])) {printf("Error:%x %x\r\n",chrBuf[0],chrBuf[1]);memcpy(&chrBuf[0],&chrBuf[1],10);chrCnt--;return;}
+		
+		memcpy(&sData[0],&chrBuf[2],8);
+    // double quat[4];
+		switch(chrBuf[1])
+		{
+				case 0x51:
+					for (i=0;i<3;i++) _WitMotionImu.acc[i] = (float)sData[i]/32768.0*16.0*9.81;
+					printf("\r\na:%6.3f %6.3f %6.3f \n",_WitMotionImu.acc[0],_WitMotionImu.acc[1],_WitMotionImu.acc[2]);
+					break;
+				case 0x52:
+					for (i=0;i<3;i++) _WitMotionImu.gyro[i] = (float)sData[i]/32768.0*2000.0;
+					printf("gyro:%7.3f %7.3f %7.3f \n",_WitMotionImu.gyro[0],_WitMotionImu.gyro[1],_WitMotionImu.gyro[2]);					
+					break;
+				case 0x59:
+					for (i=0;i<4;i++) _WitMotionImu.quat[i] = (float)sData[i]/32768.0;
+					printf("A:%7.3f %7.3f %7.3f %7.3f\n ", _WitMotionImu.quat[0], _WitMotionImu.quat[1], _WitMotionImu.quat[2], _WitMotionImu.quat[3]);
+          
+					break;
+		}
+    // std::vector<double> r = {Angle[2]*3.14/180, Angle[1]*3.14/180, Angle[0]*3.14/180};
+    // Vec4<double> quaternion = euler_to_quaternion(r);
+
+        // for (int iii = 0; iii < 4; iii++) {
+        //     _WitMotionImu.quat[iii] = quaternion[iii];
+        // }
+		chrCnt=0;		
+}
+
+void IUSTrobotHardwareBridge::runWitMotion(){
+    char r_buf[1024];
+    bzero(r_buf,1024);
+    ret = recv_data(fd ,r_buf,44);
+    if(ret == -1)
+    {
+        // fprintf(stderr,"uart read failed!\n");
+        // exit(EXIT_FAILURE);
+    }
+		for (int i=0;i<ret;i++)
+    {
+        ParseData(r_buf[i]);
+    }
+}
+
 
 #endif

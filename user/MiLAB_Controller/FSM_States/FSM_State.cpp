@@ -48,7 +48,10 @@ void FSM_State<T>::jointPDControl(int leg, Vec3<T> qDes, Vec3<T> qdDes) {
 
   _data->_legController->commands[leg].qDes = qDes;
   _data->_legController->commands[leg].qdDes = qdDes;
-  printf("[JOINT PD: Qdes]: %f", qDes[1]);
+  printf("[JOINT PD: Qdes]: %f\n", qDes[1]);
+  // for (int i(0);i<4;i++){
+  //   printf("Leg %d is in [%f, %f, %f]\n",i,_data->_legController->datas[i].p[0],_data->_legController->datas[i].p[1],_data->_legController->datas[i].p[2]);
+  // }
 }
 
 /**

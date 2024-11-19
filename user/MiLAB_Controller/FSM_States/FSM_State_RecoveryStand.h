@@ -45,6 +45,7 @@ class FSM_State_RecoveryStand : public FSM_State<T> {
   Vec3<T> stand_jpos[4];
   Vec3<T> rolling_jpos[4];
   Vec3<T> initial_jpos[4];
+  Vec3<T> _ini_foot_pos[3];
   Vec3<T> zero_vec3;
 
   Vec3<T> f_ff;

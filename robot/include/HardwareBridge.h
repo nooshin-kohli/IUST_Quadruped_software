@@ -37,6 +37,29 @@
 #include "SimUtilities/SimulatorMessage.h"
 #include "SimUtilities/GamepadCommand.h"
 
+
+/*
+Basic libraries for WitMotion
+*/
+#include<stdio.h>
+#include<stdlib.h>
+#include<fcntl.h>
+#include<unistd.h>
+#include<assert.h>
+#include<termios.h>
+#include<string.h>
+#include<sys/time.h>
+#include<time.h>
+#include<sys/types.h>
+#include<errno.h>
+#include <iostream>
+#include <fstream>
+#include<time.h>
+#include<strings.h>
+
+#define BAUD 115200 //115200 for JY61 ,9600 for others
+
+
 /*!
  * Interface between robot and hardware
  */
@@ -172,6 +195,18 @@ public:
    * Logs the Microstrain data
    */
   void logMicrostrain();
+  /*!
+   * Init the WitMotion
+   */
+  void initWitMotion();
+  /*!
+   * run the WitMotion
+   */
+  void runWitMotion();
+  /*!
+   * Read Data from WitMotion
+   */
+  void ParseData(char chr);
 
 private:
   CAN CANable;
@@ -180,11 +215,14 @@ private:
   lcm::LCM _microstrainLcm;
   std::thread* _microstrainThread;
   LordImu _microstrainImu;
+  WitMotionImu _WitMotionImu;
   microstrain_lcmt _microstrainData;
   bool _microstrainInit = false;
   bool _load_parameters_from_file;
   u64 spi_times=0;
   SharedMemoryObject<SimulatorSyncronizedMessage> _sharedMemory;
+  int ret;
+  int fd;
 };
 
 /*!

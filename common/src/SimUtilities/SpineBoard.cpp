@@ -150,12 +150,12 @@ void SpineBoard::run(bool iust) {
 
   const float* torque_limits = disabled_torque;
 
-  if (cmd->flags[board_num] & 0b1) {
-    if (cmd->flags[board_num] & 0b10)
-      torque_limits = wimp_torque;
-    else
+  // if (cmd->flags[board_num] & 0b1) {
+  //   if (cmd->flags[board_num] & 0b10)
+      // torque_limits = wimp_torque;
+  //   else
       torque_limits = max_torque;
-  }
+  // }
 
   for (int i = 0; i < 3; i++) {
     if (torque_out[i] > torque_limits[i]) torque_out[i] = torque_limits[i];

@@ -41,6 +41,8 @@ struct CANData {
   float qd_abad[4];
   float qd_hip[4];
   float qd_knee[4];
+  int32_t flags[2];
+  int32_t checksum;
 };
 
 /*!

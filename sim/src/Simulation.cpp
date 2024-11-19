@@ -157,7 +157,7 @@ Simulation::Simulation(RobotType robot, Graphics3D* window,
     for (int leg = 0; leg < 4; leg++) {
       _spineBoards[leg].init(Quadruped<float>::getSideSign(leg), leg);
       _spineBoards[leg].data = &_spiData;
-      _spineBoards[leg].cmd = &_spiCommand;
+    //   _spineBoards[leg].cmd = &_spiCommand;
       _spineBoards[leg].resetData();
       _spineBoards[leg].resetCommand();
     }
@@ -506,7 +506,7 @@ void Simulation::highLevelControl() {
 
   // update
   if (_robot == RobotType::MINI_CHEETAH || _robot == RobotType::IUST) {
-    _spiCommand = _sharedMemory().robotToSim.spiCommand;
+    // _spiCommand = _sharedMemory().robotToSim.spiCommand;
 
     // pretty_print(_spiCommand.q_des_abad, "q des abad", 4);
     // pretty_print(_spiCommand.q_des_hip, "q des hip", 4);

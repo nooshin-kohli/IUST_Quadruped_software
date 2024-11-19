@@ -94,7 +94,7 @@ void LinearKFPositionVelocityEstimator<T>::run() {
   Mat3<T> Rbod = this->_stateEstimatorData.result->rBody.transpose();
   // in old code, Rbod * se_acc + g
   Vec3<T> a = this->_stateEstimatorData.result->aWorld + g; 
-  std::cout << "A WORLDDDDDDDDDDDDDDDDDDDDD\n" << a << "\n";
+//   std::cout << "A WORLDDDDDDDDDDDDDDDDDDDDD\n" << a << "\n";
   Vec4<T> pzs = Vec4<T>::Zero();
   Vec4<T> trusts = Vec4<T>::Zero();
   Vec3<T> p0, v0;

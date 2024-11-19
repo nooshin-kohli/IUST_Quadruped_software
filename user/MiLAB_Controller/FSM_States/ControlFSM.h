@@ -121,6 +121,7 @@ class ControlFSM {
 
   int iter = 0;
   bool recoverymode = false;
+  bool standup_mode = false;
 
   
   //RobotController* _drivecommand;

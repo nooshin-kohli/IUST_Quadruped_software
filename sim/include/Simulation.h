@@ -20,6 +20,7 @@
 #include "SimUtilities/ti_boardcontrol.h"
 #include "Utilities/SharedMemory.h"
 #include "Utilities/Timer.h"
+// #include "robot/include/rt/rt_can.h"
 
 #include <mutex>
 #include <queue>
@@ -140,6 +141,7 @@ class Simulation {
   std::vector<ActuatorModel<double>> _actuatorModels;
   SpiCommand _spiCommand;
   SpiData _spiData;
+  // CANData _canData;
   SpineBoard _spineBoards[4];
   TI_BoardControl _tiBoards[4];
   RobotType _robot;

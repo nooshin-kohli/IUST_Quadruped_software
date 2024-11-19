@@ -202,9 +202,14 @@ void ControlFSM<T>::runFSM() {
     } else if ((gamepadCommand.b || squatmode) && !(gamepadCommand.y)) {
       squatmode = true;
       recoverymode = false;
+      standup_mode = false;
       data.controlParameters->control_mode = K_SQUAT_DOWN;
       std::cout << "Gamepad button B pressed: Switching to Squat Down mode." << std::endl;
     } 
+    else if ((gamepadCommand.x || standup_mode) && !(gamepadCommand.b)){
+      standup_mode = true;
+      data.controlParameters->control_mode = K_STAND_UP;
+    }
     else {
       data.controlParameters->control_mode = K_PASSIVE;
       recoverymode = false;
@@ -212,6 +217,7 @@ void ControlFSM<T>::runFSM() {
       //printf("PAAAAAsiiiiiiiiiiiiiv\n");
 
       squatmode = false;
+      
       std::cout << "No significant gamepad input: Remaining in Passive mode." << std::endl;
 
     }

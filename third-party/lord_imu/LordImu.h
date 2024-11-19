@@ -95,5 +95,11 @@ private:
 
 };
 
+class WitMotionImu {
+public:
+  Vec3<float> gyro;
+  Vec3<float> acc;
+  Vec4<float> quat;
+};
 
 #endif //PROJECT_LORDIMU_H

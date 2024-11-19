@@ -117,7 +117,11 @@ bool FSM_State_RecoveryStand<T>::_UpsideDown(){
  */
 template <typename T>
 void FSM_State_RecoveryStand<T>::run() {
-
+    T progress = 2 * _state_iter * 0.002;
+    if (progress > 1.){ progress = 1.; }
+    for (int i(0); i<4;i++){
+      std::cout<<"leg position:"<<progress*(-0.35) + (1. - progress) * _ini_foot_pos[i][2]<<std::endl;
+    }
     if (this->_data->_quadruped->_robotType == RobotType::IUST){
         switch(_flag){
             case StandUp:
@@ -213,6 +217,7 @@ void FSM_State_RecoveryStand<T>::_StandUp(const int & curr_iter){
     // (Can happen when E-Stop is engaged in the middle of Other state)
     for(size_t i(0); i < 4; ++i) {
       initial_jpos[i] = this->_data->_legController->datas[i].q;
+      _ini_foot_pos[i] = this->_data->_legController->datas[i].p;
     }
     _flag = FoldLegs;
     _motion_start_iter = _state_iter+1;
