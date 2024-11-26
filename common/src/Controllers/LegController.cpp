@@ -12,7 +12,7 @@
 #include <fstream>
 using namespace std;
 
-//#define OUTPUT_LEG_DATA
+#define OUTPUT_LEG_DATA
 
 /*
  * Bdebug plot
@@ -20,7 +20,7 @@ using namespace std;
 template <typename T>
 void LegController<T>::output2File(){
         ofstream leg_data;
-        leg_data.open("/home/allen/MiLAB-Cheetah-Software/debug_tools/leg_controller_data.txt", ios::app);
+        leg_data.open("/home/lenovo/projects/IUST_SOFTWARE/software_16oct/debug_tools/leg_controller_data.txt", ios::app);
         if (!leg_data.is_open()) {
             cout << "[LegController] Open leg_control_data.txt failed!" << endl;
         } else {
@@ -286,6 +286,11 @@ void LegController<T>::updateCommand(SpiCommand* spiCommand) {
  */
 template <typename T>
 void LegController<T>::updateCommand(CANCommand* canCommand) {
+  std::ofstream logFile("/home/lenovo/projects/IUST_SOFTWARE/legTorqueLog.txt", std::ios::app);
+  if (!logFile.is_open()) {
+    std::cerr << "Error: Unable to open log file!" << std::endl;
+    return;
+  }
   for (int leg = 0; leg < 4; leg++) {
     // tauFF
     Vec3<T> legTorque = commands[leg].tauFeedForward;
@@ -309,6 +314,14 @@ void LegController<T>::updateCommand(CANCommand* canCommand) {
 //        }
 //    }else{
         legTorque += datas[leg].J.transpose() * footForce;
+
+        
+
+        // printf("");
+        logFile << "Leg " << leg << ": "
+            << "Torque X: " << datas[leg].tauEstimate[0] << ", "
+            << "Torque Y: " << datas[leg].tauEstimate[1] << ", "
+            << "Torque Z: " << datas[leg].tauEstimate[2] << std::endl;
 //    }
 
 
@@ -341,6 +354,7 @@ void LegController<T>::updateCommand(CANCommand* canCommand) {
         commands[leg].kpJoint * (commands[leg].qDes - datas[leg].q) +
         commands[leg].kdJoint * (commands[leg].qdDes - datas[leg].qd);
     // canCommand->flags[leg] = _legsEnabled ? 1 : 0;
+    
   }
 }
 

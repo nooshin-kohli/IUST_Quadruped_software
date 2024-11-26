@@ -13,9 +13,12 @@ const float hip_side_sign[4] = {1.f, -1.f, 1.f, -1.f};
 const float knee_side_sign[4] = {.6429f, -.6429f, .6429f, -.6429f};
 
 // only used for actual robot
-const float abad_offset[4] = {-0.0259f, -0.1187f, -0.6348f, 0.0262f};
-const float hip_offset[4]  = {0.3074f, -1.8785f,  0.1247f,  -1.3480f};
-const float knee_offset[4] = {-4.3284f, 3.571946, -4.957542, 3.168956};
+const float abad_offset[4] = {-0.0520f, -0.1361f, -0.6377f, -0.0291f};
+const float hip_offset[4]  = {0.2349f, -1.8611f,  0.0812f,  -1.3335f};
+const float knee_offset[4] = {-4.2211f, 3.6792f, -4.6734f, 3.8183f};
+
+
+
 
 void CAN::init_can() {
   
@@ -126,6 +129,12 @@ void CAN::can_send_receive(CANCommand* can_command, CANData* can_response) {
   can_response->q_abad[3] = (RL.cycle_responses[0][1] - abad_offset[3]) * abad_side_sign[3];
   can_response->q_hip[3] = (RL.cycle_responses[1][1] - hip_offset[3]) * hip_side_sign[3];
   can_response->q_knee[3] = (RL.cycle_responses[2][1] - knee_offset[3]) * knee_side_sign[3];
+
+  ////// For offset calculation uncomment below:
+  // printf("ABAD Q = [%f, %f, %f, %f]\n", FR.cycle_responses[0][1] , FL.cycle_responses[0][1], RR.cycle_responses[0][1],RL.cycle_responses[0][1]);
+  // printf("HIP  Q = [%f, %f, %f, %f]\n", FR.cycle_responses[1][1] , FL.cycle_responses[1][1], RR.cycle_responses[1][1],RL.cycle_responses[1][1]);
+  // printf("KNEE Q = [%f, %f, %f, %f]\n", FR.cycle_responses[2][1] , FL.cycle_responses[2][1], RR.cycle_responses[2][1],RL.cycle_responses[2][1]);
+  
   
   // std::cout<<"new data:"<<std::endl;
   // // std::cout<<FR.cycle_responses[1][1]<<std::endl;
@@ -150,6 +159,12 @@ void CAN::can_send_receive(CANCommand* can_command, CANData* can_response) {
   can_response->qd_abad[3] = RL.cycle_responses[0][2]* abad_side_sign[3];
   can_response->qd_hip[3] = RL.cycle_responses[1][2] * hip_side_sign[3];
   can_response->qd_knee[3] = RL.cycle_responses[2][2]* knee_side_sign[3];
+  
+  printf("----------------------------------Torques------------------------------------\n");
+  printf("ABAD Q = [%f, %f, %f, %f]\n", FR.cycle_responses[0][3] , FL.cycle_responses[0][3], RR.cycle_responses[0][3],RL.cycle_responses[0][3]);
+  printf("HIP  Q = [%f, %f, %f, %f]\n", FR.cycle_responses[1][3] , FL.cycle_responses[1][3], RR.cycle_responses[1][3],RL.cycle_responses[1][3]);
+  printf("KNEE Q = [%f, %f, %f, %f]\n", FR.cycle_responses[2][3] , FL.cycle_responses[2][3], RR.cycle_responses[2][3],RL.cycle_responses[2][3]);
+  printf("-----------------------------------------------------------------------------\n");
 
 
 

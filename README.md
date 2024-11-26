@@ -47,4 +47,7 @@ cd /IUST_Quadruped_Software/build/user/{Controller_fonlder}
 sudo ./{controller_name} i r f
 ```
 i: Iust robot, r: run on robot, f: load parameters from file.
-
+## For now
+If you want to run iust_ctrl to get the data from robot or get offsets you need to chnage the yaml file in the hardwareBrifge.cpp.
+We have two yaml file. one of them is iust-user-parameters.yaml and the other iust-user-parameters-full.yaml in the lines of 690,691, and 717.
+For the iust_ctrl use the iust-user-parameters.yaml and change it for other controllers. 

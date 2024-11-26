@@ -65,7 +65,8 @@ void FSM_State_StandUp<T>::run() {
         progress*(-hMax) + (1. - progress) * _ini_foot_pos[i][2];
     }
   }else if (this->_data->_quadruped->_robotType == RobotType::IUST){
-      T hMax = 0.35;
+      printf("[FSM Conteroller]: I Am In STAND UP MODE of the IUST\n");
+      T hMax = 0.34;
       T progress = 1 * iter * this->_data->controlParameters->controller_dt;
 
       if (progress > 1.){ progress = 1.; }
@@ -79,6 +80,10 @@ void FSM_State_StandUp<T>::run() {
           this->_data->_legController->commands[i].pDes = _ini_foot_pos[i];
           this->_data->_legController->commands[i].pDes[2] =
                   progress*(-hMax) + (1. - progress) * _ini_foot_pos[i][2];
+        
+          printf("%f\n", this->_data->_legController->datas[i].p[2]);
+        
+          
       }
   }else if (this->_data->_quadruped->_robotType == RobotType::CHEETAH_3){
       T hMax = 0.45;

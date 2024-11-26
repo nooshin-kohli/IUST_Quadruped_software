@@ -11,8 +11,8 @@ cheater_mode      : 0       # Cheater mode for the robot (In upboard, must be 0)
 #myValue           : 1010
 #testValue         : 111
 
-stand_kd_cartesian: [30, 30, 30]            # Derivative gain for the robot's cartesian coordinates in stand mode
-stand_kp_cartesian: [1000, 1000, 1000]      # Proportional gain for the robot's cartesian coordinates in stand mode
+stand_kd_cartesian: [5, 5, 5]            # Derivative gain for the robot's cartesian coordinates in stand mode
+stand_kp_cartesian: [650, 650, 650]      # Proportional gain for the robot's cartesian coordinates in stand mode
 recovery_kp: [380, 380, 380]                # Proportional gain for the robot's cartesian coordinates in recovery mode
 recovery_kd: [15, 25, 25]                   # Derivative gain for the robot's cartesian coordinates in recovery mode
 

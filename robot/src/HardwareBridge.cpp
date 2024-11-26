@@ -22,7 +22,7 @@
 #include "Utilities/Utilities_print.h"
 
 #define USE_MICROSTRAIN
-//#define IMU_DEBUG_SHOW
+// #define IMU_DEBUG_SHOW
 //#define SPI_DEBUG_SHOW
 //#define JPOS_CTRL
 //#define SPI_CTRL
@@ -816,10 +816,10 @@ void IUSTrobotHardwareBridge::runMicrostrain() {
 
         #ifdef USE_MICROSTRAIN
         _vectorNavData.accelerometer = _WitMotionImu.acc;
-        _vectorNavData.quat[0] = _WitMotionImu.quat[0];
-        _vectorNavData.quat[1] = _WitMotionImu.quat[1];
-        _vectorNavData.quat[2] = _WitMotionImu.quat[2];
-        _vectorNavData.quat[3] = _WitMotionImu.quat[3];
+        _vectorNavData.quat[0] = _WitMotionImu.quat[1];
+        _vectorNavData.quat[1] = _WitMotionImu.quat[2];
+        _vectorNavData.quat[2] = _WitMotionImu.quat[3];
+        _vectorNavData.quat[3] = _WitMotionImu.quat[0];
         _vectorNavData.gyro = _WitMotionImu.gyro;
         #endif
 
@@ -829,9 +829,9 @@ void IUSTrobotHardwareBridge::runMicrostrain() {
         {
             printf("Iteration stamp:\t%d\n",(int)imu_times);
             printf("--------------------------------------------------\n");
-            printf("ACC = [%f, %f, %f]\n", _imuData.accelerometer[0], _imuData.accelerometer[1], _imuData.accelerometer[2]);
-            printf("QUAT = [%f, %f, %f, %f]\n", _imuData.quat[0], _imuData.quat[1], _imuData.quat[2], _imuData.quat[3]);
-            printf("GYRO =[%f, %f, %f]\n", _imuData.gyro[0], _imuData.gyro[1], _imuData.gyro[2]);
+            printf("ACC = [%f, %f, %f]\n", _WitMotionImu.acc[0], _WitMotionImu.acc[1], _WitMotionImu.acc[2]);
+            printf("QUAT = [%f, %f, %f, %f]\n", _WitMotionImu.quat[0], _WitMotionImu.quat[1], _WitMotionImu.quat[2], _WitMotionImu.quat[3]);
+            printf("GYRO =[%f, %f, %f]\n", _WitMotionImu.gyro[0], _WitMotionImu.gyro[1], _WitMotionImu.gyro[2]);
             printf("--------------------------------------------------\n");
         }
         #endif
@@ -1019,7 +1019,7 @@ void IUSTrobotHardwareBridge::initWitMotion(){
   char r_buf[1024];
   bzero(r_buf,1024);
 
-  fd = uart_open(fd,"/dev/ttyS4");/*串口号/dev/ttySn,USB口号/dev/ttyUSBn */
+  fd = uart_open(fd,"/dev/ttyUSB0");/*串口号/dev/ttySn,USB口号/dev/ttyUSBn */
   if(fd  == -1)
   {
       fprintf(stderr,"uart_open error\n");
@@ -1075,15 +1075,15 @@ void IUSTrobotHardwareBridge::ParseData(char chr)
 		{
 				case 0x51:
 					for (i=0;i<3;i++) _WitMotionImu.acc[i] = (float)sData[i]/32768.0*16.0*9.81;
-					printf("\r\na:%6.3f %6.3f %6.3f \n",_WitMotionImu.acc[0],_WitMotionImu.acc[1],_WitMotionImu.acc[2]);
+					// printf("\r\na:%6.3f %6.3f %6.3f \n",_WitMotionImu.acc[0],_WitMotionImu.acc[1],_WitMotionImu.acc[2]);
 					break;
 				case 0x52:
 					for (i=0;i<3;i++) _WitMotionImu.gyro[i] = (float)sData[i]/32768.0*2000.0;
-					printf("gyro:%7.3f %7.3f %7.3f \n",_WitMotionImu.gyro[0],_WitMotionImu.gyro[1],_WitMotionImu.gyro[2]);					
+					// printf("gyro:%7.3f %7.3f %7.3f \n",_WitMotionImu.gyro[0],_WitMotionImu.gyro[1],_WitMotionImu.gyro[2]);					
 					break;
 				case 0x59:
 					for (i=0;i<4;i++) _WitMotionImu.quat[i] = (float)sData[i]/32768.0;
-					printf("A:%7.3f %7.3f %7.3f %7.3f\n ", _WitMotionImu.quat[0], _WitMotionImu.quat[1], _WitMotionImu.quat[2], _WitMotionImu.quat[3]);
+					// printf("A:%7.3f %7.3f %7.3f %7.3f\n ", _WitMotionImu.quat[0], _WitMotionImu.quat[1], _WitMotionImu.quat[2], _WitMotionImu.quat[3]);
           
 					break;
 		}

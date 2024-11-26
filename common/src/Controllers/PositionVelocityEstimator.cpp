@@ -74,16 +74,26 @@ void LinearKFPositionVelocityEstimator<T>::run() {
   T sensor_noise_zfoot =
       this->_stateEstimatorData.parameters->foot_height_sensor_noise;
 
+  T scale_Q = T(1.0); // Increase Q by 50%
+  T scale_R = T(1.0); // Decrease R by 50%
+
+
   Eigen::Matrix<T, 18, 18> Q = Eigen::Matrix<T, 18, 18>::Identity();
-  Q.block(0, 0, 3, 3) = _Q0.block(0, 0, 3, 3) * process_noise_pimu;
-  Q.block(3, 3, 3, 3) = _Q0.block(3, 3, 3, 3) * process_noise_vimu;
-  Q.block(6, 6, 12, 12) = _Q0.block(6, 6, 12, 12) * process_noise_pfoot;
+  // Q.block(0, 0, 3, 3) = _Q0.block(0, 0, 3, 3) * process_noise_pimu;
+  // Q.block(3, 3, 3, 3) = _Q0.block(3, 3, 3, 3) * process_noise_vimu;
+  // Q.block(6, 6, 12, 12) = _Q0.block(6, 6, 12, 12) * process_noise_pfoot;
+  Q.block(0, 0, 3, 3) = _Q0.block(0, 0, 3, 3) * process_noise_pimu * scale_Q;
+  Q.block(3, 3, 3, 3) = _Q0.block(3, 3, 3, 3) * process_noise_vimu * scale_Q;
+  Q.block(6, 6, 12, 12) = _Q0.block(6, 6, 12, 12) * process_noise_pfoot * scale_Q;
 
   Eigen::Matrix<T, 28, 28> R = Eigen::Matrix<T, 28, 28>::Identity();
-  R.block(0, 0, 12, 12) = _R0.block(0, 0, 12, 12) * sensor_noise_pimu_rel_foot;
-  R.block(12, 12, 12, 12) =
-      _R0.block(12, 12, 12, 12) * sensor_noise_vimu_rel_foot;
-  R.block(24, 24, 4, 4) = _R0.block(24, 24, 4, 4) * sensor_noise_zfoot;
+  // R.block(0, 0, 12, 12) = _R0.block(0, 0, 12, 12) * sensor_noise_pimu_rel_foot;
+  // R.block(12, 12, 12, 12) =
+  //     _R0.block(12, 12, 12, 12) * sensor_noise_vimu_rel_foot;
+  // R.block(24, 24, 4, 4) = _R0.block(24, 24, 4, 4) * sensor_noise_zfoot;
+  R.block(0, 0, 12, 12) = _R0.block(0, 0, 12, 12) * sensor_noise_pimu_rel_foot * scale_R;
+R.block(12, 12, 12, 12) = _R0.block(12, 12, 12, 12) * sensor_noise_vimu_rel_foot * scale_R;
+R.block(24, 24, 4, 4) = _R0.block(24, 24, 4, 4) * sensor_noise_zfoot * scale_R;
 
   int qindex = 0;
   int rindex1 = 0;
@@ -91,10 +101,11 @@ void LinearKFPositionVelocityEstimator<T>::run() {
   int rindex3 = 0;
 
   Vec3<T> g(0, 0, T(-9.81));
+  // Vec3<T> g(0, 0, T(0.0));
   Mat3<T> Rbod = this->_stateEstimatorData.result->rBody.transpose();
   // in old code, Rbod * se_acc + g
   Vec3<T> a = this->_stateEstimatorData.result->aWorld + g; 
-//   std::cout << "A WORLDDDDDDDDDDDDDDDDDDDDD\n" << a << "\n";
+  // std::cout << "A WORLDDDDDDDDDDDDDDDDDDDDD\n" << a << "\n";
   Vec4<T> pzs = Vec4<T>::Zero();
   Vec4<T> trusts = Vec4<T>::Zero();
   Vec3<T> p0, v0;

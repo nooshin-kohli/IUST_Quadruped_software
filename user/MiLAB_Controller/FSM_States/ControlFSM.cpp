@@ -194,33 +194,35 @@ void ControlFSM<T>::runFSM() {
     //   recoverymode = false;
     //   printf("PAAAAAsiiiiiiiiiiiiiv\n");
     // }
-      if ((gamepadCommand.a || recoverymode) && !(gamepadCommand.b) ) {
-      recoverymode = true;
-      data.controlParameters->control_mode = K_RECOVERY_STAND;
-      std::cout << "Gamepad button A pressed: Switching to Recovery Stand mode." << std::endl;
-    
-    } else if ((gamepadCommand.b || squatmode) && !(gamepadCommand.y)) {
-      squatmode = true;
-      recoverymode = false;
-      standup_mode = false;
-      data.controlParameters->control_mode = K_SQUAT_DOWN;
-      std::cout << "Gamepad button B pressed: Switching to Squat Down mode." << std::endl;
-    } 
-    else if ((gamepadCommand.x || standup_mode) && !(gamepadCommand.b)){
-      standup_mode = true;
-      data.controlParameters->control_mode = K_STAND_UP;
-    }
-    else {
-      data.controlParameters->control_mode = K_PASSIVE;
-      recoverymode = false;
+      if ((gamepadCommand.a || recoverymode) && !(gamepadCommand.b || gamepadCommand.x || gamepadCommand.y)) {
+    recoverymode = true;
+    squatmode = false;
+    standup_mode = false;
+    data.controlParameters->control_mode = K_RECOVERY_STAND;
+    std::cout << "Gamepad button A pressed: Switching to Recovery Stand mode." << std::endl;
 
-      //printf("PAAAAAsiiiiiiiiiiiiiv\n");
+} else if ((gamepadCommand.b || squatmode) && !(gamepadCommand.a || gamepadCommand.x || gamepadCommand.y)) {
+    squatmode = true;
+    recoverymode = false;
+    standup_mode = false;
+    data.controlParameters->control_mode = K_SQUAT_DOWN;
+    std::cout << "Gamepad button B pressed: Switching to Squat Down mode." << std::endl;
 
-      squatmode = false;
-      
-      std::cout << "No significant gamepad input: Remaining in Passive mode." << std::endl;
+} else if ((gamepadCommand.x || standup_mode) && !(gamepadCommand.a || gamepadCommand.b || gamepadCommand.y)) {
+    standup_mode = true;
+    recoverymode = false;
+    squatmode = false;
+    data.controlParameters->control_mode = K_STAND_UP;
+    std::cout << "Gamepad button X pressed: Switching to Stand Up mode." << std::endl;
 
-    }
+} 
+else {
+    standup_mode = false;
+    recoverymode = false;
+    squatmode = false;
+    data.controlParameters->control_mode = K_PASSIVE;
+    std::cout << "No significant gamepad input: Remaining in Passive mode." << std::endl;
+}
     
     
   }
@@ -407,10 +409,10 @@ void ControlFSM<T>::printInfo(int opt) {
       // Increment printing iteration
       printIter++;
 
-      printNum = 2000;
+      printNum = 200;
 
       // Print at commanded frequency
-      if (printIter == printNum) {
+      if (false) {
         std::cout << "[CONTROL FSM] Printing FSM Info...\n";
         std::cout
             << "---------------------------------------------------------\n";
