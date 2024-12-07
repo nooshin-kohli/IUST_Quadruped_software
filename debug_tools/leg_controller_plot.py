@@ -124,75 +124,74 @@ def loadData(flieName,leg):
 for i in range(4):
 
     y1, y1_des, y2, y2_des, y3, y3_des = loadData(FILE_NAME, i)
-    if TORQUE_PLOT == True:
+    if TORQUE_PLOT:
         y4, y5, y6 = loadTorque(FILE_NAME, i)
-    if FF_F_PLOT ==True:
+    if FF_F_PLOT:
         y7, y8, y9 = loadFFF(FILE_NAME, i)
 
-    plt.figure(1,figsize=(10,8))
-    # plt.title("footTrajectory/jointAngle")
-    plt.subplot(4,3,3*i+1)
-    plt.plot(y1)
-    plt.plot(y1_des)
-    ax1 = plt.gca()
-    ax1.yaxis.set_major_formatter(FormatStrFormatter('%.3f'))
+    # Cartesian positions
+    plt.figure(1, figsize=(10, 8))
+    plt.subplot(4, 3, 3 * i + 1)
+    plt.plot(y1, label='Actual')
+    plt.plot(y1_des, label='Desired')
+    plt.title(f'Leg {i+1} - X Position')
+    plt.legend()
     plt.grid(axis='both')
 
-    plt.subplot(4,3,3*i+2)
-    plt.plot(y2)
-    plt.plot(y2_des)
-    ax2 = plt.gca()
-    ax2.yaxis.set_major_formatter(FormatStrFormatter('%.3f'))
+    plt.subplot(4, 3, 3 * i + 2)
+    plt.plot(y2, label='Actual')
+    plt.plot(y2_des, label='Desired')
+    plt.title(f'Leg {i+1} - Y Position')
+    plt.legend()
     plt.grid(axis='both')
 
-    plt.subplot(4,3,3*i+3)
-    plt.plot(y3)
-    plt.plot(y3_des)
-    ax3 = plt.gca()
-    ax3.yaxis.set_major_formatter(FormatStrFormatter('%.3f'))
+    plt.subplot(4, 3, 3 * i + 3)
+    plt.plot(y3, label='Actual')
+    plt.plot(y3_des, label='Desired')
+    plt.title(f'Leg {i+1} - Z Position')
+    plt.legend()
     plt.grid(axis='both')
 
-    if TORQUE_PLOT == True:
-        plt.figure(2,figsize=(10,8))
-        # plt.title("estimatedTorque")
-        plt.subplot(4,3,3*i+1)
-        plt.plot(y4)
-        ax1 = plt.gca()
-        ax1.yaxis.set_major_formatter(FormatStrFormatter('%.3f'))
+    if TORQUE_PLOT:
+        # Torque plots
+        plt.figure(2, figsize=(10, 8))
+        plt.subplot(4, 3, 3 * i + 1)
+        plt.plot(y4, label='Abad Torque')
+        plt.title(f'Leg {i+1} - Abad Torque')
+        plt.legend()
         plt.grid(axis='both')
 
-        plt.subplot(4,3,3*i+2)
-        plt.plot(y5)
-        ax2 = plt.gca()
-        ax2.yaxis.set_major_formatter(FormatStrFormatter('%.3f'))
+        plt.subplot(4, 3, 3 * i + 2)
+        plt.plot(y5, label='Hip Torque')
+        plt.title(f'Leg {i+1} - Hip Torque')
+        plt.legend()
         plt.grid(axis='both')
 
-        plt.subplot(4,3,3*i+3)
-        plt.plot(y6)
-        ax3 = plt.gca()
-        ax3.yaxis.set_major_formatter(FormatStrFormatter('%.3f'))
+        plt.subplot(4, 3, 3 * i + 3)
+        plt.plot(y6, label='Knee Torque')
+        plt.title(f'Leg {i+1} - Knee Torque')
+        plt.legend()
         plt.grid(axis='both')
 
-    if FF_F_PLOT == True:
-        plt.figure(3,figsize=(10,8))
-        # plt.title("MPCfeedforwardForce")
-        plt.subplot(4,3,3*i+1)
-        plt.plot(y7)
-        ax1 = plt.gca()
-        ax1.yaxis.set_major_formatter(FormatStrFormatter('%.3f'))
+    if FF_F_PLOT:
+        # Feedforward force plots
+        plt.figure(3, figsize=(10, 8))
+        plt.subplot(4, 3, 3 * i + 1)
+        plt.plot(y7, label='X Feedforward Force')
+        plt.title(f'Leg {i+1} - X Feedforward Force')
+        plt.legend()
         plt.grid(axis='both')
 
-        plt.subplot(4,3,3*i+2)
-        plt.plot(y8)
-        ax2 = plt.gca()
-        ax2.yaxis.set_major_formatter(FormatStrFormatter('%.3f'))
+        plt.subplot(4, 3, 3 * i + 2)
+        plt.plot(y8, label='Y Feedforward Force')
+        plt.title(f'Leg {i+1} - Y Feedforward Force')
+        plt.legend()
         plt.grid(axis='both')
 
-        plt.subplot(4,3,3*i+3)
-        plt.plot(y9)
-        ax3 = plt.gca()
-        ax3.yaxis.set_major_formatter(FormatStrFormatter('%.3f'))
+        plt.subplot(4, 3, 3 * i + 3)
+        plt.plot(y9, label='Z Feedforward Force')
+        plt.title(f'Leg {i+1} - Z Feedforward Force')
+        plt.legend()
         plt.grid(axis='both')
+
 plt.show()
-
-

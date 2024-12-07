@@ -131,9 +131,9 @@ void CAN::can_send_receive(CANCommand* can_command, CANData* can_response) {
   can_response->q_knee[3] = (RL.cycle_responses[2][1] - knee_offset[3]) * knee_side_sign[3];
 
   ////// For offset calculation uncomment below:
-  // printf("ABAD Q = [%f, %f, %f, %f]\n", FR.cycle_responses[0][1] , FL.cycle_responses[0][1], RR.cycle_responses[0][1],RL.cycle_responses[0][1]);
-  // printf("HIP  Q = [%f, %f, %f, %f]\n", FR.cycle_responses[1][1] , FL.cycle_responses[1][1], RR.cycle_responses[1][1],RL.cycle_responses[1][1]);
-  // printf("KNEE Q = [%f, %f, %f, %f]\n", FR.cycle_responses[2][1] , FL.cycle_responses[2][1], RR.cycle_responses[2][1],RL.cycle_responses[2][1]);
+  printf("ABAD Q = [%f, %f, %f, %f]\n", FR.cycle_responses[0][1] , FL.cycle_responses[0][1], RR.cycle_responses[0][1],RL.cycle_responses[0][1]);
+  printf("HIP  Q = [%f, %f, %f, %f]\n", FR.cycle_responses[1][1] , FL.cycle_responses[1][1], RR.cycle_responses[1][1],RL.cycle_responses[1][1]);
+  printf("KNEE Q = [%f, %f, %f, %f]\n", FR.cycle_responses[2][1] , FL.cycle_responses[2][1], RR.cycle_responses[2][1],RL.cycle_responses[2][1]);
   
   
   // std::cout<<"new data:"<<std::endl;
@@ -160,11 +160,11 @@ void CAN::can_send_receive(CANCommand* can_command, CANData* can_response) {
   can_response->qd_hip[3] = RL.cycle_responses[1][2] * hip_side_sign[3];
   can_response->qd_knee[3] = RL.cycle_responses[2][2]* knee_side_sign[3];
   
-  printf("----------------------------------Torques------------------------------------\n");
-  printf("ABAD Q = [%f, %f, %f, %f]\n", FR.cycle_responses[0][3] , FL.cycle_responses[0][3], RR.cycle_responses[0][3],RL.cycle_responses[0][3]);
-  printf("HIP  Q = [%f, %f, %f, %f]\n", FR.cycle_responses[1][3] , FL.cycle_responses[1][3], RR.cycle_responses[1][3],RL.cycle_responses[1][3]);
-  printf("KNEE Q = [%f, %f, %f, %f]\n", FR.cycle_responses[2][3] , FL.cycle_responses[2][3], RR.cycle_responses[2][3],RL.cycle_responses[2][3]);
-  printf("-----------------------------------------------------------------------------\n");
+  // printf("----------------------------------Torques------------------------------------\n");
+  // printf("ABAD Q = [%f, %f, %f, %f]\n", FR.cycle_responses[0][3] , FL.cycle_responses[0][3], RR.cycle_responses[0][3],RL.cycle_responses[0][3]);
+  // printf("HIP  Q = [%f, %f, %f, %f]\n", FR.cycle_responses[1][3] , FL.cycle_responses[1][3], RR.cycle_responses[1][3],RL.cycle_responses[1][3]);
+  // printf("KNEE Q = [%f, %f, %f, %f]\n", FR.cycle_responses[2][3] , FL.cycle_responses[2][3], RR.cycle_responses[2][3],RL.cycle_responses[2][3]);
+  // printf("-----------------------------------------------------------------------------\n");
 
 
 

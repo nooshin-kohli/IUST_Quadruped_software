@@ -286,11 +286,6 @@ void LegController<T>::updateCommand(SpiCommand* spiCommand) {
  */
 template <typename T>
 void LegController<T>::updateCommand(CANCommand* canCommand) {
-  std::ofstream logFile("/home/lenovo/projects/IUST_SOFTWARE/legTorqueLog.txt", std::ios::app);
-  if (!logFile.is_open()) {
-    std::cerr << "Error: Unable to open log file!" << std::endl;
-    return;
-  }
   for (int leg = 0; leg < 4; leg++) {
     // tauFF
     Vec3<T> legTorque = commands[leg].tauFeedForward;
@@ -303,26 +298,8 @@ void LegController<T>::updateCommand(CANCommand* canCommand) {
         commands[leg].kpCartesian * (commands[leg].pDes - datas[leg].p);
     footForce +=
         commands[leg].kdCartesian * (commands[leg].vDes - datas[leg].v);
-
-    // Torque
-//    if (_quadruped._robotType == RobotType::MILAB){
-//        Vec6<T> F,Tau;
-//        F << footForce[0],footForce[1],footForce[2],0,0,0;
-//        Tau += datas[leg].JJ.transpose() * F;
-//        for (int i = 0; i < 3; ++i) {
-//            legTorque[i] = Tau[i+2];
-//        }
-//    }else{
-        legTorque += datas[leg].J.transpose() * footForce;
-
-        
-
-        // printf("");
-        logFile << "Leg " << leg << ": "
-            << "Torque X: " << datas[leg].tauEstimate[0] << ", "
-            << "Torque Y: " << datas[leg].tauEstimate[1] << ", "
-            << "Torque Z: " << datas[leg].tauEstimate[2] << std::endl;
-//    }
+    
+    legTorque += datas[leg].J.transpose() * footForce;
 
 
     // set command:
@@ -330,7 +307,7 @@ void LegController<T>::updateCommand(CANCommand* canCommand) {
     canCommand->tau_hip_ff[leg] = legTorque(1);
     canCommand->tau_knee_ff[leg] = legTorque(2);
 
-    // joint space pd
+    
     // joint space PD
     canCommand->kd_abad[leg] = commands[leg].kdJoint(0, 0);
     canCommand->kd_hip[leg] = commands[leg].kdJoint(1, 1);

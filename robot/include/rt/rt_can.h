@@ -73,7 +73,7 @@ struct CANCommand {
 class CAN {
     public:
     CAN():
-        FR("can1"), FL("can2"), RR("can3"), RL("can0") {}
+        FR("can2"), FL("can1"), RR("can3"), RL("can0") {}
         
     void init_can();
     void can_send_receive(CANCommand* can_command, CANData* can_response);
