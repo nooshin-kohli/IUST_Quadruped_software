@@ -97,9 +97,9 @@ void IUST_Controller::runController() {
     q_ini_resp[3*i+2] = _legController->datas[i].q[2];
   }
   
-  // printf("ABAD Q = [%f, %f, %f, %f]\n", _legController->datas[0].q[0], _legController->datas[1].q[0], _legController->datas[2].q[0], _legController->datas[3].q[0]);
-  // printf("HIP  Q = [%f, %f, %f, %f]\n", _legController->datas[0].q[1], _legController->datas[1].q[1], _legController->datas[2].q[1], _legController->datas[3].q[1]);
-  // printf("KNEE Q = [%f, %f, %f, %f]\n", _legController->datas[0].q[2], _legController->datas[1].q[2], _legController->datas[2].q[2], _legController->datas[3].q[2]);
+  printf("ABAD Q = [%f, %f, %f, %f]\n", _legController->datas[0].q[0], _legController->datas[1].q[0], _legController->datas[2].q[0], _legController->datas[3].q[0]);
+  printf("HIP  Q = [%f, %f, %f, %f]\n", _legController->datas[0].q[1], _legController->datas[1].q[1], _legController->datas[2].q[1], _legController->datas[3].q[1]);
+  printf("KNEE Q = [%f, %f, %f, %f]\n", _legController->datas[0].q[2], _legController->datas[1].q[2], _legController->datas[2].q[2], _legController->datas[3].q[2]);
   
   // for (int i(0);i<4;i++){
   //   printf("Leg %d is in [%f, %f, %f]\n",i,_legController->datas[i].p[0],_legController->datas[i].p[1],_legController->datas[i].p[2]);

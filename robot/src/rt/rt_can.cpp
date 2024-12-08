@@ -13,33 +13,39 @@ const float hip_side_sign[4] = {1.f, -1.f, 1.f, -1.f};
 const float knee_side_sign[4] = {.6429f, -.6429f, .6429f, -.6429f};
 
 // only used for actual robot
-const float abad_offset[4] = {-0.0520f, -0.1361f, -0.6377f, -0.0291f};
-const float hip_offset[4]  = {0.2349f, -1.8611f,  0.0812f,  -1.3335f};
-const float knee_offset[4] = {-4.2211f, 3.6792f, -4.6734f, 3.8183f};
+
+// ABAD Q = [-0.391279, -0.327497, 0.081292, -0.568132]
+// HIP  Q = [-1.910468, 0.342222, -2.362745, 0.142176]
+// KNEE Q = [3.273327, -4.424087, 3.777791, -4.902457]
+
+
+const float abad_offset[4] = {-0.3912f, -0.3274f, 0.0812f, -0.5681f};
+const float hip_offset[4]  = {-1.9104f, 0.3422f, -2.3627f,  0.1421f};
+const float knee_offset[4] = {3.2733f, -4.4240f, 3.7777f, -4.9024f};
 
 
 
 
 void CAN::init_can() {
   
-  FR.enable(m1);
-  FR.enable(m2);
-  FR.enable(m3);
+  FR.enable(m4);
+  FR.enable(m5);
+  FR.enable(m6);
   printf("[IUSTHardware] Leg 1 is enabled!\n");
 
-  FL.enable(m4);
-  FL.enable(m5);
-  FL.enable(m6);
+  FL.enable(m1);
+  FL.enable(m2);
+  FL.enable(m3);
   printf("[IUSTHardware] Leg 2 is enabled!\n");
   
-  RR.enable(m7);
-  RR.enable(m8);
-  RR.enable(m9);
+  RR.enable(m10);
+  RR.enable(m11);
+  RR.enable(m12);
   printf("[IUSTHardware] Leg 3 is enabled!\n");
   
-  RL.enable(m10);
-  RL.enable(m11);
-  RL.enable(m12);
+  RL.enable(m7);
+  RL.enable(m8);
+  RL.enable(m9);
   printf("[IUSTHardware] Leg 4 is enabled!\n");
 
   // Loop to initialize each motor command
@@ -95,20 +101,20 @@ void CAN::can_send_receive(CANCommand* can_command, CANData* can_response) {
 
   
 
-  FR.command(m1, (can_command->q_des_abad[0] / abad_side_sign[0]) + abad_offset[0],can_command->qd_des_abad[0]/abad_side_sign[0],can_command->kp_abad[0],can_command->kd_abad[0],can_command->tau_abad_ff[0]/abad_side_sign[0]);
-  FL.command(m4, (can_command->q_des_abad[1] / abad_side_sign[1]) + abad_offset[1],can_command->qd_des_abad[1]/abad_side_sign[1],can_command->kp_abad[1],can_command->kd_abad[1],can_command->tau_abad_ff[1]/abad_side_sign[1]);
-  RR.command(m7, (can_command->q_des_abad[2] / abad_side_sign[2]) + abad_offset[2],can_command->qd_des_abad[2]/abad_side_sign[2],can_command->kp_abad[2],can_command->kd_abad[2],can_command->tau_abad_ff[2]/abad_side_sign[2]);
-  RL.command(m10, (can_command->q_des_abad[3]/ abad_side_sign[3]) + abad_offset[3],can_command->qd_des_abad[3]/abad_side_sign[3],can_command->kp_abad[3],can_command->kd_abad[3],can_command->tau_abad_ff[3]/abad_side_sign[3]);
+  FR.command(m4, (can_command->q_des_abad[0] / abad_side_sign[0]) + abad_offset[0],can_command->qd_des_abad[0]/abad_side_sign[0],can_command->kp_abad[0],can_command->kd_abad[0],can_command->tau_abad_ff[0]/abad_side_sign[0]);
+  FL.command(m1, (can_command->q_des_abad[1] / abad_side_sign[1]) + abad_offset[1],can_command->qd_des_abad[1]/abad_side_sign[1],can_command->kp_abad[1],can_command->kd_abad[1],can_command->tau_abad_ff[1]/abad_side_sign[1]);
+  RR.command(m10, (can_command->q_des_abad[2] / abad_side_sign[2]) + abad_offset[2],can_command->qd_des_abad[2]/abad_side_sign[2],can_command->kp_abad[2],can_command->kd_abad[2],can_command->tau_abad_ff[2]/abad_side_sign[2]);
+  RL.command(m7, (can_command->q_des_abad[3]/ abad_side_sign[3]) + abad_offset[3],can_command->qd_des_abad[3]/abad_side_sign[3],can_command->kp_abad[3],can_command->kd_abad[3],can_command->tau_abad_ff[3]/abad_side_sign[3]);
 
-  FR.command(m2, (can_command->q_des_hip[0] / hip_side_sign[0]) + hip_offset[0],can_command->qd_des_hip[0]/ hip_side_sign[0],can_command->kp_hip[0],can_command->kd_hip[0],can_command->tau_hip_ff[0]/ hip_side_sign[0]);
-  FL.command(m5, (can_command->q_des_hip[1] / hip_side_sign[1]) + hip_offset[1],can_command->qd_des_hip[1]/ hip_side_sign[1],can_command->kp_hip[1],can_command->kd_hip[1],can_command->tau_hip_ff[1]/ hip_side_sign[1]);
-  RR.command(m8, (can_command->q_des_hip[2] / hip_side_sign[2]) + hip_offset[2],can_command->qd_des_hip[2]/ hip_side_sign[2],can_command->kp_hip[2],can_command->kd_hip[2],can_command->tau_hip_ff[2]/ hip_side_sign[2]);
-  RL.command(m11, (can_command->q_des_hip[3]/ hip_side_sign[3]) + hip_offset[3],can_command->qd_des_hip[3]/ hip_side_sign[3],can_command->kp_hip[3],can_command->kd_hip[3],can_command->tau_hip_ff[3]/ hip_side_sign[3]);
+  FR.command(m5, (can_command->q_des_hip[0] / hip_side_sign[0]) + hip_offset[0],can_command->qd_des_hip[0]/ hip_side_sign[0],can_command->kp_hip[0],can_command->kd_hip[0],can_command->tau_hip_ff[0]/ hip_side_sign[0]);
+  FL.command(m2, (can_command->q_des_hip[1] / hip_side_sign[1]) + hip_offset[1],can_command->qd_des_hip[1]/ hip_side_sign[1],can_command->kp_hip[1],can_command->kd_hip[1],can_command->tau_hip_ff[1]/ hip_side_sign[1]);
+  RR.command(m11, (can_command->q_des_hip[2] / hip_side_sign[2]) + hip_offset[2],can_command->qd_des_hip[2]/ hip_side_sign[2],can_command->kp_hip[2],can_command->kd_hip[2],can_command->tau_hip_ff[2]/ hip_side_sign[2]);
+  RL.command(m8, (can_command->q_des_hip[3]/ hip_side_sign[3]) + hip_offset[3],can_command->qd_des_hip[3]/ hip_side_sign[3],can_command->kp_hip[3],can_command->kd_hip[3],can_command->tau_hip_ff[3]/ hip_side_sign[3]);
 
-  FR.command(m3, (can_command->q_des_knee[0] / knee_side_sign[0]) + knee_offset[0],can_command->qd_des_knee[0]/ knee_side_sign[0],can_command->kp_knee[0],can_command->kd_knee[0],can_command->tau_knee_ff[0]/ knee_side_sign[0]);
-  FL.command(m6, (can_command->q_des_knee[1] / knee_side_sign[1]) + knee_offset[1],can_command->qd_des_knee[1]/ knee_side_sign[1],can_command->kp_knee[1],can_command->kd_knee[1],can_command->tau_knee_ff[1]/ knee_side_sign[1]);
-  RR.command(m9, (can_command->q_des_knee[2] / knee_side_sign[2]) + knee_offset[2],can_command->qd_des_knee[2]/ knee_side_sign[2],can_command->kp_knee[2],can_command->kd_knee[2],can_command->tau_knee_ff[2]/ knee_side_sign[2]);
-  RL.command(m12, (can_command->q_des_knee[3]/ knee_side_sign[3]) + knee_offset[3],can_command->qd_des_knee[3]/ knee_side_sign[3],can_command->kp_knee[3],can_command->kd_knee[3],can_command->tau_knee_ff[3]/ knee_side_sign[3]);
+  FR.command(m6, (can_command->q_des_knee[0] / knee_side_sign[0]) + knee_offset[0],can_command->qd_des_knee[0]/ knee_side_sign[0],can_command->kp_knee[0],can_command->kd_knee[0],can_command->tau_knee_ff[0]/ knee_side_sign[0]);
+  FL.command(m3, (can_command->q_des_knee[1] / knee_side_sign[1]) + knee_offset[1],can_command->qd_des_knee[1]/ knee_side_sign[1],can_command->kp_knee[1],can_command->kd_knee[1],can_command->tau_knee_ff[1]/ knee_side_sign[1]);
+  RR.command(m12, (can_command->q_des_knee[2] / knee_side_sign[2]) + knee_offset[2],can_command->qd_des_knee[2]/ knee_side_sign[2],can_command->kp_knee[2],can_command->kd_knee[2],can_command->tau_knee_ff[2]/ knee_side_sign[2]);
+  RL.command(m9, (can_command->q_des_knee[3]/ knee_side_sign[3]) + knee_offset[3],can_command->qd_des_knee[3]/ knee_side_sign[3],can_command->kp_knee[3],can_command->kd_knee[3],can_command->tau_knee_ff[3]/ knee_side_sign[3]);
 
   // printf("Motor response :%f\n", RL.cycle_responses[2][1]);
   
@@ -131,9 +137,9 @@ void CAN::can_send_receive(CANCommand* can_command, CANData* can_response) {
   can_response->q_knee[3] = (RL.cycle_responses[2][1] - knee_offset[3]) * knee_side_sign[3];
 
   ////// For offset calculation uncomment below:
-  printf("ABAD Q = [%f, %f, %f, %f]\n", FR.cycle_responses[0][1] , FL.cycle_responses[0][1], RR.cycle_responses[0][1],RL.cycle_responses[0][1]);
-  printf("HIP  Q = [%f, %f, %f, %f]\n", FR.cycle_responses[1][1] , FL.cycle_responses[1][1], RR.cycle_responses[1][1],RL.cycle_responses[1][1]);
-  printf("KNEE Q = [%f, %f, %f, %f]\n", FR.cycle_responses[2][1] , FL.cycle_responses[2][1], RR.cycle_responses[2][1],RL.cycle_responses[2][1]);
+  // printf("ABAD Q = [%f, %f, %f, %f]\n", FR.cycle_responses[0][1] , FL.cycle_responses[0][1], RR.cycle_responses[0][1],RL.cycle_responses[0][1]);
+  // printf("HIP  Q = [%f, %f, %f, %f]\n", FR.cycle_responses[1][1] , FL.cycle_responses[1][1], RR.cycle_responses[1][1],RL.cycle_responses[1][1]);
+  // printf("KNEE Q = [%f, %f, %f, %f]\n", FR.cycle_responses[2][1] , FL.cycle_responses[2][1], RR.cycle_responses[2][1],RL.cycle_responses[2][1]);
   
   
   // std::cout<<"new data:"<<std::endl;
