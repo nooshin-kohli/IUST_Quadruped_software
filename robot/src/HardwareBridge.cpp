@@ -687,8 +687,8 @@ void IUSTrobotHardwareBridge::run() {
                 #endif
                 #ifdef IUST_CTRL
                 std::cout<<"hereeeeee"<<std::endl;
-                _userControlParameters->initializeFromYamlFile(THIS_COM "config/iust-user-parameters.yaml");
-                std::string yamlName = "iust-user-parameters.yaml";
+                _userControlParameters->initializeFromYamlFile(THIS_COM "config/iust-user-parameters-full.yaml");
+                std::string yamlName = "iust-user-parameters-full.yaml";
                 printf("[Hardware Bridge] Loaded user parameters from yaml file: %s\n", yamlName.c_str());
                 #endif
 
@@ -714,7 +714,7 @@ void IUSTrobotHardwareBridge::run() {
             usleep(1000000);
         }
 
-        _userControlParameters->initializeFromYamlFile(THIS_COM "config/iust-user-parameters.yaml");
+        _userControlParameters->initializeFromYamlFile(THIS_COM "config/iust-user-parameters-full.yaml");
         if(_userControlParameters) {
             while (!_userControlParameters->isFullyInitialized()) {
                 printf("[IUST Hardware Bridge] Waiting for user parameters...\n");
@@ -776,12 +776,12 @@ void IUSTrobotHardwareBridge::run() {
 
     // rc controller
     // std::cout<<"before init bus"<< std::endl;
-    _port = init_sbus(false);  // Not Simulation
-    std::cout<<"after init bus" << std::endl;
-    PeriodicMemberFunction<HardwareBridge> sbusTask(
-            &taskManager, .005, "rc_controller", &HardwareBridge::run_sbus, this);
-    // std::cout<<"after perdiodic function"<<std::endl;
-    sbusTask.start();
+    // _port = init_sbus(false);  // Not Simulation
+    // std::cout<<"after init bus" << std::endl;
+    // PeriodicMemberFunction<HardwareBridge> sbusTask(
+    //         &taskManager, .005, "rc_controller", &HardwareBridge::run_sbus, this);
+    // // std::cout<<"after perdiodic function"<<std::endl;
+    // sbusTask.start();
     // std::cout<<"after start"<< std::endl;
 
     // temporary hack: microstrain logger
@@ -852,6 +852,7 @@ void IUSTrobotHardwareBridge::runCAN() {
    
     memcpy(cmd, &_canCommand, sizeof(can_command_t));
     // Send and Receive data and commands through CAN hardware for leg-level controller
+    // CANable.Torque_limit_checker(cmd,data);
     CANable.can_send_receive(cmd, data);
     memcpy(&_canData, data, sizeof(can_data_t));
     // std::cout<<data->q_abad[0]<<std::endl;

@@ -156,19 +156,19 @@ for i in range(4):
         # Torque plots
         plt.figure(2, figsize=(10, 8))
         plt.subplot(4, 3, 3 * i + 1)
-        plt.plot(y4, label='Abad Torque')
+        plt.plot(y4,"*", label='Abad Torque')
         plt.title(f'Leg {i+1} - Abad Torque')
         plt.legend()
         plt.grid(axis='both')
 
         plt.subplot(4, 3, 3 * i + 2)
-        plt.plot(y5, label='Hip Torque')
+        plt.plot(y5,"*", label='Hip Torque')
         plt.title(f'Leg {i+1} - Hip Torque')
         plt.legend()
         plt.grid(axis='both')
 
         plt.subplot(4, 3, 3 * i + 3)
-        plt.plot(y6, label='Knee Torque')
+        plt.plot(y6,"*", label='Knee Torque')
         plt.title(f'Leg {i+1} - Knee Torque')
         plt.legend()
         plt.grid(axis='both')

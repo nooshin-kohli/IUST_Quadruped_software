@@ -61,20 +61,20 @@ class FSM_State_RecoveryStand : public FSM_State<T> {
   //const int standup_settle_iter = 500;
 
   // 0.5 kHz
-  const int rollover_ramp_iter = 150;
-  const int rollover_settle_iter = 150;
+  const int rollover_ramp_iter = 1500;
+  const int rollover_settle_iter = 1500;
 
-  const int fold_ramp_iter = 400;
-  const int fold_settle_iter = 700;
+  const int fold_ramp_iter = 4000;
+  const int fold_settle_iter = 7000;
 
-  const int standup_ramp_iter = 250;
-  const int standup_settle_iter = 250;
+  const int standup_ramp_iter = 2500;
+  const int standup_settle_iter = 2500;
 
   const int milab_fold_ramp_iter = 800;
   const int milab_fold_settle_iter = 800;
-  const int milab_standup_ramp_iter = 2000;
-  const int milab_rollover_ramp_iter = 180;
-  const int milab_rollover_settle_iter = 300;
+  const int milab_standup_ramp_iter = 1000;
+  const int milab_rollover_ramp_iter = 1800;
+  const int milab_rollover_settle_iter = 3000;
 
   void _MilabRollOver(const int & iter);
   void _MilabStandUp(const int & iter);

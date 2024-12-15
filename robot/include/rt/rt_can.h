@@ -77,6 +77,8 @@ class CAN {
         
     void init_can();
     void can_send_receive(CANCommand* can_command, CANData* can_response);
+    void Torque_limit_checker(CANCommand* can_command, CANData* can_response);
+    void saftey_action_needed(CANCommand* can_command);
     void check_safety();
     void stop_can();
     CANCommand* get_can_command();

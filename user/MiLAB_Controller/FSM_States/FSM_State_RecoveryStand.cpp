@@ -117,18 +117,18 @@ bool FSM_State_RecoveryStand<T>::_UpsideDown(){
  */
 template <typename T>
 void FSM_State_RecoveryStand<T>::run() {
-    T progress = 2 * _state_iter * 0.002;
-    if (progress > 1.){ progress = 1.; }
-    for (int i(0); i<4;i++){
-      std::cout<<"leg position:"<<progress*(-0.35) + (1. - progress) * _ini_foot_pos[i][2]<<std::endl;
-    }
+    // T progress = 2 * _state_iter * 0.002;
+    // if (progress > 1.){ progress = 1.; }
+    // for (int i(0); i<4;i++){
+    //   // std::cout<<"leg position:"<<progress*(-0.35) + (1. - progress) * _ini_foot_pos[i][2]<<std::endl;
+    // }
     if (this->_data->_quadruped->_robotType == RobotType::IUST){
         switch(_flag){
             case StandUp:
                 _MilabStandUp(_state_iter - _motion_start_iter);
                 break;
             case FoldLegs:
-                  printf("[MILAB FOLD LEG CASE]\n");
+                  // printf("[MILAB FOLD LEG CASE]\n");
                 _MilabFoldLegs(_state_iter - _motion_start_iter);
                 break;
             case RollOver:
@@ -321,7 +321,7 @@ void FSM_State_RecoveryStand<T>::_FoldLegs(const int & curr_iter){
 }
 template <typename T>
 void FSM_State_RecoveryStand<T>::_MilabFoldLegs(const int & curr_iter){
-    printf("[MILAB FOLD]: I am in fold\n");
+    // printf("[MILAB FOLD]: I am in fold\n");
 
     for(size_t i(0); i<4; ++i){
         _SetJPosInterPts(curr_iter, milab_fold_ramp_iter, i,

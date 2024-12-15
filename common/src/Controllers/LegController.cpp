@@ -302,7 +302,33 @@ void LegController<T>::updateCommand(CANCommand* canCommand) {
     legTorque += datas[leg].J.transpose() * footForce;
 
 
-    // set command:
+    if ((legTorque(0)>17.) || (legTorque(1)>17.) || (legTorque(2)>26.)){
+      for (int leg2=0; leg2<4; leg2++){
+        canCommand->tau_abad_ff[leg2] = 0.0;
+        canCommand->tau_hip_ff[leg2] = 0.0;
+        canCommand->tau_knee_ff[leg2] = 0.0;
+
+        canCommand->kd_abad[leg2]  = 0.0;    
+        canCommand->kd_hip[leg2]= 0.0; 
+        canCommand->kd_knee[leg2]= 0.0; 
+
+        canCommand->kp_abad[leg2]= 0.0; 
+        canCommand->kp_hip[leg2]= 0.0; 
+        canCommand->kp_knee[leg2]= 0.0; 
+
+        canCommand->q_des_abad[leg2]= 0.0; 
+        canCommand->q_des_hip[leg2]= 0.0; 
+        canCommand->q_des_knee[leg2]= 0.0; 
+
+        canCommand->qd_des_abad[leg2]= 0.0; 
+        canCommand->qd_des_hip[leg2]= 0.0; 
+        canCommand->qd_des_knee[leg2]= 0.0;
+      }
+      printf("[LEG CONTROLLER]: SAFTEY FUCKED UP\n");
+      exit(0);
+
+    }else{
+      // set command:
     canCommand->tau_abad_ff[leg] = legTorque(0);
     canCommand->tau_hip_ff[leg] = legTorque(1);
     canCommand->tau_knee_ff[leg] = legTorque(2);
@@ -330,6 +356,11 @@ void LegController<T>::updateCommand(CANCommand* canCommand) {
         legTorque +
         commands[leg].kpJoint * (commands[leg].qDes - datas[leg].q) +
         commands[leg].kdJoint * (commands[leg].qdDes - datas[leg].qd);
+
+    }
+
+
+    
     // canCommand->flags[leg] = _legsEnabled ? 1 : 0;
     
   }

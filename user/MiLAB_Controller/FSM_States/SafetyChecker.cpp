@@ -34,6 +34,7 @@ bool SafetyChecker<T>::checkPDesFoot() {
   // Safety parameters
   T maxAngle = 0.785;  // 45 degrees
   T maxPDes = data->_quadruped->_maxLegLength * sin(maxAngle);
+  std::cout<<"in the checkPDesFooooooooooooooooooooooot"<<std::endl;
 
   // Check all of the legs
   for (int leg = 0; leg < 4; leg++) {

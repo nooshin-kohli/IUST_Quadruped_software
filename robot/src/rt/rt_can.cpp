@@ -9,8 +9,8 @@ CANData* can_data = new CANData;
 
 // only used for actual robot
 const float abad_side_sign[4] = {-1.f, -1.f, 1.f, 1.f};
-const float hip_side_sign[4] = {1.f, -1.f, 1.f, -1.f};
-const float knee_side_sign[4] = {.6429f, -.6429f, .6429f, -.6429f};
+const float hip_side_sign[4] = {-1.f, 1.f, -1.f, 1.f};
+const float knee_side_sign[4] = {-.6429f, .6429f, -.6429f, .6429f};
 
 // only used for actual robot
 
@@ -19,11 +19,14 @@ const float knee_side_sign[4] = {.6429f, -.6429f, .6429f, -.6429f};
 // KNEE Q = [3.273327, -4.424087, 3.777791, -4.902457]
 
 
-const float abad_offset[4] = {-0.3912f, -0.3274f, 0.0812f, -0.5681f};
+const float abad_offset[4] = {-0.3912f, -0.3274f, -0.0812f, -0.5681f};
 const float hip_offset[4]  = {-1.9104f, 0.3422f, -2.3627f,  0.1421f};
 const float knee_offset[4] = {3.2733f, -4.4240f, 3.7777f, -4.9024f};
 
-
+const float max_torque[3] = {17.f, 17.f, 26.f};
+const float wimp_torque[3] = {6.f, 6.f, 6.f};
+const float disabled_torque[3] = {0.f, 0.f, 0.f};
+float torque_out[12];
 
 
 void CAN::init_can() {
@@ -83,23 +86,46 @@ void CAN::init_can() {
   }
 }
 
+
+void CAN::Torque_limit_checker(CANCommand* can_command, CANData* can_response){
+  // printf("[RT CAN]: in safety\n");
+  for (int i=0; i<4; i++){
+   torque_out[3*i] =  can_command->kd_abad[i]*
+    (can_command->q_des_abad[i]-can_response->q_abad[i])+can_command->kd_abad[i]*
+    (can_command->qd_des_abad[i]-can_response->qd_abad[i])+can_command->tau_abad_ff[i];
+
+    torque_out[3*i+1] =  can_command->kd_hip[i]*
+    (can_command->q_des_hip[i]-can_response->q_hip[i])+can_command->kd_hip[i]*
+    (can_command->qd_des_hip[i]-can_response->qd_hip[i])+can_command->tau_hip_ff[i];
+
+    torque_out[3*i+2] =  can_command->kd_knee[i]*
+    (can_command->q_des_knee[i]-can_response->q_knee[i])+can_command->kd_knee[i]*
+    (can_command->qd_des_knee[i]-can_response->qd_knee[i])+can_command->tau_knee_ff[i];
+  }
+  for (int i = 0; i<4; i++){
+    if ((torque_out[3*i]>max_torque[0]) || (torque_out[3*i]<-max_torque[0])){
+      printf("[rt_can]: max limit happend at joint %d the torque value: %f!!!!!\n",3*i,torque_out[3*i]);
+      // saftey_action_needed(can_command);
+      stop_can();
+      exit(0);
+    }else if ((torque_out[3*i+1]>max_torque[1]) || (torque_out[3*i+1]<-max_torque[1])){
+      printf("[rt_can]: max limit happend at joint %d the torque value: %f!!!!!\n",3*i+1,torque_out[3*i+1]);
+      // saftey_action_needed(can_command);
+      stop_can();
+      exit(0);
+    }else if((torque_out[3*i+2]>max_torque[2]) || torque_out[3*i+2]<-max_torque[2]){
+      printf("[rt_can]: max limit happend at joint %d the torque value: %f!!!!!\n",3*i+2,torque_out[3*i+2]);
+      // saftey_action_needed(can_command);
+      stop_can();
+      exit(0);
+    }
+  }
+}
+
 void CAN::can_send_receive(CANCommand* can_command, CANData* can_response) {
 
+  // Torque_limit_checker(can_command, can_response);
 
-  // for (int i(0); i<4; i++){
-  //   printf("--------------KP:------------------\n");
-  //   std::cout<< can_command->kp_abad[i] <<std::endl;
-  //   std::cout<< can_command->kp_hip[i] <<std::endl;
-  //   std::cout<< can_command->kp_knee[i] <<std::endl;
-  //   printf("----------------QDES:---------------\n");
-  //   std::cout<< can_command->q_des_abad[i] <<std::endl;
-  //   std::cout<< can_command->q_des_hip[i] <<std::endl;
-  //   std::cout<< can_command->q_des_knee[i] <<std::endl;
-  //   printf("----------------------------------\n");
-
-  // }
-
-  
 
   FR.command(m4, (can_command->q_des_abad[0] / abad_side_sign[0]) + abad_offset[0],can_command->qd_des_abad[0]/abad_side_sign[0],can_command->kp_abad[0],can_command->kd_abad[0],can_command->tau_abad_ff[0]/abad_side_sign[0]);
   FL.command(m1, (can_command->q_des_abad[1] / abad_side_sign[1]) + abad_offset[1],can_command->qd_des_abad[1]/abad_side_sign[1],can_command->kp_abad[1],can_command->kd_abad[1],can_command->tau_abad_ff[1]/abad_side_sign[1]);
@@ -187,24 +213,39 @@ void CAN::check_safety() {
     // if()
         // stop_can();
 }
+void CAN::saftey_action_needed(CANCommand* can_command){
+  for (int i=0; i<4; i++){
+    can_command->kp_abad[i] = 0.0;
+    can_command->kp_hip[i] = 0.0;
+    can_command->kp_knee[i] = 0.0;
 
+    can_command->kd_abad[i] = 0.0;
+    can_command->kd_hip[i] = 0.0;
+    can_command->kd_knee[i] = 0.0;
+
+    can_command->tau_abad_ff[i] = max_torque[0];
+    can_command->tau_hip_ff[i] = max_torque[1];
+    can_command->tau_knee_ff[i] = max_torque[3];
+  }
+
+}
 void CAN::stop_can() {
 
-  FR.disable(m1);
-  FR.disable(m2);
-  FR.disable(m3);
+  FR.disable(m4);
+  FR.disable(m5);
+  FR.disable(m6);
   
-  FL.disable(m4);
-  FL.disable(m5);
-  FL.disable(m6);
+  FL.disable(m1);
+  FL.disable(m2);
+  FL.disable(m3);
   
-  RR.disable(m7);
-  RR.disable(m8);
-  RR.disable(m9);
+  RR.disable(m10);
+  RR.disable(m11);
+  RR.disable(m12);
   
-  RL.disable(m10);
-  RL.disable(m11);
-  RL.disable(m12);
+  RL.disable(m7);
+  RL.disable(m8);
+  RL.disable(m9);
 
 }
 
