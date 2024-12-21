@@ -7,7 +7,7 @@ motor_data = {motor_id: {"timestamps": [], "positions": [], "velocities": [], "c
 
 def main():
     # Specify the LCM log file
-    log_file = "/home/lenovo/projects/IUST_SOFTWARE/software_16oct/debug_tools/lcmlog-2024-12-14.02"
+    log_file = "/home/lenovo/projects/IUST_SOFTWARE/software_16oct/debug_tools/kp500kd5_force5"
 
     # Open the LCM log
     try:

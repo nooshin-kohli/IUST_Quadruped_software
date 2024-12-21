@@ -19,7 +19,7 @@ const float knee_side_sign[4] = {-.6429f, .6429f, -.6429f, .6429f};
 // KNEE Q = [3.273327, -4.424087, 3.777791, -4.902457]
 
 
-const float abad_offset[4] = {-0.3912f, -0.3274f, -0.0812f, -0.5681f};
+const float abad_offset[4] = {-0.3912f, -0.3274f, -1.0812f, -0.5681f};
 const float hip_offset[4]  = {-1.9104f, 0.3422f, -2.3627f,  0.1421f};
 const float knee_offset[4] = {3.2733f, -4.4240f, 3.7777f, -4.9024f};
 
