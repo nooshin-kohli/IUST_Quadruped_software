@@ -14,14 +14,13 @@ const float knee_side_sign[4] = {-.6429f, .6429f, -.6429f, .6429f};
 
 // only used for actual robot
 
-// ABAD Q = [-0.391279, -0.327497, 0.081292, -0.568132]
-// HIP  Q = [-1.910468, 0.342222, -2.362745, 0.142176]
-// KNEE Q = [3.273327, -4.424087, 3.777791, -4.902457]
+// ABAD Q = [-0.313001, -0.289807, -1.046502, -0.634813]
+// HIP  Q = [-1.037804, 0.214656, -1.327726, 0.110285]
+// KNEE Q = [3.380598, -4.334211, 3.818379, -4.786488]
 
-
-const float abad_offset[4] = {-0.3912f, -0.3274f, -1.0812f, -0.5681f};
-const float hip_offset[4]  = {-1.9104f, 0.3422f, -2.3627f,  0.1421f};
-const float knee_offset[4] = {3.2733f, -4.4240f, 3.7777f, -4.9024f};
+const float abad_offset[4] = {-0.3130f, -0.2898f, -0.0465f, -0.6348f};
+const float hip_offset[4]  = {-1.0378f, 0.2146f, -2.3277f,  0.1102f};
+const float knee_offset[4] = {3.3805f, -4.3342f, 3.8183f, -4.7864f};
 
 const float max_torque[3] = {17.f, 17.f, 26.f};
 const float wimp_torque[3] = {6.f, 6.f, 6.f};

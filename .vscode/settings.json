@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "*.tcc": "cpp",
+        "bitset": "cpp",
+        "limits": "cpp",
+        "sstream": "cpp",
+        "functional": "cpp",
+        "tuple": "cpp"
+    }
+}

@@ -207,6 +207,8 @@ void WBIC<T>::_GetSolution(const DVec<T>& qddot, DVec<T>& cmd) {
     // get Reaction forces
     for (size_t i(0); i < _dim_rf; ++i)
       _data->_Fr[i] = z[i + _dim_floating] + _Fr_des[i];
+
+    // TODO: overwrite here for just using force 
     tot_tau =
       WB::A_ * qddot + WB::cori_ + WB::grav_ - _Jc.transpose() * _data->_Fr;
 

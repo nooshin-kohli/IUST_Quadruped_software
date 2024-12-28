@@ -412,7 +412,7 @@ void ControlFSM<T>::printInfo(int opt) {
       printNum = 200;
 
       // Print at commanded frequency
-      if (false) {
+      if (true) {
         std::cout << "[CONTROL FSM] Printing FSM Info...\n";
         std::cout
             << "---------------------------------------------------------\n";
@@ -423,13 +423,16 @@ void ControlFSM<T>::printInfo(int opt) {
             auto position_test = data._stateEstimator->getResult().position;
             auto linearVelocity_test = data._stateEstimator->getResult().vBody;
             auto rotationalVelocity_test = data._stateEstimator->getResult().omegaBody;
+            auto acc_test = data._stateEstimator->getResult().aBody;
+
 
             // Write data 
             std::cout << "Quaternion: " << orientation_test[0] << "," << orientation_test[1] << "," << orientation_test[2] << "," << orientation_test[3] << std::endl
                       << "RPY: " << orientation_rpy_test[0] << "," << orientation_rpy_test[1] << "," << orientation_rpy_test[2] << std::endl
                       << "Position: " << position_test[0] << "," << position_test[1] << "," << position_test[2] << std::endl
                       << "Velocity: " << linearVelocity_test[0] << "," << linearVelocity_test[1] << "," << linearVelocity_test[2] << std::endl
-                      << "Omega: " << rotationalVelocity_test[0] << "," << rotationalVelocity_test[1] << "," << rotationalVelocity_test[2] << std::endl;
+                      << "Omega: " << rotationalVelocity_test[0] << "," << rotationalVelocity_test[1] << "," << rotationalVelocity_test[2] << std::endl 
+                      << "ACC Body: " << acc_test[0] << "," << acc_test[1] << "," << acc_test[2] << std::endl;
 
 
         std::cout << "Iteration: " << iter << "\n";
@@ -476,6 +479,70 @@ void ControlFSM<T>::printInfo(int opt) {
       break;
   }
 }
+// #include <fstream> // Include this for file handling
+
+// void ControlFSM<T>::printInfo(int opt) {
+//   static std::ofstream logFile("FSM_Logs.txt", std::ios::app); // Append to the file
+//   if (!logFile.is_open()) {
+//     std::cerr << "Error: Unable to open log file!\n";
+//     return;
+//   }
+
+//   switch (opt) {
+//     case 0:  // Normal printing case at regular intervals
+//       printIter++;
+//       printNum = 200;
+
+//       if (true) { // Change this to true to enable logging
+//         // logFile << "[CONTROL FSM] Printing FSM Info...\n";
+//         // logFile << "---------------------------------------------------------\n";
+
+//         auto orientation_test = data._stateEstimator->getResult().orientation;
+//         auto orientation_rpy_test = data._stateEstimator->getResult().rpy * 180 / M_PI;
+//         auto position_test = data._stateEstimator->getResult().position;
+//         auto linearVelocity_test = data._stateEstimator->getResult().vBody;
+//         auto rotationalVelocity_test = data._stateEstimator->getResult().omegaBody;
+
+//         logFile << "Quaternion: " << orientation_test[0] << ", " << orientation_test[1] << ", " 
+//                 << orientation_test[2] << ", " << orientation_test[3] << "\n"
+//                 << "RPY: " << orientation_rpy_test[0] << ", " << orientation_rpy_test[1] << ", " 
+//                 << orientation_rpy_test[2] << "\n"
+//                 << "Position: " << position_test[0] << ", " << position_test[1] << ", " 
+//                 << position_test[2] << "\n"
+//                 << "Velocity: " << linearVelocity_test[0] << ", " << linearVelocity_test[1] << ", " 
+//                 << linearVelocity_test[2] << "\n"
+//                 << "Omega: " << rotationalVelocity_test[0] << ", " << rotationalVelocity_test[1] 
+//                 << ", " << rotationalVelocity_test[2] << "\n";
+
+//         logFile << "Iteration: " << iter << "\n";
+//         // if (operatingMode == FSM_OperatingMode::NORMAL) {
+//         //   logFile << "Operating Mode: NORMAL in " << currentState->stateString << "\n";
+//         // } else if (operatingMode == FSM_OperatingMode::TRANSITIONING) {
+//         //   logFile << "Operating Mode: TRANSITIONING from " << currentState->stateString
+//         //           << " to " << nextState->stateString << "\n";
+//         // } else if (operatingMode == FSM_OperatingMode::ESTOP) {
+//         //   logFile << "Operating Mode: ESTOP\n";
+//         // }
+//         // logFile << "Gait Type: " << data.userParameters->cmpc_gait << "\n\n";
+
+//         printIter = 0;
+//       }
+//       break;
+
+//     case 1:  // Initializing FSM State transition
+//       logFile << "[CONTROL FSM] Transition initialized from "
+//               << currentState->stateString << " to " << nextState->stateString
+//               << "\n\n";
+//       break;
+
+//     case 2:  // Finalizing FSM State transition
+//       logFile << "[CONTROL FSM] Transition finalizing from "
+//               << currentState->stateString << " to " << nextState->stateString
+//               << "\n\n";
+//       break;
+//   }
+// }
+
 
 // template class ControlFSM<double>; This should be fixed... need to make
 // RobotRunner a template

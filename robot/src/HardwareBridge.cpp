@@ -1020,7 +1020,7 @@ void IUSTrobotHardwareBridge::initWitMotion(){
   char r_buf[1024];
   bzero(r_buf,1024);
 
-  fd = uart_open(fd,"/dev/ttyUS4");/*串口号/dev/ttySn,USB口号/dev/ttyUSBn */
+  fd = uart_open(fd,"/dev/ttyUSB0");/*串口号/dev/ttySn,USB口号/dev/ttyUSBn */
   if(fd  == -1)
   {
       fprintf(stderr,"uart_open error\n");

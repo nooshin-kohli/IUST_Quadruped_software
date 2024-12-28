@@ -302,7 +302,7 @@ void LegController<T>::updateCommand(CANCommand* canCommand) {
     legTorque += datas[leg].J.transpose() * footForce;
 
 
-    if ((legTorque(0)>17.) || (legTorque(1)>17.) || (legTorque(2)>26.)){
+    if ((abs(legTorque(0))>17.) || (abs(legTorque(1))>17.) || (abs(legTorque(2))>26.)){
       for (int leg2=0; leg2<4; leg2++){
         canCommand->tau_abad_ff[leg2] = 0.0;
         canCommand->tau_hip_ff[leg2] = 0.0;
@@ -324,7 +324,8 @@ void LegController<T>::updateCommand(CANCommand* canCommand) {
         canCommand->qd_des_hip[leg2]= 0.0; 
         canCommand->qd_des_knee[leg2]= 0.0;
       }
-      printf("[LEG CONTROLLER]: SAFTEY FUCKED UP\n");
+      printf("[LEG CONTROLLER]: SAFTEY FUCKED UP on leg %d\n", leg);
+      std::cout << legTorque(0) << " " << legTorque(1) << " " << legTorque(2) << std::endl;
       exit(0);
 
     }else{
