@@ -139,32 +139,32 @@ void ControlFSM<T>::runFSM() {
   handleLCM();
 
 
-  // if(data.controlParameters->use_rc){
-  //   int rc_mode = data._desiredStateCommand->rcCommand->mode;
-  //   if(rc_mode == RC_mode::OFF){
-  //         printf("K_PASSIVE\n");
-  //         data.controlParameters->control_mode = K_PASSIVE;
-  //   }else if(rc_mode == RC_mode::RECOVERY_STAND){
-  //     data.controlParameters->control_mode = K_RECOVERY_STAND;
+  if(data.controlParameters->use_rc){
+    int rc_mode = data._desiredStateCommand->rcCommand->mode;
+    if(rc_mode == RC_mode::OFF){
+          printf("K_PASSIVE\n");
+          data.controlParameters->control_mode = K_PASSIVE;
+    }else if(rc_mode == RC_mode::RECOVERY_STAND){
+      data.controlParameters->control_mode = K_RECOVERY_STAND;
 
-  //   } else if(rc_mode == RC_mode::LOCOMOTION){
-  //     data.controlParameters->control_mode = K_LOCOMOTION;
+    } else if(rc_mode == RC_mode::LOCOMOTION){
+      data.controlParameters->control_mode = K_LOCOMOTION;
 
-  //   } else if(rc_mode == RC_mode::QP_STAND){
-  //     data.controlParameters->control_mode = K_BALANCE_STAND;
+    } else if(rc_mode == RC_mode::QP_STAND){
+      data.controlParameters->control_mode = K_BALANCE_STAND;
 
-  //   } else if(rc_mode == RC_mode::SQUAT_DOWN){
-  //       data.controlParameters->control_mode = K_SQUAT_DOWN;
+    } else if(rc_mode == RC_mode::SQUAT_DOWN){
+        data.controlParameters->control_mode = K_SQUAT_DOWN;
 
-  //   } else if (rc_mode == RC_mode::STAND_UP){
-  //       data.controlParameters->control_mode = K_STAND_UP;
-  //   }
+    } else if (rc_mode == RC_mode::STAND_UP){
+        data.controlParameters->control_mode = K_STAND_UP;
+    }
 
-  // }
+  }
   //bool recoverydata = &recoverycommand->a;
   //lcm_gamepad.subscribe("gamepad_command", &gamepad_lcm)
   
-  if (true)
+  if (false)
   {
     // if (time_diff(start_time)>=10000)
     // // if (data._desiredStateCommand->gamepadCommand->a || recoverymode)

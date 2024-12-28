@@ -215,7 +215,8 @@ void RobotRunner::setupStep() {
     _cheaterModeEnabled = false;
   }
 
-  get_rc_control_settings(&rc_control);
+  //get_rc_control_settings(&rc_control);
+  get_js_control_settings(&rc_control);
   // todo safety checks, sanity checks, etc...
 }
 

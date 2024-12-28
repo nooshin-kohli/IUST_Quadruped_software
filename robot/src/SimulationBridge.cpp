@@ -9,7 +9,7 @@
 #include "Controllers/LegController.h"
 #include "rt/rt_rc_interface.h"
 #include "rt/rt_sbus.h"
-
+#include "rt/rt_joystick_interface.h"
 /*!
  * Connect to a simulation
  */
@@ -259,12 +259,16 @@ void SimulationBridge::runRobotControl() {
  */
 void SimulationBridge::run_sbus() {
   printf("[run_sbus] starting...\n");
-  int port = init_sbus(true);  // Simulation
+//   int port = init_sbus(true);  // Simulation
+  int port = init_joystick();  // Simulation
   while (true) {
     if (port > 0) {
-      int x = receive_sbus(port);
+      //int x = receive_sbus(port);
+
+    int x = receive_data(port);
       if (x) {
-        sbus_packet_complete();
+        // sbus_packet_complete();
+        update_joystick();
       }
     }
     usleep(5000);

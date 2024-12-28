@@ -18,7 +18,7 @@
 #include "Controllers/LegController.h"
 #include "Dynamics/Quadruped.h"
 #include "JPosInitializer.h"
-
+#include "rt/rt_joystick_interface.h"
 #include "SimUtilities/GamepadCommand.h"
 #include "SimUtilities/VisualizationData.h"
 #include "Utilities/PeriodicTask.h"

@@ -20,7 +20,7 @@
 #include "rt/rt_vectornav.h"
 #include "rt/rt_ethercat.h"
 #include "Utilities/Utilities_print.h"
-
+#include "rt/rt_joystick_interface.h"
 #define USE_MICROSTRAIN
 // #define IMU_DEBUG_SHOW
 //#define SPI_DEBUG_SHOW
@@ -126,12 +126,15 @@ void HardwareBridge::run_sbus() {
     // printf("--------------------------------------*****\n");
     if (_port > 0) {
         // printf("AFTERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR\n");
-        int x = receive_sbus(_port);
+        //int x = receive_sbus(_port);
         // printf("77777777777777777777777777777777777777777\n");
-        std::cout<<x<<std::endl;
+        //std::cout<<x<<std::endl;
         // printf("88888888888888888888888888888888888888888\n");
+        // int x = receive_sbus(_port);
+        int x = receive_data(_port);
         if (x) {
-            sbus_packet_complete();
+            // sbus_packet_complete();
+            update_joystick();
         } else  printf("[HARDWARE BRIDGE] Receive sbus failed.\n");
     }
     else  printf("[HARDWARE BRIDGE] Run sbus failed, port<0\n");
