@@ -42,7 +42,9 @@ uint16_t channel_data[18];
  * Unpack sbus message into channels
  */
 void unpack_sbus_data(uint8_t sbus_data[], uint16_t *channels_) {
+  printf("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
   if ((sbus_data[0] == 0xF) && (sbus_data[24] == 0x0)) {
+  
     channels_[0] = ((sbus_data[1]) | ((sbus_data[2] & 0x7) << 8));
     channels_[1] = (sbus_data[2] >> 3) | ((sbus_data[3] & 0x3F) << 5);
     channels_[2] = ((sbus_data[3] & 0xC0) >> 6) | (sbus_data[4] << 2) |
@@ -73,7 +75,7 @@ void unpack_sbus_data(uint8_t sbus_data[], uint16_t *channels_) {
 
     pthread_mutex_lock(&sbus_data_m);
     for (int i = 0; i < 18; i++) {
-       // printf("[%d] %d ", i, channels_[i]);
+      //printf("[%d] %d ", i, channels_[i]);
       channel_data[i] = channels_[i];
     }
     //printf("\n\n");
@@ -97,6 +99,7 @@ void unpack_sbus_data(uint8_t sbus_data[], uint16_t *channels_) {
  * Read data from serial port
  */
 int read_sbus_data(int port, uint8_t *sbus_data) {
+  printf("read_sbus_print\n");
   uint8_t packet_full = 0;
   uint8_t read_byte[1] = {0};
   int timeout_counter = 0;
@@ -138,7 +141,7 @@ int read_sbus_channel(int channel) {
  */
 int receive_sbus(int port) {
   uint16_t read_buff[25] = {0};
-  // printf("9999999999999999999999999999999999999999999999999999");
+  printf("9999999999999999999999999999999999999999999999999999");
   int x = read_sbus_data(port, (uint8_t *)read_buff);
   
   if (x) {
@@ -153,6 +156,7 @@ int receive_sbus(int port) {
  * Initialize SBUS serial port
  */
 int init_sbus(int is_simulator) {
+  printf("init_sbus_print\n");
   // char *port1;
   std::string port1;
   if (is_simulator) {

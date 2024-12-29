@@ -36,7 +36,7 @@
 #include "Utilities/SharedMemory.h"
 #include "SimUtilities/SimulatorMessage.h"
 #include "SimUtilities/GamepadCommand.h"
-
+#include "rt/rt_rc_interface.h"
 
 /*
 Basic libraries for WitMotion

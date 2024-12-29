@@ -145,19 +145,21 @@ void ControlFSM<T>::runFSM() {
           printf("K_PASSIVE\n");
           data.controlParameters->control_mode = K_PASSIVE;
     }else if(rc_mode == RC_mode::RECOVERY_STAND){
+      printf("K_RECOVERY_STAND\n");
       data.controlParameters->control_mode = K_RECOVERY_STAND;
 
     } else if(rc_mode == RC_mode::LOCOMOTION){
       data.controlParameters->control_mode = K_LOCOMOTION;
-
+      printf("K_LOCOMOTION\n");
     } else if(rc_mode == RC_mode::QP_STAND){
       data.controlParameters->control_mode = K_BALANCE_STAND;
-
+      printf("K_BALANCE_STAND\n");
     } else if(rc_mode == RC_mode::SQUAT_DOWN){
         data.controlParameters->control_mode = K_SQUAT_DOWN;
-
+      printf("K_SQUAT_DOWN\n");
     } else if (rc_mode == RC_mode::STAND_UP){
         data.controlParameters->control_mode = K_STAND_UP;
+        printf("K_STAND_UP\n");
     }
 
   }
@@ -418,21 +420,21 @@ void ControlFSM<T>::printInfo(int opt) {
             << "---------------------------------------------------------\n";
 
              // Get state estimation data
-            auto orientation_test = data._stateEstimator->getResult().orientation;
-            auto orientation_rpy_test = data._stateEstimator->getResult().rpy*180/M_PI;
-            auto position_test = data._stateEstimator->getResult().position;
-            auto linearVelocity_test = data._stateEstimator->getResult().vBody;
-            auto rotationalVelocity_test = data._stateEstimator->getResult().omegaBody;
-            auto acc_test = data._stateEstimator->getResult().aBody;
+            // auto orientation_test = data._stateEstimator->getResult().orientation;
+            // auto orientation_rpy_test = data._stateEstimator->getResult().rpy*180/M_PI;
+            // auto position_test = data._stateEstimator->getResult().position;
+            // auto linearVelocity_test = data._stateEstimator->getResult().vBody;
+            // auto rotationalVelocity_test = data._stateEstimator->getResult().omegaBody;
+            // auto acc_test = data._stateEstimator->getResult().aBody;
 
 
             // Write data 
-            std::cout << "Quaternion: " << orientation_test[0] << "," << orientation_test[1] << "," << orientation_test[2] << "," << orientation_test[3] << std::endl
-                      << "RPY: " << orientation_rpy_test[0] << "," << orientation_rpy_test[1] << "," << orientation_rpy_test[2] << std::endl
-                      << "Position: " << position_test[0] << "," << position_test[1] << "," << position_test[2] << std::endl
-                      << "Velocity: " << linearVelocity_test[0] << "," << linearVelocity_test[1] << "," << linearVelocity_test[2] << std::endl
-                      << "Omega: " << rotationalVelocity_test[0] << "," << rotationalVelocity_test[1] << "," << rotationalVelocity_test[2] << std::endl 
-                      << "ACC Body: " << acc_test[0] << "," << acc_test[1] << "," << acc_test[2] << std::endl;
+            // std::cout << "Quaternion: " << orientation_test[0] << "," << orientation_test[1] << "," << orientation_test[2] << "," << orientation_test[3] << std::endl
+            //           << "RPY: " << orientation_rpy_test[0] << "," << orientation_rpy_test[1] << "," << orientation_rpy_test[2] << std::endl
+            //           << "Position: " << position_test[0] << "," << position_test[1] << "," << position_test[2] << std::endl
+            //           << "Velocity: " << linearVelocity_test[0] << "," << linearVelocity_test[1] << "," << linearVelocity_test[2] << std::endl
+            //           << "Omega: " << rotationalVelocity_test[0] << "," << rotationalVelocity_test[1] << "," << rotationalVelocity_test[2] << std::endl 
+            //           << "ACC Body: " << acc_test[0] << "," << acc_test[1] << "," << acc_test[2] << std::endl;
 
 
         std::cout << "Iteration: " << iter << "\n";
@@ -448,8 +450,8 @@ void ControlFSM<T>::printInfo(int opt) {
         } else if (operatingMode == FSM_OperatingMode::ESTOP) {
           std::cout << "Operating Mode: ESTOP\n";
         }
-        std::cout << "Gait Type: " << data.userParameters->cmpc_gait
-                  << "\n";
+        //std::cout << "Gait Type: " << data.userParameters->cmpc_gait
+          //        << "\n";
         std::cout << std::endl;
 
         // Reset iteration counter

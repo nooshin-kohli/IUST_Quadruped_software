@@ -20,7 +20,7 @@ using namespace std;
 template <typename T>
 void LegController<T>::output2File(){
         ofstream leg_data;
-        leg_data.open("/home/lenovo/projects/IUST_SOFTWARE/software_16oct/debug_tools/leg_controller_data.txt", ios::app);
+        leg_data.open("/home/aminghanbarzadeh/IUST_Quadruped_software/debug_tools/leg_controller_data.txt", ios::app);
         if (!leg_data.is_open()) {
             cout << "[LegController] Open leg_control_data.txt failed!" << endl;
         } else {
@@ -302,7 +302,7 @@ void LegController<T>::updateCommand(CANCommand* canCommand) {
     legTorque += datas[leg].J.transpose() * footForce;
 
 
-    if ((abs(legTorque(0))>17.) || (abs(legTorque(1))>17.) || (abs(legTorque(2))>26.)){
+    if (false){
       for (int leg2=0; leg2<4; leg2++){
         canCommand->tau_abad_ff[leg2] = 0.0;
         canCommand->tau_hip_ff[leg2] = 0.0;

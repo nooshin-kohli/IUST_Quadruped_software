@@ -49,8 +49,9 @@ void sbus_packet_complete() {
   int selected_mode = 0;
 
   switch(estop_switch) {
-
+      
     case SWITCH_UP: // ESTOP
+      printf("in rt rc \n");
       selected_mode = RC_mode::OFF;
       break;
 

@@ -779,12 +779,12 @@ void IUSTrobotHardwareBridge::run() {
 
     // rc controller
     // std::cout<<"before init bus"<< std::endl;
-    // _port = init_sbus(false);  // Not Simulation
+    _port = init_sbus(false);  // Not Simulation
     // std::cout<<"after init bus" << std::endl;
-    // PeriodicMemberFunction<HardwareBridge> sbusTask(
-    //         &taskManager, .005, "rc_controller", &HardwareBridge::run_sbus, this);
+    PeriodicMemberFunction<HardwareBridge> sbusTask(
+            &taskManager, .005, "rc_controller", &HardwareBridge::run_sbus, this);
     // // std::cout<<"after perdiodic function"<<std::endl;
-    // sbusTask.start();
+    sbusTask.start();
     // std::cout<<"after start"<< std::endl;
 
     // temporary hack: microstrain logger

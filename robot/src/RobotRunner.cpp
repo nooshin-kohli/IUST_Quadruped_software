@@ -113,6 +113,7 @@ void RobotRunner::run() {
       for (int leg = 0; leg < 4; leg++) {
         _legController->commands[leg].zero();
       }
+      //printf("robotrunner line 116 \n");
       _robot_ctrl->Estop();
       _legController->setEnabled(false);
     }else {
