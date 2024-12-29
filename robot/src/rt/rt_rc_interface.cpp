@@ -9,14 +9,14 @@ PTHREAD_MUTEX_INITIALIZER; /**< mutex to protect gui settings coming over
                              LCM */
 
 // Controller Settings
-rc_control_settings rc_control;
+rc_control_settings rcc_control;
 
 /* ------------------------- HANDLERS ------------------------- */
 
 // Controller Settings
 void get_rc_control_settings(void *settings) {
   pthread_mutex_lock(&lcm_get_set_mutex);
-  v_memcpy(settings, &rc_control, sizeof(rc_control_settings));
+  v_memcpy(settings, &rcc_control, sizeof(rc_control_settings));
   pthread_mutex_unlock(&lcm_get_set_mutex);
 }
 
@@ -56,10 +56,12 @@ void sbus_packet_complete() {
       break;
 
     case SWITCH_MIDDLE: // recover
+    //printf("RECOVERY6666666666\n");
       selected_mode = RC_mode::RECOVERY_STAND;
       break;
 
     case SWITCH_DOWN: // run 
+      printf("LOCOOOOOOOOO6666666666\n");
       selected_mode = RC_mode::LOCOMOTION; // locomotion by default
 
       // stand mode
@@ -128,36 +130,36 @@ void sbus_packet_complete() {
 
   if(selected_mode == RC_mode::LOCOMOTION 
       || selected_mode == RC_mode::VISION) {
-    rc_control.variable[0] = gait_table[mode_id];
-    //rc_control.v_des[0] = v_scale * data.left_stick[1] * 0.5;
-    //rc_control.v_des[1] = v_scale * data.left_stick[0] * -1.;
-    rc_control.v_des[0] = v_scale * data.left_stick[1];
-    rc_control.v_des[1] = -v_scale * data.left_stick[0];
-    rc_control.v_des[2] = 0;
+    rcc_control.variable[0] = gait_table[mode_id];
+    //rcc_control.v_des[0] = v_scale * data.left_stick[1] * 0.5;
+    //rcc_control.v_des[1] = v_scale * data.left_stick[0] * -1.;
+    rcc_control.v_des[0] = v_scale * data.left_stick[1];
+    rcc_control.v_des[1] = -v_scale * data.left_stick[0];
+    rcc_control.v_des[2] = 0;
 
-    rc_control.height_variation = data.knobs[1];
-    //rc_control.p_des[2] = 0.27 + 0.08 * data.knobs[1]; // todo?
+    rcc_control.height_variation = data.knobs[1];
+    //rcc_control.p_des[2] = 0.27 + 0.08 * data.knobs[1]; // todo?
 
-    rc_control.omega_des[0] = 0;
-    rc_control.omega_des[1] = 0;
-    rc_control.omega_des[2] = w_scale * data.right_stick[0];
-    //rc_control.omega_des[2] = -v_scale * data.right_stick[0];
+    rcc_control.omega_des[0] = 0;
+    rcc_control.omega_des[1] = 0;
+    rcc_control.omega_des[2] = w_scale * data.right_stick[0];
+    //rcc_control.omega_des[2] = -v_scale * data.right_stick[0];
 
   } else if(selected_mode == RC_mode::QP_STAND || 
       selected_mode == RC_mode::TWO_LEG_STANCE) {
-    //rc_control.rpy_des[0] = data.left_stick[0] * 1.4;
-    //rc_control.rpy_des[1] = data.right_stick[1] * 0.46;
-    rc_control.rpy_des[0] = data.left_stick[0];
-    rc_control.rpy_des[1] = data.right_stick[1];
-    rc_control.rpy_des[2] = data.right_stick[0];
+    //rcc_control.rpy_des[0] = data.left_stick[0] * 1.4;
+    //rcc_control.rpy_des[1] = data.right_stick[1] * 0.46;
+    rcc_control.rpy_des[0] = data.left_stick[0];
+    rcc_control.rpy_des[1] = data.right_stick[1];
+    rcc_control.rpy_des[2] = data.right_stick[0];
 
-    rc_control.height_variation = data.left_stick[1];
+    rcc_control.height_variation = data.left_stick[1];
 
-    rc_control.omega_des[0] = 0;
-    rc_control.omega_des[1] = 0;
-    rc_control.omega_des[2] = 0;
-    //rc_control.p_des[1] = -0.667 * rc_control.rpy_des[0];
-    //rc_control.p_des[2] = data.left_stick[1] * .12;
+    rcc_control.omega_des[0] = 0;
+    rcc_control.omega_des[1] = 0;
+    rcc_control.omega_des[2] = 0;
+    //rcc_control.p_des[1] = -0.667 * rcc_control.rpy_des[0];
+    //rcc_control.p_des[2] = data.left_stick[1] * .12;
   } 
   break;
 }
@@ -167,7 +169,7 @@ if(trigger || selected_mode == RC_mode::OFF || selected_mode == RC_mode::RECOVER
   if(trigger) {
     printf("MODE TRIGGER!\n");
   }
-  rc_control.mode = selected_mode;
+  rcc_control.mode = selected_mode;
 }
 
 }

@@ -29,13 +29,13 @@ struct axis_state axes[6] = {{0,0}};
 int selected_mode = 0;
 
 // Controller Settings
-rc_control_settings js_control;
+rc_control_settings rc_control;
 
 EdgeTrigger<int> js_mode_edge_trigger(0);
 
 // Controller Settings
 void get_js_control_settings(void *settings) {
-  v_memcpy(settings, &js_control, sizeof(rc_control_settings));
+  v_memcpy(settings, &rc_control, sizeof(rc_control_settings));
 }
 
 /*!
@@ -183,38 +183,38 @@ void update_joystick() {
         }; 
 
         if (selected_mode == RC_mode::LOCOMOTION) {
-            js_control.variable[0] = gait_table[mode_id];
-            //js_control.v_des[0] = v_scale * axes[0].x * 0.5;
-            //js_control.v_des[1] = v_scale * axes[0].y * -1.;
-            js_control.v_des[0] = -v_scale * axes[0].y;
-            js_control.v_des[1] = -v_scale * axes[0].x;
-            js_control.v_des[2] = 0;
+            rc_control.variable[0] = gait_table[mode_id];
+            //rc_control.v_des[0] = v_scale * axes[0].x * 0.5;
+            //rc_control.v_des[1] = v_scale * axes[0].y * -1.;
+            rc_control.v_des[0] = -v_scale * axes[0].y;
+            rc_control.v_des[1] = -v_scale * axes[0].x;
+            rc_control.v_des[2] = 0;
 
-            js_control.height_variation = axes[1].y;
-            //js_control.p_des[2] = 0.27 + 0.08 * axes[2].y; // todo or not todo?
+            rc_control.height_variation = axes[1].y;
+            //rc_control.p_des[2] = 0.27 + 0.08 * axes[2].y; // todo or not todo?
 
-            js_control.omega_des[0] = 0;
-            js_control.omega_des[1] = 0;
-            js_control.omega_des[2] = -w_scale * axes[1].x;
-            //js_control.omega_des[2] = -v_scale * data.right_stick[0];
+            rc_control.omega_des[0] = 0;
+            rc_control.omega_des[1] = 0;
+            rc_control.omega_des[2] = -w_scale * axes[1].x;
+            //rc_control.omega_des[2] = -v_scale * data.right_stick[0];
         } else if (selected_mode == RC_mode::QP_STAND) {
-            //js_control.rpy_des[0] = axes[0].y * 1.4;
-            //js_control.rpy_des[1] = axes[1].x * 0.46;
-            printf("roll angle %f \n", js_control.rpy_des[0]);
-            printf("pitch angle %f \n", js_control.rpy_des[1]);
-            printf("yaw angle %f \n", js_control.rpy_des[2]);
-            printf("height %f \n", js_control.height_variation);
-            js_control.rpy_des[0] = axes[0].x;
-            js_control.rpy_des[1] = axes[1].y;
-            js_control.rpy_des[2] = axes[1].x;
+            //rc_control.rpy_des[0] = axes[0].y * 1.4;
+            //rc_control.rpy_des[1] = axes[1].x * 0.46;
+            printf("roll angle %f \n", rc_control.rpy_des[0]);
+            printf("pitch angle %f \n", rc_control.rpy_des[1]);
+            printf("yaw angle %f \n", rc_control.rpy_des[2]);
+            printf("height %f \n", rc_control.height_variation);
+            rc_control.rpy_des[0] = axes[0].x;
+            rc_control.rpy_des[1] = axes[1].y;
+            rc_control.rpy_des[2] = axes[1].x;
 
-            js_control.height_variation = axes[0].y;
+            rc_control.height_variation = axes[0].y;
             
-            js_control.omega_des[0] = 0;
-            js_control.omega_des[1] = 0;
-            js_control.omega_des[2] = 0;
-            //js_control.p_des[1] = -0.667 * js_control.rpy_des[0];
-            //js_control.p_des[2] = data.axes[0].x * .12;
+            rc_control.omega_des[0] = 0;
+            rc_control.omega_des[1] = 0;
+            rc_control.omega_des[2] = 0;
+            //rc_control.p_des[1] = -0.667 * rc_control.rpy_des[0];
+            //rc_control.p_des[2] = data.axes[0].x * .12;
         }
     }
 	pthread_mutex_unlock(&joy_data_m);
@@ -225,6 +225,6 @@ void update_joystick() {
         if(trigger) {
             printf("MODE TRIGGER!\n");
         }
-        js_control.mode = selected_mode;
+        rc_control.mode = selected_mode;
     }
 }
